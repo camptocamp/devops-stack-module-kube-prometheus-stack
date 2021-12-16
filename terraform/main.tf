@@ -39,7 +39,7 @@ resource "argocd_application" "this" {
 
   spec {
     source {
-      repo_url        = "https://github.com/camptocamp/devops-stack-module-kube-prometheus-sta"
+      repo_url        = "https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"
       path            = "charts/kube-prometheus-stack"
       target_revision = "master"
       helm {
