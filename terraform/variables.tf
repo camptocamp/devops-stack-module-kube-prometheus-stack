@@ -18,6 +18,13 @@ variable "kubernetes" {
   type = any
 }
 
+variable "argocd" {
+  type = object({
+    server     = string
+    auth_token = string
+  })
+}
+
 variable "cluster_issuer" {
   type = string
 }

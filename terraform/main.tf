@@ -1,4 +1,9 @@
 provider "argocd" {
+  server_addr = var.argocd.server
+  auth_token  = var.argocd.auth_token
+  insecure = true
+  grpc_web = true
+
   kubernetes {
     host                   = var.kubernetes.host
     client_certificate     = var.kubernetes.client_certificate
