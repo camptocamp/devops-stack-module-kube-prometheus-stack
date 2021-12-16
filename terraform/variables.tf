@@ -47,3 +47,7 @@ variable "alertmanager" {
   type        = any
   default     = {}
 }
+
+variable "metrics_archives" {
+  type = any
+}
