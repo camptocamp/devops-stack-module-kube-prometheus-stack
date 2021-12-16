@@ -1,5 +1,10 @@
 provider "argocd" {
-  kubernetes = var.kubernetes
+  kubernetes {
+    host                   = var.kubernetes.host
+    client_certificate     = var.kubernetes.client_certificate
+    client_key             = var.kubernetes.client_key
+    cluster_ca_certificate = var.kubernetes.cluster_ca_certificate
+  }
 }
  
 resource "argocd_project" "this" {
