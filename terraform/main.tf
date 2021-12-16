@@ -49,6 +49,7 @@ resource "argocd_application" "this" {
           cluster_issuer = var.cluster_issuer,
 
           cookie_secret = random_password.oauth2_cookie_secret.result
+          metrics_archives = var.metrics_archives
 
           alertmanager = local.alertmanager,
           grafana      = local.grafana,
