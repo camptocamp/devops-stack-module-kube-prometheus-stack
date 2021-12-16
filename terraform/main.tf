@@ -26,6 +26,11 @@ resource "argocd_project" "this" {
   }
 }
 
+resource "random_password" "oauth2_cookie_secret" {                                  
+  length  = 16                                                                      
+  special = false                                                                   
+}   
+
 resource "argocd_application" "this" {
   metadata {
     name      = "kube-prometheus-stack"
@@ -42,6 +47,8 @@ resource "argocd_application" "this" {
           oidc           = var.oidc,
           base_domain    = var.base_domain,
           cluster_issuer = var.cluster_issuer,
+
+          cookie_secret = random_password.oauth2_cookie_secret.result
 
           alertmanager = local.alertmanager,
           grafana      = local.grafana,
