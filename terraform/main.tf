@@ -1,8 +1,5 @@
 provider "argocd" {
-  server_addr = var.argocd.server
-  auth_token  = var.argocd.auth_token
-  insecure    = true
-  grpc_web    = true
+  kubernetes = var.kubernetes
 }
  
 resource "argocd_project" "this" {

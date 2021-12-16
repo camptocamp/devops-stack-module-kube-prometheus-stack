@@ -14,11 +14,8 @@ variable "oidc" {
   type = any
 }
 
-variable "argocd" {
-  type = object({
-    server     = string
-    auth_token = string
-  })
+variable "kubernetes" {
+  type = any
 }
 
 variable "cluster_issuer" {
