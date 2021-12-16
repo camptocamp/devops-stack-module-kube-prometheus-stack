@@ -3,6 +3,7 @@ locals {
     enable                   = true
     generic_oauth_extra_args = {}
     domain                   = "grafana.apps.${var.cluster_name}.${var.base_domain}"
+    admin_password           = random_password.grafana_admin_password.result
   }
   grafana = merge(
     local.grafana_defaults,
@@ -26,4 +27,9 @@ locals {
     local.alertmanager_defaults,
     var.alertmanager,
   )
+}
+
+resource "random_password" "grafana_admin_password" {
+  length  = 16
+  special = false
 }
