@@ -3,6 +3,7 @@ provider "argocd" {
   auth_token  = var.argocd.auth_token
   insecure = true
   grpc_web = true
+  port_forward = true
 
   kubernetes {
     host                   = var.kubernetes.host
