@@ -4,6 +4,7 @@ provider "argocd" {
   insecure = true
   grpc_web = true
   port_forward = true
+  port_forward_with_namespace = "argocd"
 
   kubernetes {
     host                   = var.kubernetes.host
