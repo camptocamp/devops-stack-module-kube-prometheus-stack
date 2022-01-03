@@ -1,8 +1,8 @@
 provider "argocd" {
-  server_addr = var.argocd.server
+  server_addr = "127.0.0.1:8080"
   auth_token  = var.argocd.auth_token
   insecure = true
-  grpc_web = true
+  plain_text = true
   port_forward = true
   port_forward_with_namespace = "argocd"
 
@@ -18,6 +18,9 @@ resource "argocd_project" "this" {
   metadata {
     name      = "kube-prometheus-stack"
     namespace = "argocd"
+    annotations = {
+      "server" = var.argocd.server
+    }
   }
  
   spec {
@@ -44,6 +47,9 @@ resource "argocd_application" "this" {
   metadata {
     name      = "kube-prometheus-stack"
     namespace = "kube-prometheus-stack"
+    annotations = {
+      "server" = var.argocd.server
+    }
   }
 
   spec {
