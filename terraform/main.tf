@@ -79,6 +79,17 @@ resource "argocd_application" "this" {
       server    = "https://kubernetes.default.svc"
       namespace = "kube-prometheus-stack"
     }
+
+    sync_policy {
+      automated = {
+        prune     = true
+        self_heal = true
+      }
+
+      sync_options = [
+        "CreateNamespace=true"
+      ]
+    }
   }
 
   depends_on = [
