@@ -35,6 +35,11 @@ resource "argocd_project" "this" {
     orphaned_resources {
       warn = true
     }
+
+    cluster_resource_whitelist {
+      group = "*"
+      kind  = "*"
+    }
   }
 }
 
