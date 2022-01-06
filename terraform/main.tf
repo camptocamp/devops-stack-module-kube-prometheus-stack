@@ -1,19 +1,3 @@
-provider "argocd" {
-  server_addr = "127.0.0.1:8080"
-  auth_token  = var.argocd.auth_token
-  insecure = true
-  plain_text = true
-  port_forward = true
-  port_forward_with_namespace = var.argocd.namespace
-
-  kubernetes {
-    host                   = var.kubernetes.host
-    client_certificate     = var.kubernetes.client_certificate
-    client_key             = var.kubernetes.client_key
-    cluster_ca_certificate = var.kubernetes.cluster_ca_certificate
-  }
-}
- 
 resource "argocd_project" "this" {
   metadata {
     name      = "kube-prometheus-stack"
