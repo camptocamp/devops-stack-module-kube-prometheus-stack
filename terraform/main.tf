@@ -19,7 +19,7 @@ resource "argocd_project" "this" {
     name      = "kube-prometheus-stack"
     namespace = "argocd"
     annotations = {
-      "server" = var.argocd.server
+      "argocd_namespace" = var.argocd.namespace
     }
   }
  
@@ -48,7 +48,7 @@ resource "argocd_application" "this" {
     name      = "kube-prometheus-stack"
     namespace = "kube-prometheus-stack"
     annotations = {
-      "server" = var.argocd.server
+      "argocd_namespace" = var.argocd.namespace
     }
   }
 
