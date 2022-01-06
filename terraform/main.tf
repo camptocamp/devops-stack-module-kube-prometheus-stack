@@ -4,7 +4,7 @@ provider "argocd" {
   insecure = true
   plain_text = true
   port_forward = true
-  port_forward_with_namespace = "argocd"
+  port_forward_with_namespace = var.argocd.namespace
 
   kubernetes {
     host                   = var.kubernetes.host

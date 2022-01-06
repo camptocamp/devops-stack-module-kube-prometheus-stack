@@ -22,6 +22,7 @@ variable "argocd" {
   type = object({
     server     = string
     auth_token = string
+    namespace  = string
   })
 }
 
