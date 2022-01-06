@@ -37,6 +37,35 @@ resource "random_password" "oauth2_cookie_secret" {
   special = false                                                                   
 }   
 
+data "utils_deep_merge_yaml" "values" {
+  input = [
+    templatefile("${path.module}/profiles/default.yaml", {
+      oidc           = var.oidc,
+      base_domain    = var.base_domain,
+      cluster_issuer = var.cluster_issuer,
+ 
+      cookie_secret = random_password.oauth2_cookie_secret.result
+      metrics_archives = var.metrics_archives
+ 
+      alertmanager = local.alertmanager,
+      grafana      = local.grafana,
+      prometheus   = local.prometheus,
+    }),
+    templatefile("${path.module}/profiles/${var.profile}.yaml", {
+      oidc           = var.oidc,
+      base_domain    = var.base_domain,
+      cluster_issuer = var.cluster_issuer,
+ 
+      cookie_secret = random_password.oauth2_cookie_secret.result
+      metrics_archives = var.metrics_archives
+ 
+      alertmanager = local.alertmanager,
+      grafana      = local.grafana,
+      prometheus   = local.prometheus,
+    })
+  ]
+}
+
 resource "argocd_application" "this" {
   metadata {
     name      = "kube-prometheus-stack"
@@ -51,18 +80,7 @@ resource "argocd_application" "this" {
       path            = "charts/kube-prometheus-stack"
       target_revision = "main"
       helm {
-        values = templatefile("${path.module}/values.tmpl.yaml", {
-          oidc           = var.oidc,
-          base_domain    = var.base_domain,
-          cluster_issuer = var.cluster_issuer,
-
-          cookie_secret = random_password.oauth2_cookie_secret.result
-          metrics_archives = var.metrics_archives
-
-          alertmanager = local.alertmanager,
-          grafana      = local.grafana,
-          prometheus   = local.prometheus,
-        })
+        values = data.utils_deep_merge_yaml.values.output
       }
     }
 

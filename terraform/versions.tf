@@ -3,5 +3,8 @@ terraform {
     argocd = {
       source = "oboukili/argocd"
     }
+    utils = {
+      source = "cloudposse/utils"
+    }
   }
 }

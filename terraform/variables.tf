@@ -31,6 +31,10 @@ variable "namespace" {
   default = "kube-prometheus-stack"
 }
 
+variable "profile" {
+  type    = string
+  default = "default"
+}
 
 #######################
 ## Module variables
