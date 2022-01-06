@@ -32,6 +32,11 @@ resource "argocd_project" "this" {
       namespace = "kube-prometheus-stack"
     }
  
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "kube-system"
+    }
+ 
     orphaned_resources {
       warn = true
     }
