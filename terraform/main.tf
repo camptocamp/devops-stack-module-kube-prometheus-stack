@@ -19,7 +19,7 @@ resource "argocd_project" "this" {
     name      = "kube-prometheus-stack"
     namespace = var.argocd.namespace
     annotations = {
-      "argocd_namespace" = var.argocd.namespace
+      "devops-stack.io/argocd_namespace" = var.argocd.namespace
     }
   }
  
