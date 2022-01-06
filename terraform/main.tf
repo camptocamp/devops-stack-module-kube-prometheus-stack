@@ -53,10 +53,12 @@ resource "argocd_application" "this" {
   }
 
   spec {
+    project = argocd_project.this.metadata.0.name
+
     source {
       repo_url        = "https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"
       path            = "charts/kube-prometheus-stack"
-      target_revision = "master"
+      target_revision = "main"
       helm {
         values = templatefile("${path.module}/values.tmpl.yaml", {
           oidc           = var.oidc,
