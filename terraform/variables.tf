@@ -12,6 +12,7 @@ variable "base_domain" {
 
 variable "oidc" {
   type = any
+  default = {}
 }
 
 variable "kubernetes" {
@@ -27,7 +28,8 @@ variable "argocd" {
 }
 
 variable "cluster_issuer" {
-  type = string
+  type    = string
+  default = "ca-issuer"
 }
 
 variable "namespace" {
