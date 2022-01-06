@@ -17,7 +17,7 @@ provider "argocd" {
 resource "argocd_project" "this" {
   metadata {
     name      = "kube-prometheus-stack"
-    namespace = "argocd"
+    namespace = var.argocd.namespace
     annotations = {
       "argocd_namespace" = var.argocd.namespace
     }
@@ -56,7 +56,7 @@ resource "random_password" "oauth2_cookie_secret" {
 resource "argocd_application" "this" {
   metadata {
     name      = "kube-prometheus-stack"
-    namespace = "kube-prometheus-stack"
+    namespace = var.argocd.namespace
     annotations = {
       "argocd_namespace" = var.argocd.namespace
     }
