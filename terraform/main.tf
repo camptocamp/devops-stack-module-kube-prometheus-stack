@@ -80,4 +80,8 @@ resource "argocd_application" "this" {
       namespace = "kube-prometheus-stack"
     }
   }
+
+  depends_on = [
+    argocd_project.this
+  ]
 }
