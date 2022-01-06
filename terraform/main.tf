@@ -57,9 +57,6 @@ resource "argocd_application" "this" {
   metadata {
     name      = "kube-prometheus-stack"
     namespace = var.argocd.namespace
-    annotations = {
-      "argocd_namespace" = var.argocd.namespace
-    }
   }
 
   spec {
@@ -101,8 +98,4 @@ resource "argocd_application" "this" {
       ]
     }
   }
-
-  depends_on = [
-    argocd_project.this
-  ]
 }
