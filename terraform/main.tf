@@ -25,7 +25,7 @@ resource "argocd_project" "this" {
  
   spec {
     description  = "Kube-prometheus-stack application project"
-    source_repos = ["https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack"]
+    source_repos = ["https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"]
  
     destination {
       server    = "https://kubernetes.default.svc"
