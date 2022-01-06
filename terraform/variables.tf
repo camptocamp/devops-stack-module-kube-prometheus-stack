@@ -30,6 +30,11 @@ variable "cluster_issuer" {
   type = string
 }
 
+variable "namespace" {
+  type    = string
+  default = "kube-prometheus-stack"
+}
+
 
 #######################
 ## Module variables

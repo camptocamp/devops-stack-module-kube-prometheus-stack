@@ -29,7 +29,7 @@ resource "argocd_project" "this" {
  
     destination {
       server    = "https://kubernetes.default.svc"
-      namespace = "kube-prometheus-stack"
+      namespace = var.namespace
     }
  
     destination {
@@ -84,7 +84,7 @@ resource "argocd_application" "this" {
 
     destination {
       server    = "https://kubernetes.default.svc"
-      namespace = "kube-prometheus-stack"
+      namespace = var.namespace
     }
 
     sync_policy {
