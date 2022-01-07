@@ -31,9 +31,9 @@ variable "namespace" {
   default = "kube-prometheus-stack"
 }
 
-variable "profile" {
-  type    = string
-  default = "default"
+variable "profiles" {
+  type    = list(string)
+  default = ["default"]
 }
 
 #######################
