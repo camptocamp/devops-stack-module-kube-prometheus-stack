@@ -1,9 +1,9 @@
 resource "argocd_project" "this" {
   metadata {
     name      = "kube-prometheus-stack"
-    namespace = var.argocd.namespace
+    namespace = var.argocd_namespace
     annotations = {
-      "devops-stack.io/argocd_namespace" = var.argocd.namespace
+      "devops-stack.io/argocd_namespace" = var.argocd_namespace
     }
   }
  
@@ -55,7 +55,7 @@ data "utils_deep_merge_yaml" "values" {
 resource "argocd_application" "this" {
   metadata {
     name      = "kube-prometheus-stack"
-    namespace = var.argocd.namespace
+    namespace = var.argocd_namespace
   }
 
   wait = true

@@ -15,10 +15,8 @@ variable "oidc" {
   default = {}
 }
 
-variable "argocd" {
-  type = object({
-    namespace  = string
-  })
+variable "argocd_namespace" {
+  type = string
 }
 
 variable "cluster_issuer" {
