@@ -38,18 +38,7 @@ resource "random_password" "oauth2_cookie_secret" {
 }   
 
 data "utils_deep_merge_yaml" "values" {
-  input = [ for i in var.profiles : templatefile("${path.module}/profiles/${i}.yaml", {
-      oidc           = var.oidc,
-      base_domain    = var.base_domain,
-      cluster_issuer = var.cluster_issuer,
- 
-      cookie_secret = random_password.oauth2_cookie_secret.result
-      metrics_archives = var.metrics_archives
- 
-      alertmanager = local.alertmanager,
-      grafana      = local.grafana,
-      prometheus   = local.prometheus,
-  }) ]
+  input = local.all_yaml
 }
 
 resource "argocd_application" "this" {
