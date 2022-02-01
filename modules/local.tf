@@ -2,7 +2,7 @@ locals {
   grafana_defaults = {
     enable                   = true
     generic_oauth_extra_args = {}
-    domain                   = "grafana.apps.${var.cluster_name}.${var.base_domain}"
+    domain                   = "grafana.apps.${var.cluster_info.cluster_name}.${var.cluster_info.base_domain}"
     admin_password           = random_password.grafana_admin_password.result
   }
   grafana = merge(
@@ -11,7 +11,7 @@ locals {
   )
 
   prometheus_defaults = {
-    domain = "prometheus.apps.${var.cluster_name}.${var.base_domain}"
+    domain = "prometheus.apps.${var.cluster_info.cluster_name}.${var.cluster_info.base_domain}"
     enable = true
   }
   prometheus = merge(
@@ -21,7 +21,7 @@ locals {
 
   alertmanager_defaults = {
     enable = true
-    domain = "alertmanager.apps.${var.cluster_name}.${var.base_domain}"
+    domain = "alertmanager.apps.${var.cluster_info.cluster_name}.${var.cluster_info.base_domain}"
   }
   alertmanager = merge(
     local.alertmanager_defaults,
@@ -30,7 +30,7 @@ locals {
 
   default_yaml = [ templatefile("${path.module}/values.tmpl.yaml", {
     oidc           = var.oidc,
-    base_domain    = var.base_domain,
+    cluster_info   = var.cluster_info,
     cluster_issuer = var.cluster_issuer,
 
     cookie_secret = random_password.oauth2_cookie_secret.result
