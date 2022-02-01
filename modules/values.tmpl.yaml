@@ -43,12 +43,12 @@ kube-prometheus-stack:
         kubernetes.io/ingress.allow-http: "false"
       hosts:
         - "${alertmanager.domain}"
-        - "alertmanager.apps.${base_domain}"
+        - "alertmanager.apps.${cluster_info.base_domain}"
       tls:
         - secretName: alertmanager-tls
           hosts:
             - "${alertmanager.domain}"
-            - "alertmanager.apps.${base_domain}"
+            - "alertmanager.apps.${cluster_info.base_domain}"
     service:
       targetPort: 9095
     serviceMonitor:
@@ -103,11 +103,11 @@ kube-prometheus-stack:
         kubernetes.io/ingress.allow-http: "false"
       hosts:
         - "${grafana.domain}"
-        - "grafana.apps.${base_domain}"
+        - "grafana.apps.${cluster_info.base_domain}"
       tls:
         - secretName: grafana-tls
           hosts:
-            - "grafana.apps.${base_domain}"
+            - "grafana.apps.${cluster_info.base_domain}"
             - "${grafana.domain}"
 %{ endif } # Grafana config
 
@@ -127,12 +127,12 @@ kube-prometheus-stack:
         kubernetes.io/ingress.allow-http: "false"
       hosts:
         - "${prometheus.domain}"
-        - "prometheus.apps.${base_domain}"
+        - "prometheus.apps.${cluster_info.base_domain}"
       tls:
         - secretName: prometheus-tls
           hosts:
             - "${prometheus.domain}"
-            - "prometheus.apps.${base_domain}"
+            - "prometheus.apps.${cluster_info.base_domain}"
     prometheusSpec:
 %{ if can(metrics_archives.bucket_config) }
       thanos:
