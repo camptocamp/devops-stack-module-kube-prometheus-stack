@@ -9,10 +9,8 @@ A [DevOps Stack](https://devops-stack.io) module to deploy and configure [Kube-P
 module "monitoring" {
   source = "git::https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git//modules"
 
-  cluster_name     = var.cluster_name
+  cluster_info     = module.cluster.info
   oidc             = module.oidc.oidc
-  argocd_namespace = module.cluster.argocd_namespace
-  base_domain      = module.cluster.base_domain
   cluster_issuer   = "letsencrypt-prod"
   metrics_archives = {}
 
