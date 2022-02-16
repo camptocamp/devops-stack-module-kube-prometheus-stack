@@ -1,0 +1,12 @@
+dependencies:
+- name: kube-state-metrics
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 3.4.2
+- name: prometheus-node-exporter
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 2.0.4
+- name: grafana
+  repository: https://grafana.github.io/helm-charts
+  version: 6.16.9
+digest: sha256:cb65f7087c26bba381fdf1478dd8d710b5257855b5c9de67a48997a932112838
+generated: "2021-09-23T16:19:49.942745722+03:00"
