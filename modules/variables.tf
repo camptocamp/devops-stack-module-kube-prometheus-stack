@@ -11,7 +11,7 @@ variable "base_domain" {
 }
 
 variable "oidc" {
-  type = any
+  type    = any
   default = {}
 }
 

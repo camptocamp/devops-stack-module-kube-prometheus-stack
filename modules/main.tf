@@ -6,21 +6,21 @@ resource "argocd_project" "this" {
       "devops-stack.io/argocd_namespace" = var.argocd_namespace
     }
   }
- 
+
   spec {
     description  = "Kube-prometheus-stack application project"
     source_repos = ["https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"]
- 
+
     destination {
       server    = "https://kubernetes.default.svc"
       namespace = var.namespace
     }
- 
+
     destination {
       server    = "https://kubernetes.default.svc"
       namespace = "kube-system"
     }
- 
+
     orphaned_resources {
       warn = true
     }
@@ -32,10 +32,10 @@ resource "argocd_project" "this" {
   }
 }
 
-resource "random_password" "oauth2_cookie_secret" {                                  
-  length  = 16                                                                      
-  special = false                                                                   
-}   
+resource "random_password" "oauth2_cookie_secret" {
+  length  = 16
+  special = false
+}
 
 data "utils_deep_merge_yaml" "values" {
   input = local.all_yaml

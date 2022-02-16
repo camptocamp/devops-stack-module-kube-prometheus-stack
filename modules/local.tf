@@ -28,18 +28,18 @@ locals {
     var.alertmanager,
   )
 
-  default_yaml = [ templatefile("${path.module}/values.tmpl.yaml", {
+  default_yaml = [templatefile("${path.module}/values.tmpl.yaml", {
     oidc           = var.oidc,
     base_domain    = var.base_domain,
     cluster_issuer = var.cluster_issuer,
 
-    cookie_secret = random_password.oauth2_cookie_secret.result
+    cookie_secret    = random_password.oauth2_cookie_secret.result
     metrics_archives = var.metrics_archives
 
     alertmanager = local.alertmanager,
     grafana      = local.grafana,
     prometheus   = local.prometheus,
-  }) ]
+  })]
   all_yaml = concat(local.default_yaml, var.extra_yaml)
 }
 
