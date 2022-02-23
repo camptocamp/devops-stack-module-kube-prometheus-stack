@@ -7,7 +7,7 @@ A [DevOps Stack](https://devops-stack.io) module to deploy and configure [Kube-P
 
 ```hcl
 module "monitoring" {
-  source = "git::https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git//modules"
+  source = "git::https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git/"
 
   cluster_name     = var.cluster_name
   oidc             = module.oidc.oidc
