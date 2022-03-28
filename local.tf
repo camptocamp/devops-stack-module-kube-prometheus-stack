@@ -1,4 +1,57 @@
 locals {
+  helm_values = {
+    kube-prometheus-stack = {
+      global = {
+        rbac = {
+          pspEnabled = false
+        }
+      }
+      kube-state-metrics = {
+        resources = {
+          limits = {
+            memory = "32Mi"
+          }
+          requests = {
+            cpu = "10m"
+            memory = "16Mi"
+          }
+        }
+        podSecurityPolicy = {
+          enabled = false
+        }
+      }
+      prometheus-node-exporter = {
+        resources = {
+          limits = {
+            memory = "24Mi"
+          }
+          requests = {
+            cpu = "10m"
+            memory = "16Mi"
+          }
+        }
+        rbac = {
+          pspEnabled = false
+        }
+      }
+      prometheusOperator = {
+        resources = {
+          limits = {
+            memory = "48Mi"
+          }
+          requests = {
+            cpu = "100m"
+            memory = "32Mi"
+          }
+        }
+      }
+    }
+  }
+
+
+
+
+
   grafana_defaults = {
     enable                   = true
     generic_oauth_extra_args = {}

@@ -38,7 +38,7 @@ resource "random_password" "oauth2_cookie_secret" {
 }
 
 data "utils_deep_merge_yaml" "values" {
-  input = local.all_yaml
+  input = concat(local.all_yaml,yamlencode(local.helm_values))
 }
 
 resource "argocd_application" "this" {
