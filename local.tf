@@ -1,5 +1,5 @@
 locals {
-  helm_values = {
+  helm_values = [{
     kube-prometheus-stack = {
       global = {
         rbac = {
@@ -46,10 +46,7 @@ locals {
         }
       }
     }
-  }
-
-
-
+  }]
 
 
   grafana_defaults = {
