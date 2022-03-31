@@ -68,8 +68,17 @@ resource "argocd_application" "this" {
 
     sync_policy {
       automated = {
-        prune     = true
-        self_heal = true
+        allow_empty = false
+        prune       = true
+        self_heal   = true
+      }
+
+      retry {
+        backoff = {
+          duration     = ""
+          max_duration = ""
+        }
+        limit = "0"
       }
 
       sync_options = [
