@@ -29,9 +29,10 @@ variable "namespace" {
   default = "kube-prometheus-stack"
 }
 
-variable "extra_yaml" {
-  type    = list(string)
-  default = []
+variable "helm_values" {
+  description = "Helm values, passed as a list of HCL structures."
+  type        = any
+  default     = []
 }
 
 variable "dependency_ids" {

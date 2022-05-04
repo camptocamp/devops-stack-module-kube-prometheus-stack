@@ -42,10 +42,15 @@ resource "random_password" "oauth2_cookie_secret" {
 }
 
 data "utils_deep_merge_yaml" "values" {
-  input = local.all_yaml
+  input = [for i in concat(local.helm_values, var.helm_values) : yamlencode(i)]
 }
 
 resource "argocd_application" "this" {
+  timeouts {
+    create = "15m"
+    delete = "15m"
+  }
+
   metadata {
     name      = "kube-prometheus-stack"
     namespace = var.argocd_namespace
