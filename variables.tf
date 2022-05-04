@@ -35,6 +35,12 @@ variable "helm_values" {
   default     = []
 }
 
+variable "dependency_ids" {
+  type = map(string)
+
+  default = {}
+}
+
 #######################
 ## Module variables
 #######################
