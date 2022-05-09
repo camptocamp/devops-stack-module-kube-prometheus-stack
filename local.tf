@@ -57,6 +57,15 @@ locals {
             "${local.alertmanager.domain}",
             "alertmanager.apps.${var.base_domain}"
           ]
+          tls = [
+            {
+              secretName = "alertmanager-tls"
+              hosts = [
+                "${local.alertmanager.domain}",
+                "alertmanager.apps.${var.base_domain}",
+              ]
+            },
+          ]
         }
         service = {
           targetPort = 9095
