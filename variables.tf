@@ -10,11 +10,6 @@ variable "base_domain" {
   type = string
 }
 
-variable "oidc" {
-  type    = any
-  default = {}
-}
-
 variable "argocd_namespace" {
   type = string
 }

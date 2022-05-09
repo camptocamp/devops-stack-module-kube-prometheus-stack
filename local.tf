@@ -13,7 +13,7 @@ locals {
               ]
               args = [
               <<-EOT
-                until curl -skL -w "%%{http_code}\\n" "${replace(var.oidc.api_url, "\"", "\\\"")}" -o /dev/null | grep -vq "^\(000\|404\)$"; do echo "waiting for oidc at ${replace(var.oidc.api_url, "\"", "\\\"")}"; sleep 2; done
+                until curl -skL -w "%%{http_code}\\n" "${replace(local.alertmanager.oidc.api_url, "\"", "\\\"")}" -o /dev/null | grep -vq "^\(000\|404\)$"; do echo "waiting for oidc at ${replace(local.alertmanager.oidc.api_url, "\"", "\\\"")}"; sleep 2; done
               EOT
               ]
             },
@@ -32,14 +32,14 @@ locals {
                 "--http-address=0.0.0.0:9095",
                 "--upstream=http://localhost:9093",
                 "--provider=oidc",
-                "--oidc-issuer-url=${replace(var.oidc.issuer_url, "\"", "\\\"")}",
-                "--client-id=${replace(var.oidc.client_id, "\"", "\\\"")}",
-                "--client-secret=${replace(var.oidc.client_secret, "\"", "\\\"")}",
+                "--oidc-issuer-url=${replace(local.alertmanager.oidc.issuer_url, "\"", "\\\"")}",
+                "--client-id=${replace(local.alertmanager.oidc.client_id, "\"", "\\\"")}",
+                "--client-secret=${replace(local.alertmanager.oidc.client_secret, "\"", "\\\"")}",
                 "--cookie-secure=false",
                 "--cookie-secret=${replace(random_password.oauth2_cookie_secret.result, "\"", "\\\"")}",
                 "--email-domain=*",
                 "--redirect-url=https://${local.alertmanager.domain}/oauth2/callback",
-              ], var.oidc.oauth2_proxy_extra_args)
+              ], local.alertmanager.oidc.oauth2_proxy_extra_args)
             },
           ]
         }
@@ -73,12 +73,12 @@ locals {
           "auth.generic_oauth" = merge({
             enabled       = true
             allow_sign_up = true
-            client_id     = "${replace(var.oidc.client_id, "\"", "\\\"")}"
-            client_secret = "${replace(var.oidc.client_secret, "\"", "\\\"")}"
+            client_id     = "${replace(local.grafana.oidc.client_id, "\"", "\\\"")}"
+            client_secret = "${replace(local.grafana.oidc.client_secret, "\"", "\\\"")}"
             scopes        = "openid profile email"
-            auth_url      = "${replace(var.oidc.oauth_url, "\"", "\\\"")}"
-            token_url     = "${replace(var.oidc.token_url, "\"", "\\\"")}"
-            api_url       = "${replace(var.oidc.api_url, "\"", "\\\"")}"
+            auth_url      = "${replace(local.grafana.oidc.oauth_url, "\"", "\\\"")}"
+            token_url     = "${replace(local.grafana.oidc.token_url, "\"", "\\\"")}"
+            api_url       = "${replace(local.grafana.oidc.api_url, "\"", "\\\"")}"
           }, local.grafana.generic_oauth_extra_args)
           users = {
             auto_assign_org_role = "Editor"
@@ -173,7 +173,7 @@ locals {
               ]
               args = [
               <<-EOT
-                until curl -skL -w "%%{http_code}\\n" "${replace(var.oidc.api_url, "\"", "\\\"")}" -o /dev/null | grep -vq "^\(000\|404\)$"; do echo "waiting for oidc at ${replace(var.oidc.api_url, "\"", "\\\"")}"; sleep 2; done
+                until curl -skL -w "%%{http_code}\\n" "${replace(local.prometheus.oidc.api_url, "\"", "\\\"")}" -o /dev/null | grep -vq "^\(000\|404\)$"; do echo "waiting for oidc at ${replace(local.prometheus.oidc.api_url, "\"", "\\\"")}"; sleep 2; done
               EOT
               ]
             },
@@ -184,14 +184,14 @@ locals {
                 "--http-address=0.0.0.0:9091",
                 "--upstream=http://localhost:9090",
                 "--provider=oidc",
-                "--oidc-issuer-url=${replace(var.oidc.issuer_url, "\"", "\\\"")}",
-                "--client-id=${replace(var.oidc.client_id, "\"", "\\\"")}",
-                "--client-secret=${replace(var.oidc.client_secret, "\"", "\\\"")}",
+                "--oidc-issuer-url=${replace(local.prometheus.oidc.issuer_url, "\"", "\\\"")}",
+                "--client-id=${replace(local.prometheus.oidc.client_id, "\"", "\\\"")}",
+                "--client-secret=${replace(local.prometheus.oidc.client_secret, "\"", "\\\"")}",
                 "--cookie-secure=false",
                 "--cookie-secret=${replace(random_password.oauth2_cookie_secret.result, "\"", "\\\"")}",
                 "--email-domain=*",
                 "--redirect-url=https://${local.prometheus.domain}/oauth2/callback",
-              ], var.oidc.oauth2_proxy_extra_args)
+              ], local.prometheus.oidc.oauth2_proxy_extra_args)
               image = "quay.io/oauth2-proxy/oauth2-proxy:v7.1.3"
               name  = "prometheus-proxy"
               ports = [
