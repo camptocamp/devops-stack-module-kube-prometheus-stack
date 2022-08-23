@@ -106,8 +106,6 @@ locals {
           [{
             name = "Prometheus"
             type = "prometheus"
-            # TODO fix this 9091 with oauthPassThru
-            # url: http://kube-prometheus-stack-prometheus:9091/
             url       = "http://kube-prometheus-stack-prometheus:9090"
             access    = "proxy"
             isDefault = true
