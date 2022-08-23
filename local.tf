@@ -104,8 +104,8 @@ locals {
         }
         additionalDataSources = concat(
           [{
-            name = "Prometheus"
-            type = "prometheus"
+            name      = "Prometheus"
+            type      = "prometheus"
             url       = "http://kube-prometheus-stack-prometheus:9090"
             access    = "proxy"
             isDefault = true
@@ -116,8 +116,8 @@ locals {
             }
           }],
           can(var.metrics_archives.bucket_config) ? [{
-            name = "Thanos-${var.cluster_name}"
-            type = "prometheus"
+            name      = "Thanos-${var.cluster_name}"
+            type      = "prometheus"
             url       = "http://thanos-query.thanos:9090"
             access    = "proxy"
             isDefault = false

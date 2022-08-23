@@ -50,7 +50,7 @@ resource "kubernetes_secret" "thanos_s3_bucket_secret" {
   data = {
     "thanos.yaml" = yamlencode(
       var.metrics_archives.bucket_config
-      )
+    )
   }
 
   depends_on = [
