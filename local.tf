@@ -145,7 +145,7 @@ locals {
         } : null, {
         enabled = local.grafana.enable
       })
-      prometheus = merge(local.prometheus.enable ? merge({
+      prometheus = merge(local.prometheus.enable ? {
         ingress = {
           enabled = true
           annotations = {
@@ -282,14 +282,13 @@ locals {
             }
           },
         ]
-        }, can(var.metrics_archives.bucket_config) ? {
-        thanosObjectStorageConfig = var.metrics_archives.bucket_config
-        } : null) : null, {
+        } : null, {
         enabled = local.prometheus.enable
         thanosService = {
           enabled = can(var.metrics_archives.bucket_config) ? true : false
         }
-      })
+        }
+      )
     }
   }]
 
