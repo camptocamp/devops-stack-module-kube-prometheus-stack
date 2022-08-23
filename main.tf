@@ -36,8 +36,12 @@ resource "argocd_project" "this" {
   }
 }
 
-# TODO find a way to only deploy this resource if thanos is deployed
 resource "kubernetes_secret" "thanos_s3_bucket_secret" {
+  # This count here is nothing more than a way to conditionally deploy this
+  # resource. Although there is no loop inside the resource, if the condition
+  # is true, the resource is deployed because there is exactly one iteration.
+  count = can(var.metrics_archives.bucket_config) ? 1 : 0
+
   metadata {
     name      = "thanos-objectstorage"
     namespace = var.namespace
@@ -45,7 +49,7 @@ resource "kubernetes_secret" "thanos_s3_bucket_secret" {
 
   data = {
     "thanos.yaml" = yamlencode(
-      can(var.metrics_archives.bucket_config) ? var.metrics_archives.bucket_config : null
+      var.metrics_archives.bucket_config
       )
   }
 

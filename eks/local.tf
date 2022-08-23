@@ -1,14 +1,13 @@
 locals {
-  helm_values = [{
+  helm_values = can(var.metrics_archives.bucket_config) ? [{
     kube-prometheus-stack = {
       prometheus = {
         serviceAccount = {
           annotations = {
-            "eks.amazonaws.com/role-arn" = can(var.metrics_archives.bucket_config) ? var.metrics_archives.iam_role_arn : "thanos_not_deployed"
+            "eks.amazonaws.com/role-arn" = var.metrics_archives.iam_role_arn
           }
         }
       }
     }
-  }]
+  }] : []
 }
-# TODO replace the condition above with a merge or something!
