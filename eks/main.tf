@@ -1,14 +1,3 @@
-# resource "kubernetes_service_account" "thanos_s3_serviceaccount" {
-#   metadata {
-#     name      = "thanos-s3-serviceaccount"
-#     namespace = var.namespace
-#     annotations = {
-#       "eks.amazonaws.com/role-arn" = var.metrics_archives.iam_role_arn
-#     }
-#   }
-#   automount_service_account_token = true
-# }
-
 module "kube-prometheus-stack" {
   source = "../"
 
