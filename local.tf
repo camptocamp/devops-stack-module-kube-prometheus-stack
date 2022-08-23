@@ -210,6 +210,24 @@ locals {
                 },
               ]
             },
+            # Configuration to test the sidecar by reducing TSDB block size
+            # TODO comment these lines when we're done debugging
+            {
+              name = "prometheus"
+              args = concat([
+                "--web.console.templates=/etc/prometheus/consoles",
+                "--web.console.libraries=/etc/prometheus/console_libraries",
+                "--config.file=/etc/prometheus/config_out/prometheus.env.yaml",
+                "--storage.tsdb.path=/prometheus",
+                "--storage.tsdb.retention.time=10d",
+                "--web.enable-lifecycle",
+                "--web.external-url=http://${local.prometheus.domain}",
+                "--web.route-prefix=/",
+                "--web.config.file=/etc/prometheus/web_config/web-config.yaml",
+                "--storage.tsdb.max-block-duration=1h",
+                "--storage.tsdb.min-block-duration=1h",
+              ])
+            }
           ]
           alertingEndpoints = [
             {
