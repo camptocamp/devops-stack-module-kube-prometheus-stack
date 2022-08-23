@@ -59,5 +59,7 @@ variable "alertmanager" {
 }
 
 variable "metrics_archives" {
-  type = any
+  description = "Metrics archives settings"
+  type        = any
+  default     = {}
 }

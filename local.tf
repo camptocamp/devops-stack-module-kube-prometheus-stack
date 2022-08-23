@@ -102,13 +102,13 @@ locals {
             defaultDatasourceEnabled = false
           }
         }
-        additionalDataSources = [
-          {
+        additionalDataSources = concat(
+          [{
             name = "Prometheus"
             type = "prometheus"
             # TODO fix this 9091 with oauthPassThru
             # url: http://kube-prometheus-stack-prometheus:9091/
-            url       = can(var.metrics_archives.bucket_config) ? "http://thanos-query.thanos:9090" : "http://kube-prometheus-stack-prometheus:9090"
+            url       = "http://kube-prometheus-stack-prometheus:9090"
             access    = "proxy"
             isDefault = true
             jsonData = {
@@ -116,8 +116,20 @@ locals {
               tlsAuthWithCACert = false
               oauthPassThru     = true
             }
-          },
-        ]
+          }],
+          can(var.metrics_archives.bucket_config) ? [{
+            name = "Thanos-${var.cluster_name}"
+            type = "prometheus"
+            url       = "http://thanos-query.thanos:9090"
+            access    = "proxy"
+            isDefault = false
+            jsonData = {
+              tlsAuth           = false
+              tlsAuthWithCACert = false
+              oauthPassThru     = true
+            }
+          }] : null
+        )
         ingress = {
           enabled = true
           annotations = {

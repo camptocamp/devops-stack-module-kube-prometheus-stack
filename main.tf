@@ -36,6 +36,24 @@ resource "argocd_project" "this" {
   }
 }
 
+# TODO find a way to only deploy this resource if thanos is deployed
+resource "kubernetes_secret" "thanos_s3_bucket_secret" {
+  metadata {
+    name      = "thanos-objectstorage"
+    namespace = var.namespace
+  }
+
+  data = {
+    "thanos.yaml" = yamlencode(
+      can(var.metrics_archives.bucket_config) ? var.metrics_archives.bucket_config : null
+      )
+  }
+
+  depends_on = [
+    resource.argocd_application.this,
+  ]
+}
+
 resource "random_password" "oauth2_cookie_secret" {
   length  = 16
   special = false
