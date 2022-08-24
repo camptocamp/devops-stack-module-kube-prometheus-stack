@@ -116,7 +116,7 @@ locals {
             }
           }],
           can(var.metrics_archives.bucket_config) ? [{
-            name      = "Thanos-${var.cluster_name}"
+            name      = "Thanos"
             type      = "prometheus"
             url       = "http://thanos-query.thanos:9090"
             access    = "proxy"
@@ -126,7 +126,7 @@ locals {
               tlsAuthWithCACert = false
               oauthPassThru     = true
             }
-          }] : null
+          }] : []
         )
         ingress = {
           enabled = true
@@ -152,9 +152,45 @@ locals {
             },
           ]
         }
-        } : null, {
-        enabled = local.grafana.enable
-      })
+        } : null,
+        merge((!local.grafana.enable && var.grafana.additional_data_sources) ? {
+          forceDeployDashboards  = true
+          forceDeployDatasources = true
+          sidecar = {
+            datasources = {
+              defaultDatasourceEnabled = false
+            }
+          }
+          additionalDataSources = concat(
+            [{
+              name      = "Prometheus"
+              type      = "prometheus"
+              url       = "http://kube-prometheus-stack-prometheus.kube-prometheus-stack:9090"
+              access    = "proxy"
+              isDefault = true
+              jsonData = {
+                tlsAuth           = false
+                tlsAuthWithCACert = false
+                oauthPassThru     = true
+              }
+            }],
+            can(var.metrics_archives.bucket_config) ? [{
+              name      = "Thanos"
+              type      = "prometheus"
+              url       = "http://thanos-query.thanos:9090"
+              access    = "proxy"
+              isDefault = false
+              jsonData = {
+                tlsAuth           = false
+                tlsAuthWithCACert = false
+                oauthPassThru     = true
+              }
+            }] : []
+          )
+          } : null, {
+          enabled = local.grafana.enable
+        })
+      )
       prometheus = merge(local.prometheus.enable ? {
         ingress = {
           enabled = true
