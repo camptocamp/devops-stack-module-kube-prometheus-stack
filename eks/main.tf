@@ -5,17 +5,13 @@ module "kube-prometheus-stack" {
   argocd_namespace = var.argocd_namespace
   base_domain      = var.base_domain
   cluster_issuer   = var.cluster_issuer
-  metrics_archives = var.metrics_archives
+  namespace        = var.namespace
+  dependency_ids   = var.dependency_ids
 
-  prometheus = {
-    oidc = var.prometheus.oidc
-  }
-  alertmanager = {
-    oidc = var.alertmanager.oidc
-  }
-  grafana = {
-    oidc = var.grafana.oidc
-  }
+  metrics_archives = var.metrics_archives
+  prometheus       = var.prometheus
+  alertmanager     = var.alertmanager
+  grafana          = var.grafana
 
   helm_values = concat(local.helm_values, var.helm_values)
 }
