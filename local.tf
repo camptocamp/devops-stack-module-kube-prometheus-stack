@@ -264,6 +264,9 @@ locals {
               port      = 9093
             },
           ]
+          externalLabels = {
+            prometheus = "prometheus-${var.cluster_name}"
+          }
           }, can(var.metrics_archives.bucket_config) ? {
           thanos = {
             objectStorageConfig = {
