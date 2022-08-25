@@ -153,7 +153,7 @@ locals {
           ]
         }
         } : null,
-        merge((!local.grafana.enable && var.grafana.additional_data_sources) ? {
+        merge((!local.grafana.enable && local.grafana.additional_data_sources) ? {
           forceDeployDashboards  = true
           forceDeployDatasources = true
           sidecar = {
@@ -342,7 +342,8 @@ locals {
   }]
 
   grafana_defaults = {
-    enable                   = true
+    enable                   = false
+    additional_data_sources  = false
     generic_oauth_extra_args = {}
     domain                   = "grafana.apps.${var.cluster_name}.${var.base_domain}"
     admin_password           = random_password.grafana_admin_password.result
