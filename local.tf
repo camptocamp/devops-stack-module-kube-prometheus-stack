@@ -1,7 +1,7 @@
 locals {
   helm_values = [{
     kube-prometheus-stack = {
-      alertmanager = merge(local.alertmanager.enable ? {
+      alertmanager = merge(local.alertmanager.enabled ? {
         alertmanagerSpec = {
           initContainers = [
             {
@@ -12,7 +12,7 @@ locals {
                 "-c",
               ]
               args = [
-              <<-EOT
+                <<-EOT
                 until curl -skL -w "%%{http_code}\\n" "${replace(local.alertmanager.oidc.api_url, "\"", "\\\"")}" -o /dev/null | grep -vq "^\(000\|404\)$"; do echo "waiting for oidc at ${replace(local.alertmanager.oidc.api_url, "\"", "\\\"")}"; sleep 2; done
               EOT
               ]
@@ -74,9 +74,9 @@ locals {
           selfMonitor = false
         }
         } : null, {
-        enabled = local.alertmanager.enable
+        enabled = local.alertmanager.enabled
       })
-      grafana = merge(local.grafana.enable ? {
+      grafana = merge(local.grafana.enabled ? {
         adminPassword = "${replace(local.grafana.admin_password, "\"", "\\\"")}"
         "grafana.ini" = {
           "auth.generic_oauth" = merge({
@@ -153,7 +153,7 @@ locals {
           ]
         }
         } : null,
-        merge((!local.grafana.enable && local.grafana.additional_data_sources) ? {
+        merge((!local.grafana.enabled && local.grafana.additional_data_sources) ? {
           forceDeployDashboards  = true
           forceDeployDatasources = true
           sidecar = {
@@ -188,10 +188,10 @@ locals {
             }] : []
           )
           } : null, {
-          enabled = local.grafana.enable
+          enabled = local.grafana.enabled
         })
       )
-      prometheus = merge(local.prometheus.enable ? {
+      prometheus = merge(local.prometheus.enabled ? {
         ingress = {
           enabled = true
           annotations = {
@@ -227,7 +227,7 @@ locals {
                 "-c",
               ]
               args = [
-              <<-EOT
+                <<-EOT
                 until curl -skL -w "%%{http_code}\\n" "${replace(local.prometheus.oidc.api_url, "\"", "\\\"")}" -o /dev/null | grep -vq "^\(000\|404\)$"; do echo "waiting for oidc at ${replace(local.prometheus.oidc.api_url, "\"", "\\\"")}"; sleep 2; done
               EOT
               ]
@@ -332,7 +332,7 @@ locals {
           },
         ]
         } : null, {
-        enabled = local.prometheus.enable
+        enabled = local.prometheus.enabled
         thanosService = {
           enabled = can(var.metrics_archives.bucket_config) ? true : false
         }
@@ -342,7 +342,7 @@ locals {
   }]
 
   grafana_defaults = {
-    enable                   = false
+    enabled                  = false
     additional_data_sources  = false
     generic_oauth_extra_args = {}
     domain                   = "grafana.apps.${var.cluster_name}.${var.base_domain}"
@@ -355,8 +355,8 @@ locals {
   )
 
   prometheus_defaults = {
-    domain = "prometheus.apps.${var.cluster_name}.${var.base_domain}"
-    enable = true
+    enabled = true
+    domain  = "prometheus.apps.${var.cluster_name}.${var.base_domain}"
   }
 
   prometheus = merge(
@@ -365,8 +365,8 @@ locals {
   )
 
   alertmanager_defaults = {
-    enable = true
-    domain = "alertmanager.apps.${var.cluster_name}.${var.base_domain}"
+    enabled = true
+    domain  = "alertmanager.apps.${var.cluster_name}.${var.base_domain}"
   }
 
   alertmanager = merge(
