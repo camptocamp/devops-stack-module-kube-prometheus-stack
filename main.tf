@@ -12,7 +12,7 @@ resource "argocd_project" "this" {
   }
 
   spec {
-    description  = "Kube-prometheus-stack application project"
+    description  = "kube-prometheus-stack application project"
     source_repos = ["https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"]
 
     destination {
