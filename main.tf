@@ -20,12 +20,6 @@ resource "argocd_project" "this" {
       namespace = var.namespace
     }
 
-    # TODO verify if this should be here
-    destination {
-      name      = "in-cluster"
-      namespace = "kube-system"
-    }
-
     orphaned_resources {
       warn = true
     }
