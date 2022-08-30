@@ -59,5 +59,7 @@ variable "alertmanager" {
 }
 
 variable "metrics_archives" {
-  type = any
+  description = "Thanos S3 bucket settings"
+  type        = any
+  default     = {}
 }

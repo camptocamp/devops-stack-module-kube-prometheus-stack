@@ -12,17 +12,12 @@ resource "argocd_project" "this" {
   }
 
   spec {
-    description  = "Kube-prometheus-stack application project"
+    description  = "kube-prometheus-stack application project"
     source_repos = ["https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"]
 
     destination {
       name      = "in-cluster"
       namespace = var.namespace
-    }
-
-    destination {
-      name      = "in-cluster"
-      namespace = "kube-system"
     }
 
     orphaned_resources {
@@ -34,6 +29,28 @@ resource "argocd_project" "this" {
       kind  = "*"
     }
   }
+}
+
+resource "kubernetes_secret" "thanos_s3_bucket_secret" {
+  # This count here is nothing more than a way to conditionally deploy this
+  # resource. Although there is no loop inside the resource, if the condition
+  # is true, the resource is deployed because there is exactly one iteration.
+  count = var.metrics_archives.thanos_enabled ? 1 : 0
+
+  metadata {
+    name      = "thanos-objectstorage"
+    namespace = var.namespace
+  }
+
+  data = {
+    "thanos.yaml" = yamlencode(
+      var.metrics_archives.bucket_config
+    )
+  }
+
+  depends_on = [
+    resource.argocd_application.this,
+  ]
 }
 
 resource "random_password" "oauth2_cookie_secret" {

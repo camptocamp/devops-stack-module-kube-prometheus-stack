@@ -1,7 +1,7 @@
 locals {
   helm_values = [{
     kube-prometheus-stack = {
-      alertmanager = merge(local.alertmanager.enable ? {
+      alertmanager = merge(local.alertmanager.enabled ? {
         alertmanagerSpec = {
           initContainers = [
             {
@@ -12,7 +12,7 @@ locals {
                 "-c",
               ]
               args = [
-              <<-EOT
+                <<-EOT
                 until curl -skL -w "%%{http_code}\\n" "${replace(local.alertmanager.oidc.api_url, "\"", "\\\"")}" -o /dev/null | grep -vq "^\(000\|404\)$"; do echo "waiting for oidc at ${replace(local.alertmanager.oidc.api_url, "\"", "\\\"")}"; sleep 2; done
               EOT
               ]
@@ -74,9 +74,9 @@ locals {
           selfMonitor = false
         }
         } : null, {
-        enabled = local.alertmanager.enable
+        enabled = local.alertmanager.enabled
       })
-      grafana = merge(local.grafana.enable ? {
+      grafana = merge(local.grafana.enabled ? {
         adminPassword = "${replace(local.grafana.admin_password, "\"", "\\\"")}"
         "grafana.ini" = {
           "auth.generic_oauth" = merge({
@@ -102,13 +102,11 @@ locals {
             defaultDatasourceEnabled = false
           }
         }
-        additionalDataSources = [
-          {
-            name = "Prometheus"
-            type = "prometheus"
-            # TODO fix this 9091 with oauthPassThru
-            # url: http://kube-prometheus-stack-prometheus:9091/
-            url       = can(var.metrics_archives.bucket_config) ? "http://thanos-query.thanos:9090" : "http://kube-prometheus-stack-prometheus:9090"
+        additionalDataSources = concat(
+          [{
+            name      = "Prometheus"
+            type      = "prometheus"
+            url       = "http://kube-prometheus-stack-prometheus:9090"
             access    = "proxy"
             isDefault = true
             jsonData = {
@@ -116,8 +114,20 @@ locals {
               tlsAuthWithCACert = false
               oauthPassThru     = true
             }
-          },
-        ]
+          }],
+          can(var.metrics_archives.bucket_config) ? [{
+            name      = "Thanos"
+            type      = "prometheus"
+            url       = "http://thanos-query.thanos:9090"
+            access    = "proxy"
+            isDefault = false
+            jsonData = {
+              tlsAuth           = false
+              tlsAuthWithCACert = false
+              oauthPassThru     = true
+            }
+          }] : []
+        )
         ingress = {
           enabled = true
           annotations = {
@@ -142,10 +152,46 @@ locals {
             },
           ]
         }
-        } : null, {
-        enabled = local.grafana.enable
-      })
-      prometheus = merge(local.prometheus.enable ? merge({
+        } : null,
+        merge((!local.grafana.enabled && local.grafana.additional_data_sources) ? {
+          forceDeployDashboards  = true
+          forceDeployDatasources = true
+          sidecar = {
+            datasources = {
+              defaultDatasourceEnabled = false
+            }
+          }
+          additionalDataSources = concat(
+            [{
+              name      = "Prometheus"
+              type      = "prometheus"
+              url       = "http://kube-prometheus-stack-prometheus.kube-prometheus-stack:9090"
+              access    = "proxy"
+              isDefault = true
+              jsonData = {
+                tlsAuth           = false
+                tlsAuthWithCACert = false
+                oauthPassThru     = true
+              }
+            }],
+            can(var.metrics_archives.bucket_config) ? [{
+              name      = "Thanos"
+              type      = "prometheus"
+              url       = "http://thanos-query.thanos:9090"
+              access    = "proxy"
+              isDefault = false
+              jsonData = {
+                tlsAuth           = false
+                tlsAuthWithCACert = false
+                oauthPassThru     = true
+              }
+            }] : []
+          )
+          } : null, {
+          enabled = local.grafana.enabled
+        })
+      )
+      prometheus = merge(local.prometheus.enabled ? {
         ingress = {
           enabled = true
           annotations = {
@@ -181,7 +227,7 @@ locals {
                 "-c",
               ]
               args = [
-              <<-EOT
+                <<-EOT
                 until curl -skL -w "%%{http_code}\\n" "${replace(local.prometheus.oidc.api_url, "\"", "\\\"")}" -o /dev/null | grep -vq "^\(000\|404\)$"; do echo "waiting for oidc at ${replace(local.prometheus.oidc.api_url, "\"", "\\\"")}"; sleep 2; done
               EOT
               ]
@@ -218,6 +264,9 @@ locals {
               port      = 9093
             },
           ]
+          externalLabels = {
+            prometheus = "prometheus-${var.cluster_name}"
+          }
           }, can(var.metrics_archives.bucket_config) ? {
           thanos = {
             objectStorageConfig = {
@@ -282,19 +331,19 @@ locals {
             }
           },
         ]
-        }, can(var.metrics_archives.bucket_config) ? {
-        thanosObjectStorageConfig = var.metrics_archives.bucket_config
-        } : null) : null, {
-        enabled = local.prometheus.enable
+        } : null, {
+        enabled = local.prometheus.enabled
         thanosService = {
           enabled = can(var.metrics_archives.bucket_config) ? true : false
         }
-      })
+        }
+      )
     }
   }]
 
   grafana_defaults = {
-    enable                   = true
+    enabled                  = false
+    additional_data_sources  = false
     generic_oauth_extra_args = {}
     domain                   = "grafana.apps.${var.cluster_name}.${var.base_domain}"
     admin_password           = random_password.grafana_admin_password.result
@@ -306,8 +355,8 @@ locals {
   )
 
   prometheus_defaults = {
-    domain = "prometheus.apps.${var.cluster_name}.${var.base_domain}"
-    enable = true
+    enabled = true
+    domain  = "prometheus.apps.${var.cluster_name}.${var.base_domain}"
   }
 
   prometheus = merge(
@@ -316,8 +365,8 @@ locals {
   )
 
   alertmanager_defaults = {
-    enable = true
-    domain = "alertmanager.apps.${var.cluster_name}.${var.base_domain}"
+    enabled = true
+    domain  = "alertmanager.apps.${var.cluster_name}.${var.base_domain}"
   }
 
   alertmanager = merge(
