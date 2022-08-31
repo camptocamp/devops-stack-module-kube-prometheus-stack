@@ -90,14 +90,16 @@ resource "argocd_application" "this" {
       repo_url        = "https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"
       path            = "charts/kube-prometheus-stack"
       target_revision = "chart_upgrade" # TODO change back to main
-      helm {
-        values = data.utils_deep_merge_yaml.values.output
+      plugin = {
+        name = "kustomized-helm"
+        env = [{
+          name = "HELM_VALUES"
+          value = data.utils_deep_merge_yaml.values.output
+        }]
       }
-      kustomize {
-        common_labels = {
-          "kustomize.config.k8s.io/kustomized" = "true"
-        }
-      }
+      # helm {
+      #   values = data.utils_deep_merge_yaml.values.output
+      # }
     }
 
     destination {
