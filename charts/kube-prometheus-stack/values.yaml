@@ -28,9 +28,9 @@ kube-prometheus-stack:
       ruleSelectorNilUsesHelmValues: false
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false
-      thanos:
-        image: quay.io/thanos/thanos:v0.15.0 # TODO Check if this is the right version to use or if we could upgrade
-        version: v0.15.0
+      # thanos:
+      #   image: quay.io/thanos/thanos:v0.15.0 # TODO Check if this is the right version to use or if we could upgrade
+      #   version: v0.15.0
     additionalPodMonitors:
       - name: traefik
         jobLabel: traefik
