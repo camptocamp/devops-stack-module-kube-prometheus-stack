@@ -20,9 +20,12 @@ resource "argocd_project" "this" {
       namespace = var.namespace
     }
 
+    # This extra destination block is needed by the v1/Service 
+    # kube-prometheus-stack-coredns and kube-prometheus-stack-kubelet
+    # that have to be inside kube-system.
     destination {
       name      = "in-cluster"
-      namespace = "kube-system" # Needed by the v1/Service kube-prometheus-stack-coredns that needs to be inside kube-system
+      namespace = "kube-system"
     }
 
     orphaned_resources {
