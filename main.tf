@@ -92,10 +92,10 @@ resource "argocd_application" "this" {
       target_revision = "chart_upgrade" # TODO change back to main
       plugin {
         name = "kustomized-helm"
-        env = [{
+        env {
           name = "HELM_VALUES"
           value = data.utils_deep_merge_yaml.values.output
-        }]
+        }
       }
       # helm {
       #   values = data.utils_deep_merge_yaml.values.output
