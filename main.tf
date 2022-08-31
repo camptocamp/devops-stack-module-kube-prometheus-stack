@@ -68,14 +68,14 @@ data "utils_deep_merge_yaml" "values" {
 }
 
 resource "argocd_application" "this" {
-  timeouts {
-    create = "15m"
-    delete = "15m"
-  }
-
   metadata {
     name      = "kube-prometheus-stack"
     namespace = var.argocd_namespace
+  }
+
+  timeouts {
+    create = "15m"
+    delete = "15m"
   }
 
   wait = true
@@ -86,7 +86,7 @@ resource "argocd_application" "this" {
     source {
       repo_url        = "https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"
       path            = "charts/kube-prometheus-stack"
-      target_revision = "main"
+      target_revision = "chart_upgrade" # TODO change back to main
       helm {
         values = data.utils_deep_merge_yaml.values.output
       }
