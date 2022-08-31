@@ -93,6 +93,11 @@ resource "argocd_application" "this" {
       helm {
         values = data.utils_deep_merge_yaml.values.output
       }
+      kustomize {
+        common_labels = {
+          "kustomize.config.k8s.io/kustomized" = "true"
+        }
+      }
     }
 
     destination {
