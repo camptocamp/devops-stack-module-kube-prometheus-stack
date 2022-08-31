@@ -90,7 +90,7 @@ resource "argocd_application" "this" {
       repo_url        = "https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"
       path            = "charts/kube-prometheus-stack"
       target_revision = "chart_upgrade" # TODO change back to main
-      plugin = {
+      plugin {
         name = "kustomized-helm"
         env = [{
           name = "HELM_VALUES"
