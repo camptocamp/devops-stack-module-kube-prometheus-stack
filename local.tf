@@ -102,11 +102,14 @@ locals {
             defaultDatasourceEnabled = false
           }
         }
-        additionalDataSources = concat(
-          [{
+        additionalDataSources = [merge(can(var.metrics_archives.bucket_config) ? {
+            name      = "Thanos"
+            url       = "http://thanos-query.thanos:9090"
+          } : {
             name      = "Prometheus"
-            type      = "prometheus"
             url       = "http://kube-prometheus-stack-prometheus:9090"
+          } , {
+            type      = "prometheus"
             access    = "proxy"
             isDefault = true
             jsonData = {
@@ -114,20 +117,8 @@ locals {
               tlsAuthWithCACert = false
               oauthPassThru     = true
             }
-          }],
-          can(var.metrics_archives.bucket_config) ? [{
-            name      = "Thanos"
-            type      = "prometheus"
-            url       = "http://thanos-query.thanos:9090"
-            access    = "proxy"
-            isDefault = false
-            jsonData = {
-              tlsAuth           = false
-              tlsAuthWithCACert = false
-              oauthPassThru     = true
-            }
-          }] : []
-        )
+          }
+        )]
         ingress = {
           enabled = true
           annotations = {
@@ -161,11 +152,14 @@ locals {
               defaultDatasourceEnabled = false
             }
           }
-          additionalDataSources = concat(
-            [{
+          additionalDataSources = [merge(can(var.metrics_archives.bucket_config) ? {
+              name      = "Thanos"
+              url       = "http://thanos-query.thanos:9090"
+            } : {
               name      = "Prometheus"
+              url       = "http://kube-prometheus-stack-prometheus:9090"
+            } , {
               type      = "prometheus"
-              url       = "http://kube-prometheus-stack-prometheus.kube-prometheus-stack:9090"
               access    = "proxy"
               isDefault = true
               jsonData = {
@@ -173,20 +167,8 @@ locals {
                 tlsAuthWithCACert = false
                 oauthPassThru     = true
               }
-            }],
-            can(var.metrics_archives.bucket_config) ? [{
-              name      = "Thanos"
-              type      = "prometheus"
-              url       = "http://thanos-query.thanos:9090"
-              access    = "proxy"
-              isDefault = false
-              jsonData = {
-                tlsAuth           = false
-                tlsAuthWithCACert = false
-                oauthPassThru     = true
-              }
-            }] : []
-          )
+            }
+          )]
           } : null, {
           enabled = local.grafana.enabled
         })
