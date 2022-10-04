@@ -20,9 +20,12 @@ resource "argocd_project" "this" {
       namespace = var.namespace
     }
 
+    # This extra destination block is needed by the v1/Service 
+    # kube-prometheus-stack-coredns and kube-prometheus-stack-kubelet
+    # that have to be inside kube-system.
     destination {
       name      = "in-cluster"
-      namespace = "kube-system" # Needed by the v1/Service kube-prometheus-stack-coredns that needs to be inside kube-system
+      namespace = "kube-system"
     }
 
     orphaned_resources {
@@ -68,14 +71,14 @@ data "utils_deep_merge_yaml" "values" {
 }
 
 resource "argocd_application" "this" {
-  timeouts {
-    create = "15m"
-    delete = "15m"
-  }
-
   metadata {
     name      = "kube-prometheus-stack"
     namespace = var.argocd_namespace
+  }
+
+  timeouts {
+    create = "15m"
+    delete = "15m"
   }
 
   wait = true
@@ -87,8 +90,12 @@ resource "argocd_application" "this" {
       repo_url        = "https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"
       path            = "charts/kube-prometheus-stack"
       target_revision = "main"
-      helm {
-        values = data.utils_deep_merge_yaml.values.output
+      plugin {
+        name = "kustomized-helm"
+        env {
+          name = "HELM_VALUES"
+          value = data.utils_deep_merge_yaml.values.output
+        }
       }
     }
 
