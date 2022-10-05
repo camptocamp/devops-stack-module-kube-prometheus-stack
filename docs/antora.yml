@@ -1,0 +1,7 @@
+---
+name: "kube-prometheus-stack"
+title: "Kube-Prometheus Stack Module"
+version: true
+start_page: README.adoc
+nav:
+  - "modules/ROOT/nav.adoc"

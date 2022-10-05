@@ -1,0 +1,5 @@
+* xref:ROOT:README.adoc[Home]
+* Module Variants
+** xref:ROOT:aks/README.adoc[AKS]
+** xref:ROOT:eks/README.adoc[EKS]
+* xref:ROOT:ROOT:index.adoc[_Return to DevOps Stack docs_]
