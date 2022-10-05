@@ -1,11 +1,11 @@
-# devops-stack-module-kube-prometheus-stack
+= devops-stack-module-kube-prometheus-stack
 
-A [DevOps Stack](https://devops-stack.io) module to deploy and configure [Kube-Prometheus-Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack).
+A https://devops-stack.io[DevOps Stack] module to deploy and configure https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack[Kube-Prometheus-Stack].
 
+=== Usage
 
-## Usage
-
-```hcl
+[source,hcl]
+----
 module "monitoring" {
   source = "git::https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git/"
 
@@ -18,4 +18,4 @@ module "monitoring" {
 
   depends_on = [ module.oidc ]
 }
-```
+----
