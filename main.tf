@@ -43,7 +43,7 @@ resource "kubernetes_secret" "thanos_s3_bucket_secret" {
   # This count here is nothing more than a way to conditionally deploy this
   # resource. Although there is no loop inside the resource, if the condition
   # is true, the resource is deployed because there is exactly one iteration.
-  count = var.metrics_archives.thanos_enabled ? 1 : 0
+  count = can(var.metrics_archives.thanos_enabled) ? 1 : 0
 
   metadata {
     name      = "thanos-objectstorage"
@@ -93,7 +93,7 @@ resource "argocd_application" "this" {
       plugin {
         name = "kustomized-helm"
         env {
-          name = "HELM_VALUES"
+          name  = "HELM_VALUES"
           value = data.utils_deep_merge_yaml.values.output
         }
       }
