@@ -81,7 +81,7 @@ resource "argocd_application" "this" {
     delete = "15m"
   }
 
-  wait = true
+  wait = false
 
   spec {
     project = argocd_project.this.metadata.0.name
