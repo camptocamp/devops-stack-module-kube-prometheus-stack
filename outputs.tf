@@ -19,7 +19,3 @@ output "prometheus_enabled" {
 output "alertmanager_enabled" {
   value = local.alertmanager.enabled
 }
-
-output "helm_values" {
-  value = data.utils_deep_merge_yaml.values.output
-} 
