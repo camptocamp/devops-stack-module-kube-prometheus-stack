@@ -81,7 +81,7 @@ resource "argocd_application" "this" {
     delete = "15m"
   }
 
-  wait = false
+  wait = true
 
   spec {
     project = argocd_project.this.metadata.0.name
@@ -109,10 +109,10 @@ resource "argocd_application" "this" {
 
       retry {
         backoff = {
-          duration     = ""
-          max_duration = ""
+          duration     = "20s"
+          max_duration = "5m"
         }
-        limit = "0"
+        limit = "3"
       }
 
       sync_options = [
@@ -131,3 +131,4 @@ resource "null_resource" "this" {
     resource.argocd_application.this,
   ]
 }
+
