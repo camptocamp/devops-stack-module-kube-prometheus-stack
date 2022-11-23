@@ -102,7 +102,7 @@ locals {
             defaultDatasourceEnabled = false
           }
         }
-        additionalDataSources = [merge(can(var.metrics_archives.bucket_config) ? {
+        additionalDataSources = [merge(var.metrics_storage_main.thanos_enabled ? {
           name = "Thanos"
           url  = "http://thanos-query.thanos:9090"
           } : {
@@ -152,7 +152,7 @@ locals {
               defaultDatasourceEnabled = false
             }
           }
-          additionalDataSources = [merge(can(var.metrics_archives.bucket_config) ? {
+          additionalDataSources = [merge(var.metrics_storage_main.thanos_enabled ? {
             name = "Thanos"
             url  = "http://thanos-query.thanos:9090"
             } : {
@@ -251,7 +251,7 @@ locals {
           externalLabels = {
             prometheus = "prometheus-${var.cluster_name}"
           }
-          }, can(var.metrics_archives.bucket_config) ? {
+          }, var.metrics_storage_main.thanos_enabled ? {
           thanos = {
             objectStorageConfig = {
               key  = "thanos.yaml"
@@ -318,7 +318,7 @@ locals {
         } : null, {
         enabled = local.prometheus.enabled
         thanosService = {
-          enabled = can(var.metrics_archives.bucket_config) ? true : false
+          enabled = var.metrics_storage_main.thanos_enabled ? true : false
         }
         }
       )
