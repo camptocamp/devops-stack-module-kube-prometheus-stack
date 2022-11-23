@@ -87,9 +87,33 @@ Type: `any`
 
 Default: `[]`
 
-==== [[input_metrics_archives]] <<input_metrics_archives,metrics_archives>>
+==== [[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
 
-Description: Thanos S3 bucket settings
+Description: AWS S3 bucket configuration values for the bucket where the archived metrics will be stored.
+
+Type:
+[source,hcl]
+----
+object({
+    bucket_id    = string
+    region       = string
+    iam_role_arn = string
+  })
+----
+
+Default:
+[source,json]
+----
+{
+  "bucket_id": "",
+  "iam_role_arn": "",
+  "region": ""
+}
+----
+
+==== [[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
+
+Description: Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
 
 Type: `any`
 
@@ -207,8 +231,34 @@ Description: n/a
 |`[]`
 |no
 
-|[[input_metrics_archives]] <<input_metrics_archives,metrics_archives>>
-|Thanos S3 bucket settings
+|[[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
+|AWS S3 bucket configuration values for the bucket where the archived metrics will be stored.
+|
+
+[source]
+----
+object({
+    bucket_id    = string
+    region       = string
+    iam_role_arn = string
+  })
+----
+
+|
+
+[source]
+----
+{
+  "bucket_id": "",
+  "iam_role_arn": "",
+  "region": ""
+}
+----
+
+|no
+
+|[[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
+|Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
 |`any`
 |`{}`
 |no
