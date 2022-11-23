@@ -8,10 +8,11 @@ module "kube-prometheus-stack" {
   namespace        = var.namespace
   dependency_ids   = var.dependency_ids
 
-  metrics_archives = var.metrics_archives
   prometheus       = var.prometheus
   alertmanager     = var.alertmanager
   grafana          = var.grafana
+
+  metrics_archives = local.metrics_storage_main
 
   helm_values = concat(local.helm_values, var.helm_values)
 }
