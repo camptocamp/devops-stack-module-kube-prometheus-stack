@@ -100,9 +100,9 @@ Type: `any`
 
 Default: `[]`
 
-==== [[input_metrics_archives]] <<input_metrics_archives,metrics_archives>>
+==== [[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
 
-Description: Thanos S3 bucket settings
+Description: Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
 
 Type: `any`
 
@@ -239,8 +239,8 @@ Description: n/a
 |`[]`
 |no
 
-|[[input_metrics_archives]] <<input_metrics_archives,metrics_archives>>
-|Thanos S3 bucket settings
+|[[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
+|Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
 |`any`
 |`{}`
 |no
