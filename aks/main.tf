@@ -11,6 +11,8 @@ resource "azurerm_user_assigned_identity" "kube_prometheus_stack_prometheus" {
 module "kube-prometheus-stack" {
   source = "../"
 
+  # TODO These settings still need to be validated
+
   cluster_name     = var.cluster_name
   argocd_namespace = var.argocd_namespace
   base_domain      = var.base_domain
@@ -18,10 +20,11 @@ module "kube-prometheus-stack" {
   namespace        = var.namespace
   dependency_ids   = var.dependency_ids
 
-  metrics_archives = var.metrics_archives
-  prometheus       = var.prometheus
-  alertmanager     = var.alertmanager
-  grafana          = var.grafana
+  prometheus   = var.prometheus
+  alertmanager = var.alertmanager
+  grafana      = var.grafana
+
+  metrics_storage_main = local.metrics_storage_main
 
   helm_values = concat(local.helm_values, var.helm_values)
 }
