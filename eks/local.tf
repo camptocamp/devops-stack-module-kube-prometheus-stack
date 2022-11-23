@@ -1,5 +1,5 @@
 locals {
-  helm_values = can(var.metrics_storage.iam_role_arn) ? [{
+  helm_values = (var.metrics_storage.iam_role_arn != "") ? [{
     kube-prometheus-stack = {
       prometheus = {
         serviceAccount = {
