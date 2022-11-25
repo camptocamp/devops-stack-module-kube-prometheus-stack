@@ -18,5 +18,4 @@ variable "metrics_storage" {
     storage_account_name = ""
     storage_account_key  = ""
   }
-  sensitive = true
 }
