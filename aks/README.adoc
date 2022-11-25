@@ -106,6 +106,7 @@ Type:
 [source,hcl]
 ----
 object({
+    enabled              = bool
     container_name       = string
     storage_account_name = string
     storage_account_key  = string
@@ -117,6 +118,7 @@ Default:
 ----
 {
   "container_name": "",
+  "enabled": false,
   "storage_account_key": "",
   "storage_account_name": ""
 }
@@ -252,6 +254,7 @@ No outputs.
 [source]
 ----
 object({
+    enabled              = bool
     container_name       = string
     storage_account_name = string
     storage_account_key  = string
@@ -264,6 +267,7 @@ object({
 ----
 {
   "container_name": "",
+  "enabled": false,
   "storage_account_key": "",
   "storage_account_name": ""
 }
