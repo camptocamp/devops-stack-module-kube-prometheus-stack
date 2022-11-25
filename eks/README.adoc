@@ -95,6 +95,7 @@ Type:
 [source,hcl]
 ----
 object({
+    enabled      = bool
     bucket_id    = string
     region       = string
     iam_role_arn = string
@@ -106,6 +107,7 @@ Default:
 ----
 {
   "bucket_id": "",
+  "enabled": false,
   "iam_role_arn": "",
   "region": ""
 }
@@ -238,6 +240,7 @@ Description: n/a
 [source]
 ----
 object({
+    enabled      = bool
     bucket_id    = string
     region       = string
     iam_role_arn = string
@@ -250,6 +253,7 @@ object({
 ----
 {
   "bucket_id": "",
+  "enabled": false,
   "iam_role_arn": "",
   "region": ""
 }
