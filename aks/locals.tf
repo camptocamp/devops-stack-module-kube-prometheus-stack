@@ -18,7 +18,7 @@ locals {
   }]
 
   metrics_storage_main = {
-    thanos_enabled = var.metrics_storage.container_name != ""
+    thanos_enabled = var.metrics_storage.enabled
     storage_config = {
       type = "AZURE"
       config = {

@@ -2,7 +2,7 @@ locals {
   helm_values = []
 
   metrics_storage_main = {
-    thanos_enabled = (var.metrics_storage.bucket_name != "")
+    thanos_enabled = var.metrics_storage.enabled
     storage_config = {
       type = "s3"
       config = {
