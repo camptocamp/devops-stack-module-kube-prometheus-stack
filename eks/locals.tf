@@ -12,7 +12,7 @@ locals {
   }] : []
 
   metrics_storage_main = {
-    thanos_enabled = (var.metrics_storage.bucket_id != "")
+    thanos_enabled = var.metrics_storage.enabled
     storage_config = {
       type = "s3"
       config = {
