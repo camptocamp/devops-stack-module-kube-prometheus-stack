@@ -13,5 +13,4 @@ variable "metrics_storage" {
     region       = ""
     iam_role_arn = ""
   }
-  sensitive = true
 }
