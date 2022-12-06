@@ -67,5 +67,4 @@ variable "metrics_storage_main" {
   description = "Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used."
   type        = any
   default     = {}
-  sensitive   = true
 }
