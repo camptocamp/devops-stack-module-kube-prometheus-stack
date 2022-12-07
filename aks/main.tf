@@ -1,10 +1,10 @@
-data "azurerm_resource_group" "this" {
-  name = var.cluster_resource_group_name
+data "azurerm_resource_group" "node_resource_group" {
+  name = var.node_resource_group_name
 }
 
 resource "azurerm_user_assigned_identity" "kube_prometheus_stack_prometheus" {
-  resource_group_name = data.azurerm_resource_group.this.name
-  location            = data.azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.node_resource_group.name
+  location            = data.azurerm_resource_group.node_resource_group.location
   name                = "kube-prometheus-stack-prometheus"
 }
 
