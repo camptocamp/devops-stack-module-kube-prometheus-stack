@@ -21,5 +21,5 @@ output "alertmanager_enabled" {
 }
 
 output "helm_values" {
- value = data.utils_deep_merge_yaml.values.output
+  value = data.utils_deep_merge_yaml.values.output
 }
