@@ -45,9 +45,9 @@ variable "target_revision" {
 variable "app_autosync" {
   description = "Autosync option configuration for argocd application"
   type = object({
-    allow_empty = bool
-    prune       = bool
-    self_heal   = bool
+    allow_empty = optional(bool)
+    prune       = optional(bool)
+    self_heal   = optional(bool)
   })
   default = {
     allow_empty = false
