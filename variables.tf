@@ -36,6 +36,12 @@ variable "dependency_ids" {
   default = {}
 }
 
+variable "target_revision" {
+  description = "Override of target revision of the application chart."
+  type        = string
+  default     = "v1.0.0" # x-release-please-version
+}
+
 variable "app_autosync" {
   description = "Autosync option configuration for argocd application"
   type = object({
