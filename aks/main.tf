@@ -15,6 +15,7 @@ module "kube-prometheus-stack" {
   oidc             = var.oidc
   argocd_namespace = var.argocd_namespace
   app_autosync     = var.app_autosync
+  target_revision  = var.target_revision
   base_domain      = var.base_domain
   cluster_issuer   = var.cluster_issuer
   metrics_archives = var.metrics_archives
