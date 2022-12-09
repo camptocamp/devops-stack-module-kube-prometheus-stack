@@ -48,7 +48,7 @@ Description: n/a
 
 Type: `string`
 
-==== [[input_cluster_resource_group_name]] <<input_cluster_resource_group_name,cluster_resource_group_name>>
+==== [[input_node_resource_group_name]] <<input_node_resource_group_name,node_resource_group_name>>
 
 Description: The Resource Group of the Managed Kubernetes Cluster.
 
@@ -223,12 +223,6 @@ No outputs.
 |n/a
 |yes
 
-|[[input_cluster_resource_group_name]] <<input_cluster_resource_group_name,cluster_resource_group_name>>
-|The Resource Group for the kube-prometheus-stack managed identity creation.
-|`string`
-|n/a
-|yes
-
 |[[input_dependency_ids]] <<input_dependency_ids,dependency_ids>>
 |n/a
 |`map(string)`
@@ -286,6 +280,12 @@ object({
 |`string`
 |`"kube-prometheus-stack"`
 |no
+
+|[[input_node_resource_group_name]] <<input_node_resource_group_name,node_resource_group_name>>
+|The Resource Group of the Managed Kubernetes Cluster.
+|`string`
+|n/a
+|yes
 
 |[[input_prometheus]] <<input_prometheus,prometheus>>
 |Prometheus settings
