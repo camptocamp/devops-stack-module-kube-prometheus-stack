@@ -55,6 +55,30 @@ Type: `any`
 
 Default: `{}`
 
+==== [[input_app_autosync]] <<input_app_autosync,app_autosync>>
+
+Description: Autosync option configuration for argocd application
+
+Type:
+[source,hcl]
+----
+object({
+    allow_empty = optional(bool)
+    prune       = optional(bool)
+    self_heal   = optional(bool)
+  })
+----
+
+Default:
+[source,json]
+----
+{
+  "allow_empty": false,
+  "prune": true,
+  "self_heal": true
+}
+----
+
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
 Description: n/a
@@ -117,7 +141,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v1.0.0-alpha.1"`
+Default: `"v1.0.0"`
 
 === Outputs
 
@@ -163,6 +187,32 @@ Description: n/a
 |Alertmanager settings
 |`any`
 |`{}`
+|no
+
+|[[input_app_autosync]] <<input_app_autosync,app_autosync>>
+|Autosync option configuration for argocd application
+|
+
+[source]
+----
+object({
+    allow_empty = optional(bool)
+    prune       = optional(bool)
+    self_heal   = optional(bool)
+  })
+----
+
+|
+
+[source]
+----
+{
+  "allow_empty": false,
+  "prune": true,
+  "self_heal": true
+}
+----
+
 |no
 
 |[[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
@@ -228,7 +278,7 @@ Description: n/a
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v1.0.0-alpha.1"`
+|`"v1.0.0"`
 |no
 
 |===
