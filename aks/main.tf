@@ -11,8 +11,6 @@ resource "azurerm_user_assigned_identity" "kube_prometheus_stack_prometheus" {
 module "kube-prometheus-stack" {
   source = "../"
 
-  # TODO These settings still need to be validated
-
   cluster_name     = var.cluster_name
   argocd_namespace = var.argocd_namespace
   base_domain      = var.base_domain
@@ -24,7 +22,7 @@ module "kube-prometheus-stack" {
   alertmanager = var.alertmanager
   grafana      = var.grafana
 
-  metrics_storage_main = local.metrics_storage_main
+  metrics_storage_main = var.metrics_storage != null ? { storage_config = merge({ type = "AZURE" }, { config = var.metrics_storage }) } : null
 
   helm_values = concat(local.helm_values, var.helm_values)
 }

@@ -16,16 +16,4 @@ locals {
       }
     }
   }]
-
-  metrics_storage_main = {
-    thanos_enabled = var.metrics_storage.enabled
-    storage_config = {
-      type = "AZURE"
-      config = {
-        container           = var.metrics_storage.container_name
-        storage_account     = var.metrics_storage.storage_account_name
-        storage_account_key = var.metrics_storage.storage_account_key
-      }
-    }
-  }
 }
