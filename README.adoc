@@ -148,6 +148,10 @@ Description: The admin password for Grafana.
 
 Description: n/a
 
+==== [[output_helm_values]] <<output_helm_values,helm_values>>
+
+Description: n/a
+
 ==== [[output_id]] <<output_id,id>>
 
 Description: n/a
@@ -273,6 +277,7 @@ Description: n/a
 |[[output_alertmanager_enabled]] <<output_alertmanager_enabled,alertmanager_enabled>> |n/a
 |[[output_grafana_admin_password]] <<output_grafana_admin_password,grafana_admin_password>> |The admin password for Grafana.
 |[[output_grafana_enabled]] <<output_grafana_enabled,grafana_enabled>> |n/a
+|[[output_helm_values]] <<output_helm_values,helm_values>> |n/a
 |[[output_id]] <<output_id,id>> |n/a
 |[[output_prometheus_enabled]] <<output_prometheus_enabled,prometheus_enabled>> |n/a
 |===
