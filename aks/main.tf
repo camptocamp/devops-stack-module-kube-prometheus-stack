@@ -1,4 +1,3 @@
-data "azurerm_resource_group" "this" {
 data "azurerm_resource_group" "node_resource_group" {
   name = var.node_resource_group_name
 }
@@ -27,4 +26,4 @@ module "kube-prometheus-stack" {
 
   helm_values = concat(local.helm_values, var.helm_values)
 }
-}
+
