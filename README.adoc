@@ -70,7 +70,7 @@ Default: `{}`
 
 ==== [[input_app_autosync]] <<input_app_autosync,app_autosync>>
 
-Description: Autosync option configuration for argocd application
+Description: Automated sync options for the Argo CD Application resource.
 
 Type:
 [source,hcl]
@@ -226,7 +226,7 @@ Description: n/a
 |no
 
 |[[input_app_autosync]] <<input_app_autosync,app_autosync>>
-|Autosync option configuration for argocd application
+|Automated sync options for the Argo CD Application resource.
 |
 
 [source]
