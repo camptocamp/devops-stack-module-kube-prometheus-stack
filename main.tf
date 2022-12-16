@@ -39,7 +39,7 @@ resource "argocd_project" "this" {
   }
 }
 
-resource "kubernetes_secret" "thanos_s3_bucket_secret" {
+resource "kubernetes_secret" "thanos_object_storage_secret" {
   # This count here is nothing more than a way to conditionally deploy this
   # resource. Although there is no loop inside the resource, if the condition
   # is true, the resource is deployed because there is exactly one iteration.
