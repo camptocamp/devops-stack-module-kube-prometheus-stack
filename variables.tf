@@ -43,7 +43,7 @@ variable "dependency_ids" {
 }
 
 variable "app_autosync" {
-  description = "Autosync option configuration for argocd application"
+  description = "Automated sync options for the Argo CD Application resource."
   type = object({
     allow_empty = optional(bool)
     prune       = optional(bool)
