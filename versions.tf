@@ -6,8 +6,8 @@ terraform {
     utils = {
       source = "cloudposse/utils"
     }
-    kubernetes = { 
-      source  = "hashicorp/kubernetes" # Needed for the creation of a Kubernetes secret
+    kubernetes = {
+      source = "hashicorp/kubernetes" # Needed for the creation of a Kubernetes secret
     }
   }
 }

@@ -18,9 +18,9 @@ module "kube-prometheus-stack" {
   namespace        = var.namespace
   dependency_ids   = var.dependency_ids
 
-  prometheus       = var.prometheus
-  alertmanager     = var.alertmanager
-  grafana          = var.grafana
+  prometheus   = var.prometheus
+  alertmanager = var.alertmanager
+  grafana      = var.grafana
 
   metrics_storage_main = var.metrics_storage != null ? { storage_config = merge({ type = "AZURE" }, { config = var.metrics_storage }) } : null
 
