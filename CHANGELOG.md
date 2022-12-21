@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.0.0-alpha.2](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-12-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* **azure:** delete useless resource group variable and clean up
+
+### Features
+
+* add kind variant and improve activation of thanos on all the variants ([#21](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/21)) ([7f516ae](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/7f516ae129ac9cf5dea994d3dece535ea8f3224a))
+
+
+### Bug Fixes
+
+* **aks:** add azure main ([bb3ff9d](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/bb3ff9dd0738f061b1e3e019ea88209b04814741))
+* **aks:** eof ([646274f](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/646274f12e9b5838f0c32083def377dc6a3fcda0))
+* do not expose values as secret ([f78b559](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/f78b559a1a5a211df81a9bebf5740a563b518edd))
+* wait for app, else provider says app is not existent on destroy ([29e6187](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/29e6187a53722e2834a9a13f3b37bc1d16cbd720))
+
+
+### Miscellaneous Chores
+
+* **azure:** delete useless resource group variable and clean up ([7b34f0e](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/7b34f0ef054205dba1ff4d01cfcf116426c3f56e))
+
 ## 1.0.0-alpha.1 (2022-11-18)
 
 
