@@ -48,7 +48,7 @@ Description: n/a
 
 Type: `string`
 
-==== [[input_cluster_resource_group_name]] <<input_cluster_resource_group_name,cluster_resource_group_name>>
+==== [[input_node_resource_group_name]] <<input_node_resource_group_name,node_resource_group_name>>
 
 Description: The Resource Group of the Managed Kubernetes Cluster.
 
@@ -106,23 +106,13 @@ Type:
 [source,hcl]
 ----
 object({
-    enabled              = bool
-    container_name       = string
-    storage_account_name = string
-    storage_account_key  = string
+    container           = string
+    storage_account     = string
+    storage_account_key = string
   })
 ----
 
-Default:
-[source,json]
-----
-{
-  "container_name": "",
-  "enabled": false,
-  "storage_account_key": "",
-  "storage_account_name": ""
-}
-----
+Default: `null`
 
 ==== [[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
 
@@ -223,12 +213,6 @@ No outputs.
 |n/a
 |yes
 
-|[[input_cluster_resource_group_name]] <<input_cluster_resource_group_name,cluster_resource_group_name>>
-|The Resource Group for the kube-prometheus-stack managed identity creation.
-|`string`
-|n/a
-|yes
-
 |[[input_dependency_ids]] <<input_dependency_ids,dependency_ids>>
 |n/a
 |`map(string)`
@@ -254,25 +238,13 @@ No outputs.
 [source]
 ----
 object({
-    enabled              = bool
-    container_name       = string
-    storage_account_name = string
-    storage_account_key  = string
+    container           = string
+    storage_account     = string
+    storage_account_key = string
   })
 ----
 
-|
-
-[source]
-----
-{
-  "container_name": "",
-  "enabled": false,
-  "storage_account_key": "",
-  "storage_account_name": ""
-}
-----
-
+|`null`
 |no
 
 |[[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
@@ -286,6 +258,12 @@ object({
 |`string`
 |`"kube-prometheus-stack"`
 |no
+
+|[[input_node_resource_group_name]] <<input_node_resource_group_name,node_resource_group_name>>
+|The Resource Group of the Managed Kubernetes Cluster.
+|`string`
+|n/a
+|yes
 
 |[[input_prometheus]] <<input_prometheus,prometheus>>
 |Prometheus settings

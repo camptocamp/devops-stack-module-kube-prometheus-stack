@@ -95,23 +95,13 @@ Type:
 [source,hcl]
 ----
 object({
-    enabled      = bool
     bucket_id    = string
     region       = string
     iam_role_arn = string
   })
 ----
 
-Default:
-[source,json]
-----
-{
-  "bucket_id": "",
-  "enabled": false,
-  "iam_role_arn": "",
-  "region": ""
-}
-----
+Default: `null`
 
 ==== [[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
 
@@ -240,25 +230,13 @@ Description: n/a
 [source]
 ----
 object({
-    enabled      = bool
     bucket_id    = string
     region       = string
     iam_role_arn = string
   })
 ----
 
-|
-
-[source]
-----
-{
-  "bucket_id": "",
-  "enabled": false,
-  "iam_role_arn": "",
-  "region": ""
-}
-----
-
+|`null`
 |no
 
 |[[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
