@@ -3,8 +3,6 @@ module "kube-prometheus-stack" {
 
   cluster_name     = var.cluster_name
   argocd_namespace = var.argocd_namespace
-  app_autosync     = var.app_autosync
-  target_revision  = var.target_revision
   base_domain      = var.base_domain
   cluster_issuer   = var.cluster_issuer
   namespace        = var.namespace
@@ -14,16 +12,7 @@ module "kube-prometheus-stack" {
   alertmanager = var.alertmanager
   grafana      = var.grafana
 
-  metrics_storage_main = var.metrics_storage != null ? {
-    storage_config = merge({
-      type = "s3"
-      }, {
-      config = {
-        bucket   = "${var.metrics_storage.bucket_id}"
-        endpoint = "s3.${var.metrics_storage.region}.amazonaws.com"
-      }
-    })
-  } : null
+  metrics_storage_main = var.metrics_storage != null ? { storage_config = merge({ type = "s3" }, { config = var.metrics_storage }) } : null
 
   helm_values = concat(local.helm_values, var.helm_values)
 }

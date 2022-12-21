@@ -27,7 +27,7 @@ The following resources are used by this module:
 
 - https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/application[argocd_application.this] (resource)
 - https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/project[argocd_project.this] (resource)
-- https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret[kubernetes_secret.thanos_s3_bucket_secret] (resource)
+- https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret[kubernetes_secret.thanos_object_storage_secret] (resource)
 - https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] (resource)
 - https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] (resource)
 - https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.grafana_admin_password] (resource)
@@ -124,9 +124,9 @@ Type: `any`
 
 Default: `[]`
 
-==== [[input_metrics_archives]] <<input_metrics_archives,metrics_archives>>
+==== [[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
 
-Description: Thanos S3 bucket settings
+Description: Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
 
 Type: `any`
 
@@ -206,7 +206,7 @@ Description: n/a
 |Name |Type
 |https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/application[argocd_application.this] |resource
 |https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/project[argocd_project.this] |resource
-|https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret[kubernetes_secret.thanos_s3_bucket_secret] |resource
+|https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret[kubernetes_secret.thanos_object_storage_secret] |resource
 |https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] |resource
 |https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] |resource
 |https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.grafana_admin_password] |resource
@@ -293,8 +293,8 @@ object({
 |`[]`
 |no
 
-|[[input_metrics_archives]] <<input_metrics_archives,metrics_archives>>
-|Thanos S3 bucket settings
+|[[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
+|Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
 |`any`
 |`{}`
 |no

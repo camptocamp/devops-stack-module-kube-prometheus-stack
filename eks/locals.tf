@@ -1,10 +1,10 @@
 locals {
-  helm_values = can(var.metrics_archives.bucket_config) ? [{
+  helm_values = (var.metrics_storage.iam_role_arn != "") ? [{
     kube-prometheus-stack = {
       prometheus = {
         serviceAccount = {
           annotations = {
-            "eks.amazonaws.com/role-arn" = var.metrics_archives.iam_role_arn
+            "eks.amazonaws.com/role-arn" = var.metrics_storage.iam_role_arn
           }
         }
       }
