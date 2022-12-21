@@ -37,8 +37,7 @@ variable "helm_values" {
 }
 
 variable "dependency_ids" {
-  type = map(string)
-
+  type    = map(string)
   default = {}
 }
 
@@ -64,8 +63,8 @@ variable "alertmanager" {
   default     = {}
 }
 
-variable "metrics_archives" {
-  description = "Thanos S3 bucket settings"
+variable "metrics_storage_main" {
+  description = "Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used."
   type        = any
   default     = {}
 }
