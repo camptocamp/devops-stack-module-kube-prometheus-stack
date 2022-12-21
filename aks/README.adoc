@@ -24,7 +24,7 @@ Version:
 The following resources are used by this module:
 
 - https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity[azurerm_user_assigned_identity.kube_prometheus_stack_prometheus] (resource)
-- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.this] (data source)
+- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.node_resource_group] (data source)
 
 === Required Inputs
 
@@ -50,7 +50,7 @@ Type: `string`
 
 ==== [[input_cluster_resource_group_name]] <<input_cluster_resource_group_name,cluster_resource_group_name>>
 
-Description: The Resource Group for the kube-prometheus-stack managed identity creation.
+Description: The Resource Group of the Managed Kubernetes Cluster.
 
 Type: `string`
 
@@ -185,7 +185,7 @@ No outputs.
 |===
 |Name |Type
 |https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity[azurerm_user_assigned_identity.kube_prometheus_stack_prometheus] |resource
-|https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.this] |data source
+|https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.node_resource_group] |data source
 |===
 
 = Inputs
