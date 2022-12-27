@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.3](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-12-27)
+
+
+### Features
+
+* **Azure:** add missing ID output ([#30](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/30)) ([29b3288](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/29b328842ac4fbbe672106ccdd5c423ead51aa24))
+
 ## [1.0.0-alpha.2](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-12-21)
 
 
