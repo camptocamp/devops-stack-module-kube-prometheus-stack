@@ -144,11 +144,15 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v1.0.0-alpha.1"`
+Default: `"v1.0.0-alpha.2"`
 
 === Outputs
 
-No outputs.
+The following outputs are exported:
+
+==== [[output_id]] <<output_id,id>>
+
+Description: n/a
 // END_TF_DOCS
 // BEGIN_TF_TABLES
 
@@ -274,8 +278,16 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v1.0.0-alpha.1"`
+|`"v1.0.0-alpha.2"`
 |no
 
+|===
+
+= Outputs
+
+[cols="a,a",options="header,autowidth"]
+|===
+|Name |Description
+|[[output_id]] <<output_id,id>> |n/a
 |===
 // END_TF_TABLES
