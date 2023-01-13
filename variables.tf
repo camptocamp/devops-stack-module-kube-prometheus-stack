@@ -36,11 +36,6 @@ variable "helm_values" {
   default     = []
 }
 
-variable "dependency_ids" {
-  type    = map(string)
-  default = {}
-}
-
 variable "app_autosync" {
   description = "Automated sync options for the Argo CD Application resource."
   type = object({
@@ -53,6 +48,11 @@ variable "app_autosync" {
     prune       = true
     self_heal   = true
   }
+}
+
+variable "dependency_ids" {
+  type    = map(string)
+  default = {}
 }
 
 #######################
