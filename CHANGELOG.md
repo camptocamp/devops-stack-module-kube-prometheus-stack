@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.6](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2023-01-30)
+
+
+### Miscellaneous Chores
+
+* **chart:** bump version to 44 ([#34](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/34)) ([1446182](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/14461824506322d9963a71ee486eec9842ba3f16))
+
 ## [1.0.0-alpha.5](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2023-01-30)
 
 
