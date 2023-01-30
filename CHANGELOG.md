@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.5](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2023-01-30)
+
+
+### Bug Fixes
+
+* remove circular dependency between app and secret ([#32](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/32)) ([cb9f2d3](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/cb9f2d36a0696702a1190d98c997a92f28c15981))
+
 ## [1.0.0-alpha.4](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2023-01-30)
 
 
