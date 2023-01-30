@@ -79,7 +79,7 @@ resource "argocd_application" "this" {
     delete = "15m"
   }
 
-  wait = true
+  wait = var.app_autosync == { "allow_empty" = tobool(null), "prune" = tobool(null), "self_heal" = tobool(null) } ? false : true
 
   spec {
     project = argocd_project.this.metadata.0.name
@@ -103,11 +103,7 @@ resource "argocd_application" "this" {
     }
 
     sync_policy {
-      automated = {
-        allow_empty = false
-        prune       = true
-        self_heal   = true
-      }
+      automated = var.app_autosync
 
       retry {
         backoff = {
