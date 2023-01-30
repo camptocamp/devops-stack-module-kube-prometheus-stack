@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.4](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2023-01-30)
+
+
+### Features
+
+* add variable to configure Argo CD auto sync ([#27](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/27)) ([214b798](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/214b798a7d54cc1476c72f4b01f9e7c4f96ac24e))
+
 ## [1.0.0-alpha.3](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-12-27)
 
 
