@@ -39,10 +39,14 @@ resource "argocd_project" "this" {
   }
 }
 
+resource "kubernetes_namespace" "kube_prometheus_stack_namespace" {
+  metadata {
+    name = var.namespace
+  }
+}
+
+
 resource "kubernetes_secret" "thanos_object_storage_secret" {
-  # This count here is nothing more than a way to conditionally deploy this
-  # resource. Although there is no loop inside the resource, if the condition
-  # is true, the resource is deployed because there is exactly one iteration.
   count = var.metrics_storage_main != null ? 1 : 0
 
   metadata {
@@ -55,7 +59,7 @@ resource "kubernetes_secret" "thanos_object_storage_secret" {
   }
 
   depends_on = [
-    resource.argocd_application.this,
+    resource.kubernetes_namespace.kube_prometheus_stack_namespace
   ]
 }
 
@@ -114,13 +118,15 @@ resource "argocd_application" "this" {
       }
 
       sync_options = [
-        "CreateNamespace=true"
+        "CreateNamespace=false"
       ]
     }
   }
 
   depends_on = [
     resource.null_resource.dependencies,
+    resource.kubernetes_secret.thanos_object_storage_secret,
+    resource.kubernetes_namespace.kube_prometheus_stack_namespace
   ]
 }
 
