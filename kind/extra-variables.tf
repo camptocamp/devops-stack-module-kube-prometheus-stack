@@ -5,6 +5,7 @@ variable "metrics_storage" {
     endpoint   = string
     access_key = string
     secret_key = string
+    insecure   = optional(bool, false)
   })
   default = null
 }
