@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.7](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2023-02-22)
+
+
+### Features
+
+* **kind:** allow insecure access to storage endpoint ([#38](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/38)) ([6ba2f3a](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/6ba2f3a556f976905ca7ddd40b4aaaf0e87f5021))
+
 ## [1.0.0-alpha.6](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2023-01-30)
 
 
