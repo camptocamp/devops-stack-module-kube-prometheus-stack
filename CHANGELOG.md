@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.7...v1.0.0) (2023-03-24)
+
+
+### Documentation
+
+* add documentation structure and PR template ([#40](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/40)) ([7a20f46](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/7a20f460de5dd92ce71aa2b9b883defb67525471))
+
 ## [1.0.0-alpha.7](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2023-02-22)
 
 
