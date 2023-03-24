@@ -20,9 +20,7 @@ Below you will only find the technical reference automatically generated from th
 === Technical Documentation
 
 // BEGIN_TF_DOCS
-=== Requirements
 
-No requirements.
 
 === Providers
 
@@ -37,10 +35,6 @@ The following providers are used by this module:
 - [[provider_random]] <<provider_random,random>>
 
 - [[provider_utils]] <<provider_utils,utils>>
-
-=== Modules
-
-No modules.
 
 === Resources
 
@@ -176,7 +170,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v1.0.0-alpha.6"`
+Default: `"v1.0.0-alpha.7"`
 
 === Outputs
 
@@ -213,6 +207,8 @@ Description: n/a
 [%collapsible]
 ====
 // BEGIN_TF_TABLES
+
+
 = Providers
 
 [cols="a,a",options="header,autowidth"]
@@ -341,7 +337,7 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v1.0.0-alpha.6"`
+|`"v1.0.0-alpha.7"`
 |no
 
 |===
