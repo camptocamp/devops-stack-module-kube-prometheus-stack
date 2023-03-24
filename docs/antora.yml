@@ -1,6 +1,6 @@
 ---
 name: "kube-prometheus-stack"
-title: "Kube-Prometheus Stack Module"
+title: "Kube-prometheus-stack Module"
 version: true
 start_page: README.adoc
 nav:
