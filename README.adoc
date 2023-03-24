@@ -1,22 +1,24 @@
 = devops-stack-module-kube-prometheus-stack
+// Document attributes to replace along the document
+:chart-version: 44.3.0
+:chart-url: https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack
 
 A https://devops-stack.io[DevOps Stack] module to deploy and configure https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack[Kube-Prometheus-Stack].
 
-=== Usage
+The Kube-prometheus-stack chart used by this module is shipped in this repository as well, in order to avoid any unwanted behaviors caused by unsupported versions. 
 
-[source,hcl]
-----
-module "monitoring" {
-  source = "git::https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git/"
+[cols="1,1,1",options="autowidth,header"]
+|===
+|Current Chart Version |Original Repository |Default Values
+|*{chart-version}* |{chart-url}[Chart] |{chart-url}/values.yaml[`values.yaml`]
+|===
 
-  cluster_name     = var.cluster_name
-  argocd_namespace = module.cluster.argocd_namespace
-  base_domain      = module.cluster.base_domain
-  cluster_issuer   = "letsencrypt-prod"
-  metrics_archives = {}
+*Since this module is meant to be instantiated using its variants, the usage documentation is available in each variant* ( xref:./aks/README.adoc[AKS] | xref:./eks/README.adoc[EKS] | xref:./kind/README.adoc[KinD] ).
 
-}
-----
+Below you will only find the technical reference automatically generated from the `*.tf` files on the root module. 
+
+=== Technical Documentation
+
 // BEGIN_TF_DOCS
 === Requirements
 
@@ -204,9 +206,13 @@ Description: n/a
 
 Description: n/a
 // END_TF_DOCS
+
+=== Reference in table format 
+
+.Show tables
+[%collapsible]
+====
 // BEGIN_TF_TABLES
-
-
 = Providers
 
 [cols="a,a",options="header,autowidth"]
@@ -353,3 +359,4 @@ object({
 |[[output_prometheus_enabled]] <<output_prometheus_enabled,prometheus_enabled>> |n/a
 |===
 // END_TF_TABLES
+====
