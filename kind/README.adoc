@@ -1,12 +1,6 @@
 // BEGIN_TF_DOCS
 
 
-=== Providers
-
-The following providers are used by this module:
-
-- [[provider_azurerm]] <<provider_azurerm,azurerm>>
-
 === Modules
 
 The following Modules are called:
@@ -16,13 +10,6 @@ The following Modules are called:
 Source: ../
 
 Version:
-
-=== Resources
-
-The following resources are used by this module:
-
-- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity[azurerm_user_assigned_identity.kube_prometheus_stack_prometheus] (resource)
-- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.node_resource_group] (data source)
 
 === Required Inputs
 
@@ -43,12 +30,6 @@ Type: `string`
 ==== [[input_cluster_name]] <<input_cluster_name,cluster_name>>
 
 Description: n/a
-
-Type: `string`
-
-==== [[input_node_resource_group_name]] <<input_node_resource_group_name,node_resource_group_name>>
-
-Description: The Resource Group of the Managed Kubernetes Cluster.
 
 Type: `string`
 
@@ -122,15 +103,17 @@ Default: `[]`
 
 ==== [[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
 
-Description: Azure Blob Storage configuration values for the storage container where the archived metrics will be stored.
+Description: MinIO S3 bucket configuration values for the bucket where the archived metrics will be stored.
 
 Type:
 [source,hcl]
 ----
 object({
-    container           = string
-    storage_account     = string
-    storage_account_key = string
+    bucket     = string
+    endpoint   = string
+    access_key = string
+    secret_key = string
+    insecure   = optional(bool, false)
   })
 ----
 
@@ -172,20 +155,28 @@ Default: `"v1.0.0-alpha.7"`
 
 The following outputs are exported:
 
+==== [[output_alertmanager_enabled]] <<output_alertmanager_enabled,alertmanager_enabled>>
+
+Description: n/a
+
+==== [[output_grafana_admin_password]] <<output_grafana_admin_password,grafana_admin_password>>
+
+Description: The admin password for Grafana.
+
+==== [[output_grafana_enabled]] <<output_grafana_enabled,grafana_enabled>>
+
+Description: n/a
+
 ==== [[output_id]] <<output_id,id>>
+
+Description: n/a
+
+==== [[output_prometheus_enabled]] <<output_prometheus_enabled,prometheus_enabled>>
 
 Description: n/a
 // END_TF_DOCS
 // BEGIN_TF_TABLES
 
-
-= Providers
-
-[cols="a,a",options="header,autowidth"]
-|===
-|Name |Version
-|[[provider_azurerm]] <<provider_azurerm,azurerm>> |n/a
-|===
 
 = Modules
 
@@ -193,15 +184,6 @@ Description: n/a
 |===
 |Name |Source |Version
 |[[module_kube-prometheus-stack]] <<module_kube-prometheus-stack,kube-prometheus-stack>> |../ |
-|===
-
-= Resources
-
-[cols="a,a",options="header,autowidth"]
-|===
-|Name |Type
-|https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity[azurerm_user_assigned_identity.kube_prometheus_stack_prometheus] |resource
-|https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.node_resource_group] |data source
 |===
 
 = Inputs
@@ -284,15 +266,17 @@ object({
 |no
 
 |[[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
-|Azure Blob Storage configuration values for the storage container where the archived metrics will be stored.
+|MinIO S3 bucket configuration values for the bucket where the archived metrics will be stored.
 |
 
 [source]
 ----
 object({
-    container           = string
-    storage_account     = string
-    storage_account_key = string
+    bucket     = string
+    endpoint   = string
+    access_key = string
+    secret_key = string
+    insecure   = optional(bool, false)
   })
 ----
 
@@ -310,12 +294,6 @@ object({
 |`string`
 |`"kube-prometheus-stack"`
 |no
-
-|[[input_node_resource_group_name]] <<input_node_resource_group_name,node_resource_group_name>>
-|The Resource Group of the Managed Kubernetes Cluster.
-|`string`
-|n/a
-|yes
 
 |[[input_prometheus]] <<input_prometheus,prometheus>>
 |Prometheus settings
@@ -336,6 +314,10 @@ object({
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Description
+|[[output_alertmanager_enabled]] <<output_alertmanager_enabled,alertmanager_enabled>> |n/a
+|[[output_grafana_admin_password]] <<output_grafana_admin_password,grafana_admin_password>> |The admin password for Grafana.
+|[[output_grafana_enabled]] <<output_grafana_enabled,grafana_enabled>> |n/a
 |[[output_id]] <<output_id,id>> |n/a
+|[[output_prometheus_enabled]] <<output_prometheus_enabled,prometheus_enabled>> |n/a
 |===
 // END_TF_TABLES

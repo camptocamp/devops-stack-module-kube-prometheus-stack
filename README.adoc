@@ -1,7 +1,26 @@
-// BEGIN_TF_DOCS
-=== Requirements
+= devops-stack-module-kube-prometheus-stack
+// Document attributes to replace along the document
+:chart-version: 44.3.0
+:chart-url: https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack
 
-No requirements.
+A https://devops-stack.io[DevOps Stack] module to deploy and configure https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack[Kube-Prometheus-Stack].
+
+The Kube-prometheus-stack chart used by this module is shipped in this repository as well, in order to avoid any unwanted behaviors caused by unsupported versions. 
+
+[cols="1,1,1",options="autowidth,header"]
+|===
+|Current Chart Version |Original Repository |Default Values
+|*{chart-version}* |{chart-url}[Chart] |{chart-url}/values.yaml[`values.yaml`]
+|===
+
+*Since this module is meant to be instantiated using its variants, the usage documentation is available in each variant* ( xref:./aks/README.adoc[AKS] | xref:./eks/README.adoc[EKS] | xref:./kind/README.adoc[KinD] ).
+
+Below you will only find the technical reference automatically generated from the `*.tf` files on the root module. 
+
+=== Technical Documentation
+
+// BEGIN_TF_DOCS
+
 
 === Providers
 
@@ -16,10 +35,6 @@ The following providers are used by this module:
 - [[provider_random]] <<provider_random,random>>
 
 - [[provider_utils]] <<provider_utils,utils>>
-
-=== Modules
-
-No modules.
 
 === Resources
 
@@ -155,7 +170,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v1.0.0-alpha.6"`
+Default: `"v1.0.0-alpha.7"`
 
 === Outputs
 
@@ -185,6 +200,12 @@ Description: n/a
 
 Description: n/a
 // END_TF_DOCS
+
+=== Reference in table format 
+
+.Show tables
+[%collapsible]
+====
 // BEGIN_TF_TABLES
 
 
@@ -316,7 +337,7 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v1.0.0-alpha.6"`
+|`"v1.0.0-alpha.7"`
 |no
 
 |===
@@ -334,3 +355,4 @@ object({
 |[[output_prometheus_enabled]] <<output_prometheus_enabled,prometheus_enabled>> |n/a
 |===
 // END_TF_TABLES
+====
