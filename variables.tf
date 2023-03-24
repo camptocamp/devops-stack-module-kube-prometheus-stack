@@ -14,6 +14,12 @@ variable "argocd_namespace" {
   type = string
 }
 
+variable "target_revision" {
+  description = "Override of target revision of the application chart."
+  type        = string
+  default     = "v1.0.0-alpha.7" # x-release-please-version
+}
+
 variable "cluster_issuer" {
   type    = string
   default = "ca-issuer"
@@ -30,9 +36,22 @@ variable "helm_values" {
   default     = []
 }
 
-variable "dependency_ids" {
-  type = map(string)
+variable "app_autosync" {
+  description = "Automated sync options for the Argo CD Application resource."
+  type = object({
+    allow_empty = optional(bool)
+    prune       = optional(bool)
+    self_heal   = optional(bool)
+  })
+  default = {
+    allow_empty = false
+    prune       = true
+    self_heal   = true
+  }
+}
 
+variable "dependency_ids" {
+  type    = map(string)
   default = {}
 }
 
@@ -58,8 +77,8 @@ variable "alertmanager" {
   default     = {}
 }
 
-variable "metrics_archives" {
-  description = "Thanos S3 bucket settings"
+variable "metrics_storage_main" {
+  description = "Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used."
   type        = any
   default     = {}
 }

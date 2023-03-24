@@ -39,11 +39,15 @@ resource "argocd_project" "this" {
   }
 }
 
-resource "kubernetes_secret" "thanos_s3_bucket_secret" {
-  # This count here is nothing more than a way to conditionally deploy this
-  # resource. Although there is no loop inside the resource, if the condition
-  # is true, the resource is deployed because there is exactly one iteration.
-  count = var.metrics_archives.thanos_enabled ? 1 : 0
+resource "kubernetes_namespace" "kube_prometheus_stack_namespace" {
+  metadata {
+    name = var.namespace
+  }
+}
+
+
+resource "kubernetes_secret" "thanos_object_storage_secret" {
+  count = var.metrics_storage_main != null ? 1 : 0
 
   metadata {
     name      = "thanos-objectstorage"
@@ -51,13 +55,11 @@ resource "kubernetes_secret" "thanos_s3_bucket_secret" {
   }
 
   data = {
-    "thanos.yaml" = yamlencode(
-      var.metrics_archives.bucket_config
-    )
+    "thanos.yaml" = yamlencode(var.metrics_storage_main.storage_config)
   }
 
   depends_on = [
-    resource.argocd_application.this,
+    resource.kubernetes_namespace.kube_prometheus_stack_namespace
   ]
 }
 
@@ -81,7 +83,7 @@ resource "argocd_application" "this" {
     delete = "15m"
   }
 
-  wait = true
+  wait = var.app_autosync == { "allow_empty" = tobool(null), "prune" = tobool(null), "self_heal" = tobool(null) } ? false : true
 
   spec {
     project = argocd_project.this.metadata.0.name
@@ -89,11 +91,11 @@ resource "argocd_application" "this" {
     source {
       repo_url        = "https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"
       path            = "charts/kube-prometheus-stack"
-      target_revision = "main"
+      target_revision = var.target_revision
       plugin {
         name = "kustomized-helm"
         env {
-          name = "HELM_VALUES"
+          name  = "HELM_VALUES"
           value = data.utils_deep_merge_yaml.values.output
         }
       }
@@ -105,28 +107,26 @@ resource "argocd_application" "this" {
     }
 
     sync_policy {
-      automated = {
-        allow_empty = false
-        prune       = true
-        self_heal   = true
-      }
+      automated = var.app_autosync
 
       retry {
         backoff = {
-          duration     = ""
-          max_duration = ""
+          duration     = "20s"
+          max_duration = "5m"
         }
-        limit = "0"
+        limit = "3"
       }
 
       sync_options = [
-        "CreateNamespace=true"
+        "CreateNamespace=false"
       ]
     }
   }
 
   depends_on = [
     resource.null_resource.dependencies,
+    resource.kubernetes_secret.thanos_object_storage_secret,
+    resource.kubernetes_namespace.kube_prometheus_stack_namespace
   ]
 }
 
@@ -135,3 +135,4 @@ resource "null_resource" "this" {
     resource.argocd_application.this,
   ]
 }
+

@@ -102,21 +102,21 @@ locals {
             defaultDatasourceEnabled = false
           }
         }
-        additionalDataSources = [merge(can(var.metrics_archives.bucket_config) ? {
-            name      = "Thanos"
-            url       = "http://thanos-query.thanos:9090"
+        additionalDataSources = [merge(var.metrics_storage_main != null ? {
+          name = "Thanos"
+          url  = "http://thanos-query.thanos:9090"
           } : {
-            name      = "Prometheus"
-            url       = "http://kube-prometheus-stack-prometheus:9090"
-          } , {
-            type      = "prometheus"
-            access    = "proxy"
-            isDefault = true
-            jsonData = {
-              tlsAuth           = false
-              tlsAuthWithCACert = false
-              oauthPassThru     = true
-            }
+          name = "Prometheus"
+          url  = "http://kube-prometheus-stack-prometheus:9090"
+          }, {
+          type      = "prometheus"
+          access    = "proxy"
+          isDefault = true
+          jsonData = {
+            tlsAuth           = false
+            tlsAuthWithCACert = false
+            oauthPassThru     = true
+          }
           }
         )]
         ingress = {
@@ -152,21 +152,23 @@ locals {
               defaultDatasourceEnabled = false
             }
           }
-          additionalDataSources = [merge(can(var.metrics_archives.bucket_config) ? {
-              name      = "Thanos"
-              url       = "http://thanos-query.thanos:9090"
+          additionalDataSources = [merge(var.metrics_storage_main != null ? {
+            name = "Thanos"
+            url  = "http://thanos-query.thanos:9090"
             } : {
-              name      = "Prometheus"
-              url       = "http://kube-prometheus-stack-prometheus:9090"
-            } , {
-              type      = "prometheus"
-              access    = "proxy"
-              isDefault = true
-              jsonData = {
-                tlsAuth           = false
-                tlsAuthWithCACert = false
-                oauthPassThru     = true
-              }
+            # Note that since this is for the the Grafana module deployed inside it's
+            # own namespace, we need to have the reference to the namespace in the URL.
+            name = "Prometheus"
+            url  = "http://kube-prometheus-stack-prometheus.kube-prometheus-stack:9090"
+            }, {
+            type      = "prometheus"
+            access    = "proxy"
+            isDefault = true
+            jsonData = {
+              tlsAuth           = false
+              tlsAuthWithCACert = false
+              oauthPassThru     = true
+            }
             }
           )]
           } : null, {
@@ -249,7 +251,7 @@ locals {
           externalLabels = {
             prometheus = "prometheus-${var.cluster_name}"
           }
-          }, can(var.metrics_archives.bucket_config) ? {
+          }, var.metrics_storage_main != null ? {
           thanos = {
             objectStorageConfig = {
               key  = "thanos.yaml"
@@ -316,7 +318,7 @@ locals {
         } : null, {
         enabled = local.prometheus.enabled
         thanosService = {
-          enabled = can(var.metrics_archives.bucket_config) ? true : false
+          enabled = var.metrics_storage_main != null ? true : false
         }
         }
       )

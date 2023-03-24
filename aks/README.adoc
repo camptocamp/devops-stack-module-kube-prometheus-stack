@@ -1,1 +1,343 @@
-= AKS variant
+// BEGIN_TF_DOCS
+=== Requirements
+
+No requirements.
+
+=== Providers
+
+The following providers are used by this module:
+
+- [[provider_azurerm]] <<provider_azurerm,azurerm>>
+
+=== Modules
+
+The following Modules are called:
+
+==== [[module_kube-prometheus-stack]] <<module_kube-prometheus-stack,kube-prometheus-stack>>
+
+Source: ../
+
+Version:
+
+=== Resources
+
+The following resources are used by this module:
+
+- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity[azurerm_user_assigned_identity.kube_prometheus_stack_prometheus] (resource)
+- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.node_resource_group] (data source)
+
+=== Required Inputs
+
+The following input variables are required:
+
+==== [[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
+
+Description: n/a
+
+Type: `string`
+
+==== [[input_base_domain]] <<input_base_domain,base_domain>>
+
+Description: n/a
+
+Type: `string`
+
+==== [[input_cluster_name]] <<input_cluster_name,cluster_name>>
+
+Description: n/a
+
+Type: `string`
+
+==== [[input_node_resource_group_name]] <<input_node_resource_group_name,node_resource_group_name>>
+
+Description: The Resource Group of the Managed Kubernetes Cluster.
+
+Type: `string`
+
+=== Optional Inputs
+
+The following input variables are optional (have default values):
+
+==== [[input_alertmanager]] <<input_alertmanager,alertmanager>>
+
+Description: Alertmanager settings
+
+Type: `any`
+
+Default: `{}`
+
+==== [[input_app_autosync]] <<input_app_autosync,app_autosync>>
+
+Description: Automated sync options for the Argo CD Application resource.
+
+Type:
+[source,hcl]
+----
+object({
+    allow_empty = optional(bool)
+    prune       = optional(bool)
+    self_heal   = optional(bool)
+  })
+----
+
+Default:
+[source,json]
+----
+{
+  "allow_empty": false,
+  "prune": true,
+  "self_heal": true
+}
+----
+
+==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
+
+Description: n/a
+
+Type: `string`
+
+Default: `"ca-issuer"`
+
+==== [[input_dependency_ids]] <<input_dependency_ids,dependency_ids>>
+
+Description: n/a
+
+Type: `map(string)`
+
+Default: `{}`
+
+==== [[input_grafana]] <<input_grafana,grafana>>
+
+Description: Grafana settings
+
+Type: `any`
+
+Default: `{}`
+
+==== [[input_helm_values]] <<input_helm_values,helm_values>>
+
+Description: Helm values, passed as a list of HCL structures.
+
+Type: `any`
+
+Default: `[]`
+
+==== [[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
+
+Description: Azure Blob Storage configuration values for the storage container where the archived metrics will be stored.
+
+Type:
+[source,hcl]
+----
+object({
+    container           = string
+    storage_account     = string
+    storage_account_key = string
+  })
+----
+
+Default: `null`
+
+==== [[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
+
+Description: Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
+
+Type: `any`
+
+Default: `{}`
+
+==== [[input_namespace]] <<input_namespace,namespace>>
+
+Description: n/a
+
+Type: `string`
+
+Default: `"kube-prometheus-stack"`
+
+==== [[input_prometheus]] <<input_prometheus,prometheus>>
+
+Description: Prometheus settings
+
+Type: `any`
+
+Default: `{}`
+
+==== [[input_target_revision]] <<input_target_revision,target_revision>>
+
+Description: Override of target revision of the application chart.
+
+Type: `string`
+
+Default: `"v1.0.0-alpha.6"`
+
+=== Outputs
+
+The following outputs are exported:
+
+==== [[output_id]] <<output_id,id>>
+
+Description: n/a
+// END_TF_DOCS
+// BEGIN_TF_TABLES
+
+
+= Providers
+
+[cols="a,a",options="header,autowidth"]
+|===
+|Name |Version
+|[[provider_azurerm]] <<provider_azurerm,azurerm>> |n/a
+|===
+
+= Modules
+
+[cols="a,a,a",options="header,autowidth"]
+|===
+|Name |Source |Version
+|[[module_kube-prometheus-stack]] <<module_kube-prometheus-stack,kube-prometheus-stack>> |../ |
+|===
+
+= Resources
+
+[cols="a,a",options="header,autowidth"]
+|===
+|Name |Type
+|https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity[azurerm_user_assigned_identity.kube_prometheus_stack_prometheus] |resource
+|https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.node_resource_group] |data source
+|===
+
+= Inputs
+
+[cols="a,a,a,a,a",options="header,autowidth"]
+|===
+|Name |Description |Type |Default |Required
+|[[input_alertmanager]] <<input_alertmanager,alertmanager>>
+|Alertmanager settings
+|`any`
+|`{}`
+|no
+
+|[[input_app_autosync]] <<input_app_autosync,app_autosync>>
+|Automated sync options for the Argo CD Application resource.
+|
+
+[source]
+----
+object({
+    allow_empty = optional(bool)
+    prune       = optional(bool)
+    self_heal   = optional(bool)
+  })
+----
+
+|
+
+[source]
+----
+{
+  "allow_empty": false,
+  "prune": true,
+  "self_heal": true
+}
+----
+
+|no
+
+|[[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
+|n/a
+|`string`
+|n/a
+|yes
+
+|[[input_base_domain]] <<input_base_domain,base_domain>>
+|n/a
+|`string`
+|n/a
+|yes
+
+|[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
+|n/a
+|`string`
+|`"ca-issuer"`
+|no
+
+|[[input_cluster_name]] <<input_cluster_name,cluster_name>>
+|n/a
+|`string`
+|n/a
+|yes
+
+|[[input_dependency_ids]] <<input_dependency_ids,dependency_ids>>
+|n/a
+|`map(string)`
+|`{}`
+|no
+
+|[[input_grafana]] <<input_grafana,grafana>>
+|Grafana settings
+|`any`
+|`{}`
+|no
+
+|[[input_helm_values]] <<input_helm_values,helm_values>>
+|Helm values, passed as a list of HCL structures.
+|`any`
+|`[]`
+|no
+
+|[[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
+|Azure Blob Storage configuration values for the storage container where the archived metrics will be stored.
+|
+
+[source]
+----
+object({
+    container           = string
+    storage_account     = string
+    storage_account_key = string
+  })
+----
+
+|`null`
+|no
+
+|[[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
+|Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
+|`any`
+|`{}`
+|no
+
+|[[input_namespace]] <<input_namespace,namespace>>
+|n/a
+|`string`
+|`"kube-prometheus-stack"`
+|no
+
+|[[input_node_resource_group_name]] <<input_node_resource_group_name,node_resource_group_name>>
+|The Resource Group of the Managed Kubernetes Cluster.
+|`string`
+|n/a
+|yes
+
+|[[input_prometheus]] <<input_prometheus,prometheus>>
+|Prometheus settings
+|`any`
+|`{}`
+|no
+
+|[[input_target_revision]] <<input_target_revision,target_revision>>
+|Override of target revision of the application chart.
+|`string`
+|`"v1.0.0-alpha.6"`
+|no
+
+|===
+
+= Outputs
+
+[cols="a,a",options="header,autowidth"]
+|===
+|Name |Description
+|[[output_id]] <<output_id,id>> |n/a
+|===
+// END_TF_TABLES
