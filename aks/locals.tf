@@ -2,18 +2,19 @@ locals {
   helm_values = [{
     kube-prometheus-stack = {
       prometheus = {
-        azureIdentity = {
-          resourceID = azurerm_user_assigned_identity.kube_prometheus_stack_prometheus.id
-          clientID   = azurerm_user_assigned_identity.kube_prometheus_stack_prometheus.client_id
-        }
-        prometheusSpec = {
+        prometheusSpec = merge(try(var.metrics_storage.use_managed_identity.enabled, false) ? {
           podMetadata = {
             labels = {
-              aadpodidbinding = "kube-prometheus-stack-prometheus"
+              aadpodidbinding = "prometheus"
             }
           }
-        }
+        } : null, {})
       }
     }
-  }]
+    }, try(var.metrics_storage.use_managed_identity.enabled, false) ? {
+    azureIdentity = {
+      resourceID = azurerm_user_assigned_identity.prometheus[0].id
+      clientID   = azurerm_user_assigned_identity.prometheus[0].client_id
+    }
+  } : null]
 }

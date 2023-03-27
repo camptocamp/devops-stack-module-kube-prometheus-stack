@@ -1,11 +1,30 @@
-data "azurerm_resource_group" "node_resource_group" {
-  name = var.node_resource_group_name
+data "azurerm_resource_group" "node" {
+  count = try(var.metrics_storage.use_managed_identity.enabled, false) ? 1 : 0
+
+  name = var.metrics_storage.use_managed_identity.node_rg_name
 }
 
-resource "azurerm_user_assigned_identity" "kube_prometheus_stack_prometheus" {
-  resource_group_name = data.azurerm_resource_group.node_resource_group.name
-  location            = data.azurerm_resource_group.node_resource_group.location
-  name                = "kube-prometheus-stack-prometheus"
+data "azurerm_storage_container" "container" {
+  count = try(var.metrics_storage.use_managed_identity.enabled, false) ? 1 : 0
+
+  name                 = var.metrics_storage.container
+  storage_account_name = var.metrics_storage.storage_account
+}
+
+resource "azurerm_user_assigned_identity" "prometheus" {
+  count = try(var.metrics_storage.use_managed_identity.enabled, false) ? 1 : 0
+
+  resource_group_name = data.azurerm_resource_group.node[0].name
+  location            = data.azurerm_resource_group.node[0].location
+  name                = "prometheus"
+}
+
+resource "azurerm_role_assignment" "contributor" {
+  count = try(var.metrics_storage.use_managed_identity.enabled, false) ? 1 : 0
+
+  scope                = data.azurerm_storage_container.container[0].resource_manager_id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_user_assigned_identity.prometheus[0].principal_id
 }
 
 module "kube-prometheus-stack" {
@@ -24,7 +43,12 @@ module "kube-prometheus-stack" {
   alertmanager = var.alertmanager
   grafana      = var.grafana
 
-  metrics_storage_main = var.metrics_storage != null ? { storage_config = merge({ type = "AZURE" }, { config = var.metrics_storage }) } : null
+  metrics_storage_main = var.metrics_storage != null ? { storage_config = merge({ type = "AZURE" }, { config = merge({
+    container       = var.metrics_storage.container
+    storage_account = var.metrics_storage.storage_account
+    }, var.metrics_storage.use_managed_identity.enabled ? null : {
+    storage_account_key = var.metrics_storage.storage_account_key
+  }) }) } : null
 
   helm_values = concat(local.helm_values, var.helm_values)
 }

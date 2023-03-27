@@ -1,11 +1,11 @@
-{{- if index $.Values "kube-prometheus-stack" "prometheus" "azureIdentity" }}
+{{- with .Values.azureIdentity }}
 ---
 apiVersion: aadpodidentity.k8s.io/v1
 kind: AzureIdentity
 metadata:
-  name: kube-prometheus-stack-prometheus
+  name: prometheus
 spec:
   type: 0
-  resourceID: {{ index $.Values "kube-prometheus-stack" "prometheus" "azureIdentity" "resourceID" }}
-  clientID: {{ index $.Values "kube-prometheus-stack" "prometheus" "azureIdentity" "clientID" }}
+  resourceID: {{ .resourceID }}
+  clientID: {{ .clientID }}
 {{- end }}
