@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0...v2.0.0) (2023-04-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* **azure:** use managed identity to access object storage ([#42](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/42))
+
+### Features
+
+* **azure:** use managed identity to access object storage ([#42](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/42)) ([3c38035](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/3c380354f1596f30ace5e30da3fc5d787f9a31c6))
+
 ## [1.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0-alpha.7...v1.0.0) (2023-03-24)
 
 
