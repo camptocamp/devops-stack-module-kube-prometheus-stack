@@ -118,7 +118,7 @@ Default: `[]`
 
 ==== [[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
 
-Description: Azure Blob Storage configuration values for the storage container where the archived metrics will be stored.
+Description: Azure Blob Storage configuration for metric archival.
 
 Type:
 [source,hcl]
@@ -283,7 +283,7 @@ object({
 |no
 
 |[[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
-|Azure Blob Storage configuration values for the storage container where the archived metrics will be stored.
+|Azure Blob Storage configuration for metric archival.
 |
 
 [source]
