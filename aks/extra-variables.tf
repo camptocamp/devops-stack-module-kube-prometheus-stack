@@ -1,5 +1,5 @@
 variable "metrics_storage" {
-  description = "Azure Blob Storage configuration values for the storage container where the archived metrics will be stored."
+  description = "Azure Blob Storage configuration for metric archival."
   type = object({
     container                     = string
     storage_account               = string
