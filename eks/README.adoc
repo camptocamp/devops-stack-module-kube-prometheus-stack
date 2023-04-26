@@ -15,7 +15,7 @@ Version:
 
 The following input variables are required:
 
-==== [[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
+==== [[input_cluster_name]] <<input_cluster_name,cluster_name>>
 
 Description: n/a
 
@@ -27,7 +27,7 @@ Description: n/a
 
 Type: `string`
 
-==== [[input_cluster_name]] <<input_cluster_name,cluster_name>>
+==== [[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
 
 Description: n/a
 
@@ -37,13 +37,53 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
-==== [[input_alertmanager]] <<input_alertmanager,alertmanager>>
+==== [[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
 
-Description: Alertmanager settings
+Description: AWS S3 bucket configuration values for the bucket where the archived metrics will be stored.
+
+Type:
+[source,hcl]
+----
+object({
+    bucket_id    = string
+    region       = string
+    iam_role_arn = string
+  })
+----
+
+Default: `null`
+
+==== [[input_target_revision]] <<input_target_revision,target_revision>>
+
+Description: Override of target revision of the application chart.
+
+Type: `string`
+
+Default: `"v2.0.0"`
+
+==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
+
+Description: n/a
+
+Type: `string`
+
+Default: `"ca-issuer"`
+
+==== [[input_namespace]] <<input_namespace,namespace>>
+
+Description: n/a
+
+Type: `string`
+
+Default: `"kube-prometheus-stack"`
+
+==== [[input_helm_values]] <<input_helm_values,helm_values>>
+
+Description: Helm values, passed as a list of HCL structures.
 
 Type: `any`
 
-Default: `{}`
+Default: `[]`
 
 ==== [[input_app_autosync]] <<input_app_autosync,app_autosync>>
 
@@ -69,14 +109,6 @@ Default:
 }
 ----
 
-==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
-
-Description: n/a
-
-Type: `string`
-
-Default: `"ca-issuer"`
-
 ==== [[input_dependency_ids]] <<input_dependency_ids,dependency_ids>>
 
 Description: n/a
@@ -93,29 +125,21 @@ Type: `any`
 
 Default: `{}`
 
-==== [[input_helm_values]] <<input_helm_values,helm_values>>
+==== [[input_prometheus]] <<input_prometheus,prometheus>>
 
-Description: Helm values, passed as a list of HCL structures.
+Description: Prometheus settings
 
 Type: `any`
 
-Default: `[]`
+Default: `{}`
 
-==== [[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
+==== [[input_alertmanager]] <<input_alertmanager,alertmanager>>
 
-Description: AWS S3 bucket configuration values for the bucket where the archived metrics will be stored.
+Description: Alertmanager settings
 
-Type:
-[source,hcl]
-----
-object({
-    bucket_id    = string
-    region       = string
-    iam_role_arn = string
-  })
-----
+Type: `any`
 
-Default: `null`
+Default: `{}`
 
 ==== [[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
 
@@ -125,35 +149,11 @@ Type: `any`
 
 Default: `{}`
 
-==== [[input_namespace]] <<input_namespace,namespace>>
-
-Description: n/a
-
-Type: `string`
-
-Default: `"kube-prometheus-stack"`
-
-==== [[input_prometheus]] <<input_prometheus,prometheus>>
-
-Description: Prometheus settings
-
-Type: `any`
-
-Default: `{}`
-
-==== [[input_target_revision]] <<input_target_revision,target_revision>>
-
-Description: Override of target revision of the application chart.
-
-Type: `string`
-
-Default: `"v1.0.0"`
-
 === Outputs
 
 The following outputs are exported:
 
-==== [[output_alertmanager_enabled]] <<output_alertmanager_enabled,alertmanager_enabled>>
+==== [[output_id]] <<output_id,id>>
 
 Description: n/a
 
@@ -165,11 +165,11 @@ Description: The admin password for Grafana.
 
 Description: n/a
 
-==== [[output_id]] <<output_id,id>>
+==== [[output_prometheus_enabled]] <<output_prometheus_enabled,prometheus_enabled>>
 
 Description: n/a
 
-==== [[output_prometheus_enabled]] <<output_prometheus_enabled,prometheus_enabled>>
+==== [[output_alertmanager_enabled]] <<output_alertmanager_enabled,alertmanager_enabled>>
 
 Description: n/a
 // END_TF_DOCS
@@ -189,10 +189,62 @@ Description: n/a
 [cols="a,a,a,a,a",options="header,autowidth"]
 |===
 |Name |Description |Type |Default |Required
-|[[input_alertmanager]] <<input_alertmanager,alertmanager>>
-|Alertmanager settings
+|[[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
+|AWS S3 bucket configuration values for the bucket where the archived metrics will be stored.
+|
+
+[source]
+----
+object({
+    bucket_id    = string
+    region       = string
+    iam_role_arn = string
+  })
+----
+
+|`null`
+|no
+
+|[[input_cluster_name]] <<input_cluster_name,cluster_name>>
+|n/a
+|`string`
+|n/a
+|yes
+
+|[[input_base_domain]] <<input_base_domain,base_domain>>
+|n/a
+|`string`
+|n/a
+|yes
+
+|[[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
+|n/a
+|`string`
+|n/a
+|yes
+
+|[[input_target_revision]] <<input_target_revision,target_revision>>
+|Override of target revision of the application chart.
+|`string`
+|`"v2.0.0"`
+|no
+
+|[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
+|n/a
+|`string`
+|`"ca-issuer"`
+|no
+
+|[[input_namespace]] <<input_namespace,namespace>>
+|n/a
+|`string`
+|`"kube-prometheus-stack"`
+|no
+
+|[[input_helm_values]] <<input_helm_values,helm_values>>
+|Helm values, passed as a list of HCL structures.
 |`any`
-|`{}`
+|`[]`
 |no
 
 |[[input_app_autosync]] <<input_app_autosync,app_autosync>>
@@ -221,30 +273,6 @@ object({
 
 |no
 
-|[[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
-|n/a
-|`string`
-|n/a
-|yes
-
-|[[input_base_domain]] <<input_base_domain,base_domain>>
-|n/a
-|`string`
-|n/a
-|yes
-
-|[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
-|n/a
-|`string`
-|`"ca-issuer"`
-|no
-
-|[[input_cluster_name]] <<input_cluster_name,cluster_name>>
-|n/a
-|`string`
-|n/a
-|yes
-
 |[[input_dependency_ids]] <<input_dependency_ids,dependency_ids>>
 |n/a
 |`map(string)`
@@ -257,50 +285,22 @@ object({
 |`{}`
 |no
 
-|[[input_helm_values]] <<input_helm_values,helm_values>>
-|Helm values, passed as a list of HCL structures.
-|`any`
-|`[]`
-|no
-
-|[[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
-|AWS S3 bucket configuration values for the bucket where the archived metrics will be stored.
-|
-
-[source]
-----
-object({
-    bucket_id    = string
-    region       = string
-    iam_role_arn = string
-  })
-----
-
-|`null`
-|no
-
-|[[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
-|Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
-|`any`
-|`{}`
-|no
-
-|[[input_namespace]] <<input_namespace,namespace>>
-|n/a
-|`string`
-|`"kube-prometheus-stack"`
-|no
-
 |[[input_prometheus]] <<input_prometheus,prometheus>>
 |Prometheus settings
 |`any`
 |`{}`
 |no
 
-|[[input_target_revision]] <<input_target_revision,target_revision>>
-|Override of target revision of the application chart.
-|`string`
-|`"v1.0.0"`
+|[[input_alertmanager]] <<input_alertmanager,alertmanager>>
+|Alertmanager settings
+|`any`
+|`{}`
+|no
+
+|[[input_metrics_storage_main]] <<input_metrics_storage_main,metrics_storage_main>>
+|Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
+|`any`
+|`{}`
 |no
 
 |===
@@ -310,10 +310,10 @@ object({
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Description
-|[[output_alertmanager_enabled]] <<output_alertmanager_enabled,alertmanager_enabled>> |n/a
+|[[output_id]] <<output_id,id>> |n/a
 |[[output_grafana_admin_password]] <<output_grafana_admin_password,grafana_admin_password>> |The admin password for Grafana.
 |[[output_grafana_enabled]] <<output_grafana_enabled,grafana_enabled>> |n/a
-|[[output_id]] <<output_id,id>> |n/a
 |[[output_prometheus_enabled]] <<output_prometheus_enabled,prometheus_enabled>> |n/a
+|[[output_alertmanager_enabled]] <<output_alertmanager_enabled,alertmanager_enabled>> |n/a
 |===
 // END_TF_TABLES
