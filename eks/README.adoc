@@ -117,6 +117,14 @@ Type: `map(string)`
 
 Default: `{}`
 
+==== [[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
+
+Description: A boolean flag to enable/disable appending lists instead of overwriting them.
+
+Type: `bool`
+
+Default: `false`
+
 ==== [[input_grafana]] <<input_grafana,grafana>>
 
 Description: Grafana settings
@@ -277,6 +285,12 @@ object({
 |n/a
 |`map(string)`
 |`{}`
+|no
+
+|[[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
+|A boolean flag to enable/disable appending lists instead of overwriting them.
+|`bool`
+|`false`
 |no
 
 |[[input_grafana]] <<input_grafana,grafana>>
