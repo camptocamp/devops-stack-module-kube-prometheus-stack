@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.0.0...v2.1.0) (2023-04-27)
+
+
+### Features
+
+* **deep_merge:** add append list to deep merge ([#47](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/47)) ([7e39bf4](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/7e39bf41ab517b84cf6d23836a0b79e52fc15c4b))
+
 ## [2.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v1.0.0...v2.0.0) (2023-04-06)
 
 
