@@ -30,26 +30,27 @@ resource "azurerm_role_assignment" "contributor" {
 module "kube-prometheus-stack" {
   source = "../"
 
-  cluster_name     = var.cluster_name
-  base_domain      = var.base_domain
-  argocd_namespace = var.argocd_namespace
-  target_revision  = var.target_revision
-  cluster_issuer   = var.cluster_issuer
-  namespace        = var.namespace
-  app_autosync     = var.app_autosync
-  dependency_ids   = var.dependency_ids
+  cluster_name           = var.cluster_name
+  base_domain            = var.base_domain
+  argocd_namespace       = var.argocd_namespace
+  target_revision        = var.target_revision
+  cluster_issuer         = var.cluster_issuer
+  namespace              = var.namespace
+  deep_merge_append_list = var.deep_merge_append_list
+  app_autosync           = var.app_autosync
+  dependency_ids         = var.dependency_ids
 
   prometheus   = var.prometheus
   alertmanager = var.alertmanager
   grafana      = var.grafana
 
-  metrics_storage_main = var.metrics_storage == null ? null : { 
+  metrics_storage_main = var.metrics_storage == null ? null : {
     storage_config = merge({ type = "AZURE" }, {
       config = merge({
         container       = var.metrics_storage.container
         storage_account = var.metrics_storage.storage_account
-      },
-        local.use_managed_identity ? null : { storage_account_key = var.metrics_storage.storage_account_key })
+        },
+      local.use_managed_identity ? null : { storage_account_key = var.metrics_storage.storage_account_key })
     })
   }
 
