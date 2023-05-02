@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.1.0...v2.2.0) (2023-05-02)
+
+
+### Features
+
+* **helm-charts:** bump to version 45 ([482f0d1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/482f0d1a08a81aeaec55a43140c600001bdea2ad))
+
 ## [2.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.0.0...v2.1.0) (2023-04-27)
 
 
