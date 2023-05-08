@@ -222,11 +222,11 @@ Description: n/a
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |n/a
 |[[provider_random]] <<provider_random,random>> |n/a
+|[[provider_null]] <<provider_null,null>> |n/a
+|[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |n/a
 |[[provider_utils]] <<provider_utils,utils>> |n/a
 |[[provider_argocd]] <<provider_argocd,argocd>> |n/a
-|[[provider_null]] <<provider_null,null>> |n/a
 |===
 
 = Resources
