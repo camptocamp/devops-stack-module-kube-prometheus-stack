@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.2.0...v2.2.1) (2023-05-09)
+
+
+### Bug Fixes
+
+* **eks:** terraform error when var.metrics_storage is null ([#51](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/51)) ([a0ffd44](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/a0ffd44d8ae6a10e514f5e052fcf4cd3434e7dd7))
+
 ## [2.2.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.1.0...v2.2.0) (2023-05-02)
 
 
