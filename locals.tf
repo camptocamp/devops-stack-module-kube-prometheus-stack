@@ -80,14 +80,15 @@ locals {
         adminPassword = "${replace(local.grafana.admin_password, "\"", "\\\"")}"
         "grafana.ini" = {
           "auth.generic_oauth" = merge({
-            enabled       = true
-            allow_sign_up = true
-            client_id     = "${replace(local.grafana.oidc.client_id, "\"", "\\\"")}"
-            client_secret = "${replace(local.grafana.oidc.client_secret, "\"", "\\\"")}"
-            scopes        = "openid profile email"
-            auth_url      = "${replace(local.grafana.oidc.oauth_url, "\"", "\\\"")}"
-            token_url     = "${replace(local.grafana.oidc.token_url, "\"", "\\\"")}"
-            api_url       = "${replace(local.grafana.oidc.api_url, "\"", "\\\"")}"
+            enabled                  = true
+            allow_sign_up            = true
+            client_id                = "${replace(local.grafana.oidc.client_id, "\"", "\\\"")}"
+            client_secret            = "${replace(local.grafana.oidc.client_secret, "\"", "\\\"")}"
+            scopes                   = "openid profile email"
+            auth_url                 = "${replace(local.grafana.oidc.oauth_url, "\"", "\\\"")}"
+            token_url                = "${replace(local.grafana.oidc.token_url, "\"", "\\\"")}"
+            api_url                  = "${replace(local.grafana.oidc.api_url, "\"", "\\\"")}"
+            tls_skip_verify_insecure = var.cluster_issuer == "ca-issuer" || var.cluster_issuer == "letsencrypt-staging"
           }, local.grafana.generic_oauth_extra_args)
           users = {
             auto_assign_org_role = "Editor"
