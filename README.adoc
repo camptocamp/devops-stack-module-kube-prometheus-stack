@@ -26,15 +26,15 @@ Below you will only find the technical reference automatically generated from th
 
 The following providers are used by this module:
 
-- [[provider_random]] <<provider_random,random>>
-
 - [[provider_null]] <<provider_null,null>>
-
-- [[provider_argocd]] <<provider_argocd,argocd>>
 
 - [[provider_kubernetes]] <<provider_kubernetes,kubernetes>>
 
+- [[provider_random]] <<provider_random,random>>
+
 - [[provider_utils]] <<provider_utils,utils>>
+
+- [[provider_argocd]] <<provider_argocd,argocd>>
 
 === Resources
 
@@ -82,7 +82,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v2.2.0"`
+Default: `"v2.2.1"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -224,9 +224,9 @@ Description: n/a
 |Name |Version
 |[[provider_random]] <<provider_random,random>> |n/a
 |[[provider_null]] <<provider_null,null>> |n/a
+|[[provider_argocd]] <<provider_argocd,argocd>> |n/a
 |[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |n/a
 |[[provider_utils]] <<provider_utils,utils>> |n/a
-|[[provider_argocd]] <<provider_argocd,argocd>> |n/a
 |===
 
 = Resources
@@ -271,7 +271,7 @@ Description: n/a
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v2.2.0"`
+|`"v2.2.1"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
