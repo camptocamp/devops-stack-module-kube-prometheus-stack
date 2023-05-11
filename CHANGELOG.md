@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.2](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.2.1...v2.2.2) (2023-05-11)
+
+
+### Bug Fixes
+
+* **grafana:** ignore self-signed certificates for Grafana ([#52](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/52)) ([4dcaa8d](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/4dcaa8df344d8d53c8de065c846dd3f8d7d9b0d5))
+
 ## [2.2.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.2.0...v2.2.1) (2023-05-09)
 
 
