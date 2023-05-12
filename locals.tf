@@ -24,7 +24,7 @@ locals {
               name  = "alertmanager-proxy"
               ports = [
                 {
-                  name          = "web"
+                  name          = "proxy"
                   containerPort = 9095
                 },
               ]
@@ -53,6 +53,7 @@ locals {
             "ingress.kubernetes.io/ssl-redirect"               = "true"
             "kubernetes.io/ingress.allow-http"                 = "false"
           }
+          servicePort = "9095"
           hosts = [
             "${local.alertmanager.domain}",
             "alertmanager.apps.${var.base_domain}"
@@ -68,10 +69,13 @@ locals {
           ]
         }
         service = {
-          targetPort = 9095
-        }
-        serviceMonitor = {
-          selfMonitor = false
+          additionalPorts = [
+            {
+              name       = "proxy"
+              port       = 9095
+              targetPort = 9095
+            },
+          ]
         }
         } : null, {
         enabled = local.alertmanager.enabled
@@ -187,6 +191,7 @@ locals {
             "ingress.kubernetes.io/ssl-redirect"               = "true"
             "kubernetes.io/ingress.allow-http"                 = "false"
           }
+          servicePort = "9091"
           hosts = [
             "${local.prometheus.domain}",
             "prometheus.apps.${var.base_domain}",
@@ -202,7 +207,6 @@ locals {
           ]
         }
         prometheusSpec = merge({
-          portName = "proxy"
           initContainers = [
             {
               name  = "wait-for-oidc"
@@ -261,61 +265,14 @@ locals {
           }
         } : null)
         service = {
-          port       = 9091
-          targetPort = 9091
           additionalPorts = [
             {
-              name       = "web"
-              port       = 9090
-              targetPort = 9090
+              name       = "proxy"
+              port       = 9091
+              targetPort = 9091
             },
           ]
         }
-        serviceMonitor = {
-          selfMonitor = false
-        }
-        additionalPodMonitors = [
-          {
-            name = "alertmanager"
-            podMetricsEndpoints = [
-              {
-                path       = "/metrics"
-                targetPort = 9093
-              },
-            ]
-            namespaceSelector = {
-              matchNames = [
-                "kube-prometheus-stack"
-              ]
-            }
-            selector = {
-              matchLabels = {
-                alertmanager = "kube-prometheus-stack-alertmanager"
-                app          = "alertmanager"
-              }
-            }
-          },
-          {
-            name = "prometheus"
-            podMetricsEndpoints = [
-              {
-                path       = "/metrics"
-                targetPort = 9090
-              },
-            ]
-            namespaceSelector = {
-              matchNames = [
-                "kube-prometheus-stack"
-              ]
-            }
-            selector = {
-              matchLabels = {
-                prometheus = "kube-prometheus-stack-prometheus"
-                app        = "prometheus"
-              }
-            }
-          },
-        ]
         } : null, {
         enabled = local.prometheus.enabled
         thanosService = {
