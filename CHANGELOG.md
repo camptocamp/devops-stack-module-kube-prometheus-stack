@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.3](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.2.2...v2.2.3) (2023-05-12)
+
+
+### Bug Fixes
+
+* improve services / monitoring customization ([#57](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/57)) ([6573168](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/65731685e33c3117c7db34b08c9d617fdb59a570))
+
 ## [2.2.2](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.2.1...v2.2.2) (2023-05-11)
 
 
