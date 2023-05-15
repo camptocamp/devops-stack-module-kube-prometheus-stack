@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.2.3...v2.3.0) (2023-05-15)
+
+
+### Features
+
+* **grafana:** re-enable Grafana by default ([#53](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/53)) ([cd1c324](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/cd1c324d6a181a864da95703e3707cc635a5942b))
+
 ## [2.2.3](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.2.2...v2.2.3) (2023-05-12)
 
 
