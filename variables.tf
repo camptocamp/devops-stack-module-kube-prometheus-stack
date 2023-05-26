@@ -3,15 +3,19 @@
 #######################
 
 variable "cluster_name" {
-  type = string
+  description = "Name given to the cluster. Value used for naming some the resources created by the module."
+  type        = string
 }
 
 variable "base_domain" {
-  type = string
+  description = "Base domain of the cluster. Value used for the ingress' URL of the application."
+  type        = string
 }
 
 variable "argocd_namespace" {
-  type = string
+  description = "Namespace used by Argo CD where the Application and AppProject resources should be created."
+  type        = string
+  default     = "argocd"
 }
 
 variable "target_revision" {
@@ -21,19 +25,27 @@ variable "target_revision" {
 }
 
 variable "cluster_issuer" {
-  type    = string
-  default = "ca-issuer"
+  description = "SSL certificate issuer to use. Usually you would configure this value as `letsencrypt-staging` or `letsencrypt-prod` on your root `*.tf` files."
+  type        = string
+  default     = "ca-issuer"
 }
 
 variable "namespace" {
-  type    = string
-  default = "kube-prometheus-stack"
+  description = "Namespace where the applications's Kubernetes resources should be created. Namespace will be created in case it doesn't exist."
+  type        = string
+  default     = "kube-prometheus-stack"
 }
 
 variable "helm_values" {
-  description = "Helm values, passed as a list of HCL structures."
+  description = "Helm chart value overrides. They should be passed as a list of HCL structures."
   type        = any
   default     = []
+}
+
+variable "deep_merge_append_list" {
+  description = "A boolean flag to enable/disable appending lists instead of overwriting them."
+  type        = bool
+  default     = false
 }
 
 variable "app_autosync" {
@@ -53,12 +65,6 @@ variable "app_autosync" {
 variable "dependency_ids" {
   type    = map(string)
   default = {}
-}
-
-variable "deep_merge_append_list" {
-  description = "A boolean flag to enable/disable appending lists instead of overwriting them."
-  type        = bool
-  default     = false
 }
 
 #######################
