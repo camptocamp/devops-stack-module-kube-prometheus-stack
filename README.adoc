@@ -20,21 +20,33 @@ Below you will only find the technical reference automatically generated from th
 == Technical Documentation
 
 // BEGIN_TF_DOCS
+=== Requirements
 
+The following requirements are needed by this module:
+
+- [[requirement_argocd]] <<requirement_argocd,argocd>> (>= 4)
+
+- [[requirement_kubernetes]] <<requirement_kubernetes,kubernetes>> (>= 2)
+
+- [[requirement_null]] <<requirement_null,null>> (>= 3)
+
+- [[requirement_random]] <<requirement_random,random>> (>= 3)
+
+- [[requirement_utils]] <<requirement_utils,utils>> (>= 1)
 
 === Providers
 
 The following providers are used by this module:
 
-- [[provider_null]] <<provider_null,null>>
+- [[provider_random]] <<provider_random,random>> (>= 3)
 
-- [[provider_argocd]] <<provider_argocd,argocd>>
+- [[provider_kubernetes]] <<provider_kubernetes,kubernetes>> (>= 2)
 
-- [[provider_kubernetes]] <<provider_kubernetes,kubernetes>>
+- [[provider_utils]] <<provider_utils,utils>> (>= 1)
 
-- [[provider_random]] <<provider_random,random>>
+- [[provider_argocd]] <<provider_argocd,argocd>> (>= 4)
 
-- [[provider_utils]] <<provider_utils,utils>>
+- [[provider_null]] <<provider_null,null>> (>= 3)
 
 === Resources
 
@@ -56,19 +68,13 @@ The following input variables are required:
 
 ==== [[input_cluster_name]] <<input_cluster_name,cluster_name>>
 
-Description: n/a
+Description: Name given to the cluster. Value used for naming some the resources created by the module.
 
 Type: `string`
 
 ==== [[input_base_domain]] <<input_base_domain,base_domain>>
 
-Description: n/a
-
-Type: `string`
-
-==== [[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
-
-Description: n/a
+Description: Base domain of the cluster. Value used for the ingress' URL of the application.
 
 Type: `string`
 
@@ -76,17 +82,25 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
+==== [[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
+
+Description: Namespace used by Argo CD where the Application and AppProject resources should be created.
+
+Type: `string`
+
+Default: `"argocd"`
+
 ==== [[input_target_revision]] <<input_target_revision,target_revision>>
 
 Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v2.2.3"`
+Default: `"v2.3.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
-Description: n/a
+Description: SSL certificate issuer to use. Usually you would configure this value as `letsencrypt-staging` or `letsencrypt-prod` on your root `*.tf` files.
 
 Type: `string`
 
@@ -94,7 +108,7 @@ Default: `"ca-issuer"`
 
 ==== [[input_namespace]] <<input_namespace,namespace>>
 
-Description: n/a
+Description: Namespace where the applications's Kubernetes resources should be created. Namespace will be created in case it doesn't exist.
 
 Type: `string`
 
@@ -102,11 +116,19 @@ Default: `"kube-prometheus-stack"`
 
 ==== [[input_helm_values]] <<input_helm_values,helm_values>>
 
-Description: Helm values, passed as a list of HCL structures.
+Description: Helm chart value overrides. They should be passed as a list of HCL structures.
 
 Type: `any`
 
 Default: `[]`
+
+==== [[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
+
+Description: A boolean flag to enable/disable appending lists instead of overwriting them.
+
+Type: `bool`
+
+Default: `false`
 
 ==== [[input_app_autosync]] <<input_app_autosync,app_autosync>>
 
@@ -139,14 +161,6 @@ Description: n/a
 Type: `map(string)`
 
 Default: `{}`
-
-==== [[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
-
-Description: A boolean flag to enable/disable appending lists instead of overwriting them.
-
-Type: `bool`
-
-Default: `false`
 
 ==== [[input_grafana]] <<input_grafana,grafana>>
 
@@ -186,27 +200,11 @@ The following outputs are exported:
 
 ==== [[output_id]] <<output_id,id>>
 
-Description: n/a
+Description: ID to pass other modules in order to refer to this module as a dependency.
 
 ==== [[output_grafana_admin_password]] <<output_grafana_admin_password,grafana_admin_password>>
 
 Description: The admin password for Grafana.
-
-==== [[output_grafana_enabled]] <<output_grafana_enabled,grafana_enabled>>
-
-Description: n/a
-
-==== [[output_prometheus_enabled]] <<output_prometheus_enabled,prometheus_enabled>>
-
-Description: n/a
-
-==== [[output_alertmanager_enabled]] <<output_alertmanager_enabled,alertmanager_enabled>>
-
-Description: n/a
-
-==== [[output_helm_values]] <<output_helm_values,helm_values>>
-
-Description: n/a
 // END_TF_DOCS
 
 === Reference in table format 
@@ -215,18 +213,28 @@ Description: n/a
 [%collapsible]
 ====
 // BEGIN_TF_TABLES
+= Requirements
 
+[cols="a,a",options="header,autowidth"]
+|===
+|Name |Version
+|[[requirement_argocd]] <<requirement_argocd,argocd>> |>= 4
+|[[requirement_kubernetes]] <<requirement_kubernetes,kubernetes>> |>= 2
+|[[requirement_null]] <<requirement_null,null>> |>= 3
+|[[requirement_random]] <<requirement_random,random>> |>= 3
+|[[requirement_utils]] <<requirement_utils,utils>> |>= 1
+|===
 
 = Providers
 
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[provider_random]] <<provider_random,random>> |n/a
-|[[provider_null]] <<provider_null,null>> |n/a
-|[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |n/a
-|[[provider_utils]] <<provider_utils,utils>> |n/a
-|[[provider_argocd]] <<provider_argocd,argocd>> |n/a
+|[[provider_random]] <<provider_random,random>> |>= 3
+|[[provider_null]] <<provider_null,null>> |>= 3
+|[[provider_argocd]] <<provider_argocd,argocd>> |>= 4
+|[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |>= 2
+|[[provider_utils]] <<provider_utils,utils>> |>= 1
 |===
 
 = Resources
@@ -251,45 +259,51 @@ Description: n/a
 |===
 |Name |Description |Type |Default |Required
 |[[input_cluster_name]] <<input_cluster_name,cluster_name>>
-|n/a
+|Name given to the cluster. Value used for naming some the resources created by the module.
 |`string`
 |n/a
 |yes
 
 |[[input_base_domain]] <<input_base_domain,base_domain>>
-|n/a
+|Base domain of the cluster. Value used for the ingress' URL of the application.
 |`string`
 |n/a
 |yes
 
 |[[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
-|n/a
+|Namespace used by Argo CD where the Application and AppProject resources should be created.
 |`string`
-|n/a
-|yes
+|`"argocd"`
+|no
 
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v2.2.3"`
+|`"v2.3.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
-|n/a
+|SSL certificate issuer to use. Usually you would configure this value as `letsencrypt-staging` or `letsencrypt-prod` on your root `*.tf` files.
 |`string`
 |`"ca-issuer"`
 |no
 
 |[[input_namespace]] <<input_namespace,namespace>>
-|n/a
+|Namespace where the applications's Kubernetes resources should be created. Namespace will be created in case it doesn't exist.
 |`string`
 |`"kube-prometheus-stack"`
 |no
 
 |[[input_helm_values]] <<input_helm_values,helm_values>>
-|Helm values, passed as a list of HCL structures.
+|Helm chart value overrides. They should be passed as a list of HCL structures.
 |`any`
 |`[]`
+|no
+
+|[[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
+|A boolean flag to enable/disable appending lists instead of overwriting them.
+|`bool`
+|`false`
 |no
 
 |[[input_app_autosync]] <<input_app_autosync,app_autosync>>
@@ -324,12 +338,6 @@ object({
 |`{}`
 |no
 
-|[[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
-|A boolean flag to enable/disable appending lists instead of overwriting them.
-|`bool`
-|`false`
-|no
-
 |[[input_grafana]] <<input_grafana,grafana>>
 |Grafana settings
 |`any`
@@ -361,12 +369,8 @@ object({
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Description
-|[[output_id]] <<output_id,id>> |n/a
+|[[output_id]] <<output_id,id>> |ID to pass other modules in order to refer to this module as a dependency.
 |[[output_grafana_admin_password]] <<output_grafana_admin_password,grafana_admin_password>> |The admin password for Grafana.
-|[[output_grafana_enabled]] <<output_grafana_enabled,grafana_enabled>> |n/a
-|[[output_prometheus_enabled]] <<output_prometheus_enabled,prometheus_enabled>> |n/a
-|[[output_alertmanager_enabled]] <<output_alertmanager_enabled,alertmanager_enabled>> |n/a
-|[[output_helm_values]] <<output_helm_values,helm_values>> |n/a
 |===
 // END_TF_TABLES
 ====
