@@ -94,7 +94,7 @@ resource "argocd_application" "this" {
       path            = "charts/kube-prometheus-stack"
       target_revision = var.target_revision
       helm {
-        value = data.utils_deep_merge_yaml.values.output
+        values = data.utils_deep_merge_yaml.values.output
       }
     }
 
