@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.3.0...v3.0.0) (2023-05-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove unused outputs
+
+### Bug Fixes
+
+* remove unused outputs ([dd518ea](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/dd518eae2db5e6e90bbd496e021bbee3440efa83))
+
 ## [2.3.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.2.3...v2.3.0) (2023-05-15)
 
 
