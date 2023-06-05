@@ -1,4 +1,7 @@
 locals {
+  oauth2_proxy_image       = "quay.io/oauth2-proxy/oauth2-proxy:v7.4.0"
+  curl_wait_for_oidc_image = "curlimages/curl:8.1.1"
+
   helm_values = [{
     kube-prometheus-stack = {
       alertmanager = merge(local.alertmanager.enabled ? {
@@ -6,7 +9,7 @@ locals {
           initContainers = [
             {
               name  = "wait-for-oidc"
-              image = "curlimages/curl:7.79.1"
+              image = local.curl_wait_for_oidc_image
               command = [
                 "/bin/sh",
                 "-c",
@@ -20,7 +23,7 @@ locals {
           ]
           containers = [
             {
-              image = "quay.io/oauth2-proxy/oauth2-proxy:v7.1.3"
+              image = local.oauth2_proxy_image
               name  = "alertmanager-proxy"
               ports = [
                 {
@@ -210,7 +213,7 @@ locals {
           initContainers = [
             {
               name  = "wait-for-oidc"
-              image = "curlimages/curl:7.79.1"
+              image = local.curl_wait_for_oidc_image
               command = [
                 "/bin/sh",
                 "-c",
@@ -236,7 +239,7 @@ locals {
                 "--email-domain=*",
                 "--redirect-url=https://${local.prometheus.domain}/oauth2/callback",
               ], local.prometheus.oidc.oauth2_proxy_extra_args)
-              image = "quay.io/oauth2-proxy/oauth2-proxy:v7.1.3"
+              image = local.oauth2_proxy_image
               name  = "prometheus-proxy"
               ports = [
                 {
