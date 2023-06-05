@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v3.0.0...v3.1.0) (2023-06-05)
+
+
+### Features
+
+* upgrade OAuth2-Proxy images and add locals ([#64](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/64)) ([e1d60bd](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/e1d60bd040fb0aaa2817d6f64222f5a9e5c2ef0f))
+
 ## [3.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v2.3.0...v3.0.0) (2023-05-30)
 
 
