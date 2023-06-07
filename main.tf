@@ -73,6 +73,17 @@ data "utils_deep_merge_yaml" "values" {
   append_list = var.deep_merge_append_list
 }
 
+data "helm_template" "this" {
+  name      = "kube-prometheus-stack"
+  namespace = var.namespace
+  chart     = "${path.module}/charts/kube-prometheus-stack"
+  values    = [sensitive(data.utils_deep_merge_yaml.values.output)]
+}
+
+resource "null_resource" "k8s_resources" {
+  triggers = data.helm_template.this.manifests
+}
+
 resource "argocd_application" "this" {
   metadata {
     name      = "kube-prometheus-stack"
