@@ -15,7 +15,7 @@ module "kube-prometheus-stack" {
   alertmanager = var.alertmanager
   grafana      = var.grafana
 
-  metrics_storage_main = var.metrics_storage != null ? { storage_config = merge({ type = "s3" }, { config = var.metrics_storage }) } : null
+  metrics_storage_main = local.metrics_storage
 
   helm_values = concat(local.helm_values, var.helm_values)
 }
