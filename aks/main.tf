@@ -44,15 +44,7 @@ module "kube-prometheus-stack" {
   alertmanager = var.alertmanager
   grafana      = var.grafana
 
-  metrics_storage_main = var.metrics_storage == null ? null : {
-    storage_config = merge({ type = "AZURE" }, {
-      config = merge({
-        container       = var.metrics_storage.container
-        storage_account = var.metrics_storage.storage_account
-        },
-      local.use_managed_identity ? null : { storage_account_key = var.metrics_storage.storage_account_key })
-    })
-  }
+  metrics_storage_main = local.metrics_storage
 
   helm_values = concat(local.helm_values, var.helm_values)
 }
