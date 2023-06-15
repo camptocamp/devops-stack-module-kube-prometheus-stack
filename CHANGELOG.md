@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v3.1.0...v3.2.0) (2023-06-15)
+
+
+### Features
+
+* diff k8s manifests ([#66](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/66)) ([96c7f50](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/96c7f50d097e970d1afc0d30ad730903251afbe4))
+
 ## [3.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v3.0.0...v3.1.0) (2023-06-05)
 
 
