@@ -51,11 +51,11 @@ Type:
 [source,hcl]
 ----
 object({
-    bucket     = string
-    endpoint   = string
-    access_key = string
-    secret_key = string
-    insecure   = optional(bool, false)
+    bucket_name = string
+    endpoint    = string
+    access_key  = string
+    secret_key  = string
+    insecure    = optional(bool, true)
   })
 ----
 
@@ -228,11 +228,11 @@ Description: The admin password for Grafana.
 [source]
 ----
 object({
-    bucket     = string
-    endpoint   = string
-    access_key = string
-    secret_key = string
-    insecure   = optional(bool, false)
+    bucket_name = string
+    endpoint    = string
+    access_key  = string
+    secret_key  = string
+    insecure    = optional(bool, true)
   })
 ----
 
