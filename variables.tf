@@ -84,7 +84,19 @@ variable "prometheus" {
 }
 
 variable "alertmanager" {
-  description = "Alertmanager settings"
+  description = <<-EOT
+    Object containing Alertmanager settings. The following attributes are supported:
+
+    * enabled: whether Alertmanager is deployed or not (default: `true`).
+    * domain: domain name configured in the Ingress (default: `prometheus.apps.$${var.cluster_name}.$${var.base_domain}`).
+    * oidc: OIDC configuration to be used by oauth2_proxy in front of Alertmanager (Mandatory).
+    * dead_mans_snitch_url: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
+    * slack_api_url: webhook URL you received when configuring an integration in Slack.
+    * slack_routes: list of objects configuring routing of alerts to Slack channels, with the following attributes:
+      * name: name of the configured route.
+      * channel: channel where the alerts will be sent (with '#').
+      * matchers: list of route matchers filtering which alerts will be sent.
+  EOT
   type        = any
   default     = {}
 }
