@@ -1,23 +1,144 @@
-= devops-stack-module-kube-prometheus-stack
-// Document attributes to replace along the document
-:chart-version: 45.22.0
-:chart-url: https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack
+= SKS Variant
 
-A https://devops-stack.io[DevOps Stack] module to deploy and configure https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack[kube-prometheus-chart].
+This folder contains the variant to use when deploying in Exoscale using an SKS cluster.
 
-The kube-prometheus-stack chart used by this module is shipped in this repository as well, in order to avoid any unwanted behaviors caused by unsupported versions. 
+== Usage
 
-[cols="1,1,1",options="autowidth,header"]
-|===
-|Current Chart Version |Original Repository |Default Values
-|*{chart-version}* |{chart-url}[Chart] |https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack/{chart-version}?modal=values[`values.yaml`]
-|===
+This module can be declared by adding the following block on your Terraform configuration:
 
-*Since this module is meant to be instantiated using its variants, the usage documentation is available in each variant* ( xref:./aks/README.adoc[AKS] | xref:./eks/README.adoc[EKS] | xref:./kind/README.adoc[KinD] | xref:./sks/README.adoc[SKS] ).
+[source,terraform]
+----
+module "kube-prometheus-stack" {
+  source = "git::https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack//sks?ref=<RELEASE>"
 
-Below you will only find the technical reference automatically generated from the `*.tf` files on the root module. 
+  cluster_name     = module.sks.cluster_name
+  base_domain      = module.sks.base_domain
+  cluster_issuer   = local.cluster_issuer
+  argocd_namespace = module.argocd_bootstrap.argocd_namespace
 
-== Technical Documentation
+  prometheus = {
+    oidc = module.oidc.oidc
+  }
+  alertmanager = {
+    oidc = module.oidc.oidc
+  }
+  grafana = {
+    oidc = module.oidc.oidc
+  }
+
+  dependency_ids = {
+    argocd       = module.argocd_bootstrap.id
+    traefik      = module.traefik.id
+    cert-manager = module.cert-manager.id
+    keycloak     = module.keycloak.id
+    oidc         = module.oidc.id
+    longhorn     = module.longhorn.id
+    loki-stack   = module.loki-stack.id
+  }
+}
+----
+
+When also deploying Thanos in the same cluster, you need to configure the `metrics_storage` variable with the values of the bucket created for the Thanos module. *This will automatically activate the Thanos sidecar in the Prometheus pods as well as defining Thanos as the default data source for Grafana.*
+
+[source,terraform]
+----
+module "kube-prometheus-stack" {
+  source = "git::https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack//sks?ref=<RELEASE>"
+
+  cluster_name     = module.sks.cluster_name
+  base_domain      = module.sks.base_domain
+  cluster_issuer   = local.cluster_issuer
+  argocd_namespace = module.argocd_bootstrap.argocd_namespace
+
+  metrics_storage = {
+    bucket_name = resource.aws_s3_bucket.this["thanos"].id
+    region      = resource.aws_s3_bucket.this["thanos"].region
+    access_key  = resource.exoscale_iam_access_key.s3_iam_key["thanos"].key
+    secret_key  = resource.exoscale_iam_access_key.s3_iam_key["thanos"].secret
+  }
+
+  prometheus = {
+    oidc = module.oidc.oidc
+  }
+  alertmanager = {
+    oidc = module.oidc.oidc
+  }
+  grafana = {
+    oidc = module.oidc.oidc
+  }
+
+  dependency_ids = {
+    argocd       = module.argocd_bootstrap.id
+    traefik      = module.traefik.id
+    cert-manager = module.cert-manager.id
+    keycloak     = module.keycloak.id
+    oidc         = module.oidc.id
+    longhorn     = module.longhorn.id
+    loki-stack   = module.loki-stack.id
+  }
+}
+----
+
+TIP: Check the xref:ROOT:ROOT:tutorials/deploy_sks.adoc[SKS deployment example] to see how to create the S3 bucket and to better understand the values passed on the example above.
+
+=== OIDC
+
+NOTE: This module was developed with OIDC in mind.
+
+There is an OIDC proxy container deployed as a sidecar on the pods of Prometheus and Alertmanager. As such, the `prometheus` and `alertmanager` variables are expected to have a map `oidc` containing at least the Issuer URL, the Client ID, and the Client Secret.
+
+As for Grafana, the OIDC configuration is done through the `grafana` variable. The `oidc` map is expected to contain the same values as for Prometheus and Alertmanager, but also the `oauth_url`, `token_url` and `api_url` values.
+
+You can pass these values by pointing an output from another module (as above), or by defining them explicitly:
+
+[source,terraform]
+----
+module "kube-prometheus-stack" {
+  ...
+  prometheus | alertmanager = {
+    oidc = {
+      issuer_url    = "<URL>"
+      client_id     = "<ID>"
+      client_secret = "<SECRET>"
+    }
+  }
+  grafana = {
+    oidc = {
+      issuer_url    = "<URL>"
+      client_id     = "<ID>"
+      client_secret = "<SECRET>"
+      oauth_url     = "<URL>"
+      token_url     = "<URL>"
+      api_url       = "<URL>"
+    }
+  }
+  ...
+}
+----
+
+== Technical Reference
+
+=== Dependencies
+
+==== `module.argocd_bootstrap.id`
+
+Obviously, the module depends on an already running Argo CD in the cluster in order for the application to be created.
+
+==== `module.traefik.id` and `module.cert-manager.id`
+
+This module has multiple ingresses and consequently it must be deployed after the module `traefik` and `cert-manager`.
+
+==== `module.keycloak.id` and `module.oidc.id`
+
+When using Keycloak as an OIDC provider for the Longhorn Dashboard, you need to add Keycloak and the OIDC module as dependencies.
+
+==== `module.longhorn.id`
+
+This module requires a Persistent Volume so it needs to be deployed after the module Longhorn.
+
+==== `module.loki-stack.id`
+
+In order to be able to check the logs collected by Loki in the Grafana interface, this module requires to be deployed after the module Loki, so it can detect it as a data source.
 
 // BEGIN_TF_DOCS
 === Requirements
@@ -34,37 +155,15 @@ The following requirements are needed by this module:
 
 - [[requirement_utils]] <<requirement_utils,utils>> (>= 1)
 
-=== Providers
+=== Modules
 
-The following providers are used by this module:
+The following Modules are called:
 
-- [[provider_argocd]] <<provider_argocd,argocd>> (>= 4)
+==== [[module_kube-prometheus-stack]] <<module_kube-prometheus-stack,kube-prometheus-stack>>
 
-- [[provider_kubernetes]] <<provider_kubernetes,kubernetes>> (>= 2)
+Source: ../
 
-- [[provider_random]] <<provider_random,random>> (>= 3)
-
-- [[provider_utils]] <<provider_utils,utils>> (>= 1)
-
-- [[provider_helm]] <<provider_helm,helm>>
-
-- [[provider_null]] <<provider_null,null>> (>= 3)
-
-=== Resources
-
-The following resources are used by this module:
-
-- https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/application[argocd_application.this] (resource)
-- https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/project[argocd_project.this] (resource)
-- https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace[kubernetes_namespace.kube_prometheus_stack_namespace] (resource)
-- https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret[kubernetes_secret.thanos_object_storage_secret] (resource)
-- https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] (resource)
-- https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.k8s_resources] (resource)
-- https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] (resource)
-- https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.grafana_admin_password] (resource)
-- https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.oauth2_cookie_secret] (resource)
-- https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template[helm_template.this] (data source)
-- https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml[utils_deep_merge_yaml.values] (data source)
+Version:
 
 === Required Inputs
 
@@ -86,6 +185,23 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
+==== [[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
+
+Description: Exoscale SOS bucket configuration values for the bucket where the archived metrics will be stored.
+
+Type:
+[source,hcl]
+----
+object({
+    bucket_name = string
+    region      = string
+    access_key  = string
+    secret_key  = string
+  })
+----
+
+Default: `null`
+
 ==== [[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
 
 Description: Namespace used by Argo CD where the Application and AppProject resources should be created.
@@ -100,7 +216,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v3.2.0"`
+Default: `"v3.1.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -184,17 +300,7 @@ Default: `{}`
 
 ==== [[input_alertmanager]] <<input_alertmanager,alertmanager>>
 
-Description: Object containing Alertmanager settings. The following attributes are supported:
-
-* enabled: whether Alertmanager is deployed or not (default: `true`).
-* domain: domain name configured in the Ingress (default: `prometheus.apps.${var.cluster_name}.${var.base_domain}`).
-* oidc: OIDC configuration to be used by oauth2_proxy in front of Alertmanager (Mandatory).
-* deadmanssnitch_url: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
-* slack_routes: list of objects configuring routing of alerts to Slack channels, with the following attributes:
-  * name: name of the configured route.
-  * channel: channel where the alerts will be sent (with '#').
-  * api_url: slack URL you received when configuring a webhook integration.
-  * matchers: list of strings for filtering which alerts will be sent.
+Description: Alertmanager settings
 
 Type: `any`
 
@@ -239,35 +345,12 @@ Description: The admin password for Grafana.
 |[[requirement_utils]] <<requirement_utils,utils>> |>= 1
 |===
 
-= Providers
+= Modules
 
-[cols="a,a",options="header,autowidth"]
+[cols="a,a,a",options="header,autowidth"]
 |===
-|Name |Version
-|[[provider_null]] <<provider_null,null>> |>= 3
-|[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |>= 2
-|[[provider_random]] <<provider_random,random>> |>= 3
-|[[provider_utils]] <<provider_utils,utils>> |>= 1
-|[[provider_helm]] <<provider_helm,helm>> |n/a
-|[[provider_argocd]] <<provider_argocd,argocd>> |>= 4
-|===
-
-= Resources
-
-[cols="a,a",options="header,autowidth"]
-|===
-|Name |Type
-|https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/application[argocd_application.this] |resource
-|https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/project[argocd_project.this] |resource
-|https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace[kubernetes_namespace.kube_prometheus_stack_namespace] |resource
-|https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret[kubernetes_secret.thanos_object_storage_secret] |resource
-|https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] |resource
-|https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.k8s_resources] |resource
-|https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] |resource
-|https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.grafana_admin_password] |resource
-|https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.oauth2_cookie_secret] |resource
-|https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template[helm_template.this] |data source
-|https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml[utils_deep_merge_yaml.values] |data source
+|Name |Source |Version
+|[[module_kube-prometheus-stack]] <<module_kube-prometheus-stack,kube-prometheus-stack>> |../ |
 |===
 
 = Inputs
@@ -275,6 +358,23 @@ Description: The admin password for Grafana.
 [cols="a,a,a,a,a",options="header,autowidth"]
 |===
 |Name |Description |Type |Default |Required
+|[[input_metrics_storage]] <<input_metrics_storage,metrics_storage>>
+|Exoscale SOS bucket configuration values for the bucket where the archived metrics will be stored.
+|
+
+[source]
+----
+object({
+    bucket_name = string
+    region      = string
+    access_key  = string
+    secret_key  = string
+  })
+----
+
+|`null`
+|no
+
 |[[input_cluster_name]] <<input_cluster_name,cluster_name>>
 |Name given to the cluster. Value used for naming some the resources created by the module.
 |`string`
@@ -296,7 +396,7 @@ Description: The admin password for Grafana.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v3.2.0"`
+|`"v3.1.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -368,18 +468,7 @@ object({
 |no
 
 |[[input_alertmanager]] <<input_alertmanager,alertmanager>>
-|Object containing Alertmanager settings. The following attributes are supported:
-
-* enabled: whether Alertmanager is deployed or not (default: `true`).
-* domain: domain name configured in the Ingress (default: `prometheus.apps.${var.cluster_name}.${var.base_domain}`).
-* oidc: OIDC configuration to be used by oauth2_proxy in front of Alertmanager (Mandatory).
-* deadmanssnitch_url: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
-* slack_routes: list of objects configuring routing of alerts to Slack channels, with the following attributes:
-  * name: name of the configured route.
-  * channel: channel where the alerts will be sent (with '#').
-  * api_url: slack URL you received when configuring a webhook integration.
-  * matchers: list of strings for filtering which alerts will be sent.
-
+|Alertmanager settings
 |`any`
 |`{}`
 |no
