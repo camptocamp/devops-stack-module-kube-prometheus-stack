@@ -92,10 +92,12 @@ locals {
       {{ define "slack.text" -}}
       {{ range .Alerts }}
         *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+        {{- if .Annotations.description }}
+        *Severity:* `{{ .Labels.severity }}`
         *Description:* {{ .Annotations.description }}
-        *Location:* France
+        {{- end }}
         *Graph:* <{{ .GeneratorURL }}|:chart_with_upwards_trend:>
-        *Details:*
+        *Labels:*
           {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
           {{ end }}
       {{ end }}
