@@ -74,7 +74,7 @@ locals {
     group_by = ["alertname"]
     receiver = "devnull"
     routes = flatten([
-      local.alertmanager.dead_mans_snitch_url != null ? [{ matchers = ["alertname=\"Watchdog\""], receiver = "dead-mans-snitch", repeat_interval = "5m" }] : [],
+      local.alertmanager.dead_mans_snitch_url != null ? [{ matchers = ["alertname=\"Watchdog\""], receiver = "dead-mans-snitch", repeat_interval = "2m" }] : [],
       [for item in local.alertmanager.slack_routes : {
         matchers = item["matchers"]
         receiver = item["name"]
