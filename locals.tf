@@ -35,11 +35,11 @@ locals {
   )
 
   alertmanager_defaults = {
-    enabled              = true
-    domain               = "alertmanager.apps.${var.cluster_name}.${var.base_domain}"
-    dead_mans_snitch_url = null
-    slack_api_url        = null
-    slack_routes         = []
+    enabled            = true
+    domain             = "alertmanager.apps.${var.cluster_name}.${var.base_domain}"
+    deadmanssnitch_url = null
+    slack_api_url      = null
+    slack_routes       = []
   }
 
   alertmanager = merge(
@@ -51,10 +51,10 @@ locals {
     [{
       name = "devnull"
     }],
-    local.alertmanager.dead_mans_snitch_url != null ? [{
-      name = "dead-mans-snitch"
+    local.alertmanager.deadmanssnitch_url != null ? [{
+      name = "deadmanssnitch"
       webhook_configs = [{
-        url           = local.alertmanager.dead_mans_snitch_url
+        url           = local.alertmanager.deadmanssnitch_url
         send_resolved = false
       }]
     }] : [],
@@ -74,7 +74,7 @@ locals {
     group_by = ["alertname"]
     receiver = "devnull"
     routes = flatten([
-      local.alertmanager.dead_mans_snitch_url != null ? [{ matchers = ["alertname=\"Watchdog\""], receiver = "dead-mans-snitch", repeat_interval = "2m" }] : [],
+      local.alertmanager.deadmanssnitch_url != null ? [{ matchers = ["alertname=\"Watchdog\""], receiver = "deadmanssnitch", repeat_interval = "2m" }] : [],
       [for item in local.alertmanager.slack_routes : {
         matchers = item["matchers"]
         receiver = item["name"]
