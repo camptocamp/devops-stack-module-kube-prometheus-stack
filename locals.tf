@@ -38,7 +38,6 @@ locals {
     enabled            = true
     domain             = "alertmanager.apps.${var.cluster_name}.${var.base_domain}"
     deadmanssnitch_url = null
-    slack_api_url      = null
     slack_routes       = []
   }
 
@@ -62,6 +61,7 @@ locals {
       name = item["name"]
       slack_configs = [{
         channel       = item["channel"]
+        api_url       = item["api_url"]
         send_resolved = true
         icon_url      = "https://avatars3.githubusercontent.com/u/3380462"
         title         = "{{ template \"slack.title\" . }}"
@@ -104,8 +104,6 @@ locals {
       {{ end }}
     EOT
   } : {}
-
-  alertmanager_global = local.alertmanager.slack_api_url != null ? { slack_api_url = local.alertmanager.slack_api_url } : {}
 
   helm_values = [{
     kube-prometheus-stack = {
@@ -183,7 +181,6 @@ locals {
           receivers = local.alertmanager_receivers
         }
         templateFiles = local.alertmanager_template_files
-        global        = local.alertmanager_global
         } : null, {
         enabled = local.alertmanager.enabled
       })
