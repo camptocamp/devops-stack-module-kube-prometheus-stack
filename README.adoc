@@ -38,17 +38,17 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- [[provider_random]] <<provider_random,random>> (>= 3)
-
 - [[provider_null]] <<provider_null,null>> (>= 3)
 
-- [[provider_argocd]] <<provider_argocd,argocd>> (>= 4)
-
 - [[provider_kubernetes]] <<provider_kubernetes,kubernetes>> (>= 2)
+
+- [[provider_random]] <<provider_random,random>> (>= 3)
 
 - [[provider_utils]] <<provider_utils,utils>> (>= 1)
 
 - [[provider_helm]] <<provider_helm,helm>>
+
+- [[provider_argocd]] <<provider_argocd,argocd>> (>= 4)
 
 === Resources
 
@@ -190,10 +190,10 @@ Description: Object containing Alertmanager settings. The following attributes a
 * domain: domain name configured in the Ingress (default: `prometheus.apps.${var.cluster_name}.${var.base_domain}`).
 * oidc: OIDC configuration to be used by oauth2_proxy in front of Alertmanager (Mandatory).
 * deadmanssnitch_url: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
-* slack_api_url: webhook URL you received when configuring an integration in Slack.
 * slack_routes: list of objects configuring routing of alerts to Slack channels, with the following attributes:
   * name: name of the configured route.
   * channel: channel where the alerts will be sent (with '#').
+  * api_url: slack URL you received when configuring a webhook integration.
   * matchers: list of route matchers filtering which alerts will be sent.
 
 Type: `any`
@@ -244,9 +244,9 @@ Description: The admin password for Grafana.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
+|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_null]] <<provider_null,null>> |>= 3
 |[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |>= 2
-|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_utils]] <<provider_utils,utils>> |>= 1
 |[[provider_helm]] <<provider_helm,helm>> |n/a
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 4
@@ -374,10 +374,10 @@ object({
 * domain: domain name configured in the Ingress (default: `prometheus.apps.${var.cluster_name}.${var.base_domain}`).
 * oidc: OIDC configuration to be used by oauth2_proxy in front of Alertmanager (Mandatory).
 * deadmanssnitch_url: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
-* slack_api_url: webhook URL you received when configuring an integration in Slack.
 * slack_routes: list of objects configuring routing of alerts to Slack channels, with the following attributes:
   * name: name of the configured route.
   * channel: channel where the alerts will be sent (with '#').
+  * api_url: slack URL you received when configuring a webhook integration.
   * matchers: list of route matchers filtering which alerts will be sent.
 
 |`any`
