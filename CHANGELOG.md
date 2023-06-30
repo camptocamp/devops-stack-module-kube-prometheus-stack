@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v3.2.0...v3.3.0) (2023-06-30)
+
+
+### Features
+
+* add support for deadmanssnitch and slack notifications ([#69](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/69)) ([1ba82fb](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/1ba82fb10c7909ba85e0ba5e4568773e2d06cc00))
+
 ## [3.2.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v3.1.0...v3.2.0) (2023-06-15)
 
 
