@@ -95,7 +95,7 @@ variable "alertmanager" {
       * name: name of the configured route.
       * channel: channel where the alerts will be sent (with '#').
       * api_url: slack URL you received when configuring a webhook integration.
-      * matchers: list of route matchers filtering which alerts will be sent.
+      * matchers: list of strings for filtering which alerts will be sent.
   EOT
   type        = any
   default     = {}
