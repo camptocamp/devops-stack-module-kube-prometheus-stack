@@ -38,7 +38,7 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- [[provider_null]] <<provider_null,null>> (>= 3)
+- [[provider_argocd]] <<provider_argocd,argocd>> (>= 4)
 
 - [[provider_kubernetes]] <<provider_kubernetes,kubernetes>> (>= 2)
 
@@ -48,7 +48,7 @@ The following providers are used by this module:
 
 - [[provider_helm]] <<provider_helm,helm>>
 
-- [[provider_argocd]] <<provider_argocd,argocd>> (>= 4)
+- [[provider_null]] <<provider_null,null>> (>= 3)
 
 === Resources
 
@@ -194,7 +194,7 @@ Description: Object containing Alertmanager settings. The following attributes a
   * name: name of the configured route.
   * channel: channel where the alerts will be sent (with '#').
   * api_url: slack URL you received when configuring a webhook integration.
-  * matchers: list of route matchers filtering which alerts will be sent.
+  * matchers: list of strings for filtering which alerts will be sent.
 
 Type: `any`
 
@@ -244,9 +244,9 @@ Description: The admin password for Grafana.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_null]] <<provider_null,null>> |>= 3
 |[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |>= 2
+|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_utils]] <<provider_utils,utils>> |>= 1
 |[[provider_helm]] <<provider_helm,helm>> |n/a
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 4
@@ -378,7 +378,7 @@ object({
   * name: name of the configured route.
   * channel: channel where the alerts will be sent (with '#').
   * api_url: slack URL you received when configuring a webhook integration.
-  * matchers: list of route matchers filtering which alerts will be sent.
+  * matchers: list of strings for filtering which alerts will be sent.
 
 |`any`
 |`{}`

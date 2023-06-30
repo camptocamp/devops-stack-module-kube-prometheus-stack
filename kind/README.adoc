@@ -169,7 +169,7 @@ Description: Object containing Alertmanager settings. The following attributes a
   * name: name of the configured route.
   * channel: channel where the alerts will be sent (with '#').
   * api_url: slack URL you received when configuring a webhook integration.
-  * matchers: list of route matchers filtering which alerts will be sent.
+  * matchers: list of strings for filtering which alerts will be sent.
 
 Type: `any`
 
@@ -342,7 +342,7 @@ object({
   * name: name of the configured route.
   * channel: channel where the alerts will be sent (with '#').
   * api_url: slack URL you received when configuring a webhook integration.
-  * matchers: list of route matchers filtering which alerts will be sent.
+  * matchers: list of strings for filtering which alerts will be sent.
 
 |`any`
 |`{}`
