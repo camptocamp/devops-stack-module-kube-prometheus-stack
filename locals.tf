@@ -2,6 +2,109 @@ locals {
   oauth2_proxy_image       = "quay.io/oauth2-proxy/oauth2-proxy:v7.4.0"
   curl_wait_for_oidc_image = "curlimages/curl:8.1.1"
 
+  ingress_annotations = {
+    "cert-manager.io/cluster-issuer"                   = "${var.cluster_issuer}"
+    "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
+    "traefik.ingress.kubernetes.io/router.middlewares" = "traefik-withclustername@kubernetescrd"
+    "traefik.ingress.kubernetes.io/router.tls"         = "true"
+    "ingress.kubernetes.io/ssl-redirect"               = "true"
+    "kubernetes.io/ingress.allow-http"                 = "false"
+  }
+
+  grafana_defaults = {
+    enabled                  = true
+    additional_data_sources  = false
+    generic_oauth_extra_args = {}
+    domain                   = "grafana.apps.${var.cluster_name}.${var.base_domain}"
+    admin_password           = random_password.grafana_admin_password.result
+  }
+
+  grafana = merge(
+    local.grafana_defaults,
+    var.grafana,
+  )
+
+  prometheus_defaults = {
+    enabled = true
+    domain  = "prometheus.apps.${var.cluster_name}.${var.base_domain}"
+  }
+
+  prometheus = merge(
+    local.prometheus_defaults,
+    var.prometheus,
+  )
+
+  alertmanager_defaults = {
+    enabled            = true
+    domain             = "alertmanager.apps.${var.cluster_name}.${var.base_domain}"
+    deadmanssnitch_url = null
+    slack_routes       = []
+  }
+
+  alertmanager = merge(
+    local.alertmanager_defaults,
+    var.alertmanager,
+  )
+
+  alertmanager_receivers = flatten([
+    [{
+      name = "devnull"
+    }],
+    local.alertmanager.deadmanssnitch_url != null ? [{
+      name = "deadmanssnitch"
+      webhook_configs = [{
+        url           = local.alertmanager.deadmanssnitch_url
+        send_resolved = false
+      }]
+    }] : [],
+    [for item in local.alertmanager.slack_routes : {
+      name = item["name"]
+      slack_configs = [{
+        channel       = item["channel"]
+        api_url       = item["api_url"]
+        send_resolved = true
+        icon_url      = "https://avatars3.githubusercontent.com/u/3380462"
+        title         = "{{ template \"slack.title\" . }}"
+        text          = "{{ template \"slack.text\" . }}"
+      }]
+    }],
+  ])
+
+  alertmanager_routes = {
+    group_by = ["alertname"]
+    receiver = "devnull"
+    routes = flatten([
+      local.alertmanager.deadmanssnitch_url != null ? [{ matchers = ["alertname=\"Watchdog\""], receiver = "deadmanssnitch", repeat_interval = "2m" }] : [],
+      [for item in local.alertmanager.slack_routes : {
+        matchers = item["matchers"]
+        receiver = item["name"]
+      }]
+    ])
+  }
+
+  alertmanager_template_files = length(local.alertmanager.slack_routes) > 0 ? {
+    "slack.tmpl" = <<-EOT
+      {{ define "slack.title" -}}
+        [{{ .Status | toUpper }}
+        {{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{- end -}}
+        ] {{ .CommonLabels.alertname }}
+      {{ end }}
+      {{ define "slack.text" -}}
+      {{ range .Alerts }}
+        *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+        {{- if .Annotations.description }}
+        *Severity:* `{{ .Labels.severity }}`
+        *Description:* {{ .Annotations.description }}
+        {{- end }}
+        *Graph:* <{{ .GeneratorURL }}|:chart_with_upwards_trend:>
+        *Labels:*
+          {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
+          {{ end }}
+      {{ end }}
+      {{ end }}
+    EOT
+  } : {}
+
   helm_values = [{
     kube-prometheus-stack = {
       alertmanager = merge(local.alertmanager.enabled ? {
@@ -47,15 +150,8 @@ locals {
           ]
         }
         ingress = {
-          enabled = true
-          annotations = {
-            "cert-manager.io/cluster-issuer"                   = "${var.cluster_issuer}"
-            "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
-            "traefik.ingress.kubernetes.io/router.middlewares" = "traefik-withclustername@kubernetescrd"
-            "traefik.ingress.kubernetes.io/router.tls"         = "true"
-            "ingress.kubernetes.io/ssl-redirect"               = "true"
-            "kubernetes.io/ingress.allow-http"                 = "false"
-          }
+          enabled     = true
+          annotations = local.ingress_annotations
           servicePort = "9095"
           hosts = [
             "${local.alertmanager.domain}",
@@ -80,6 +176,11 @@ locals {
             },
           ]
         }
+        config = {
+          route     = local.alertmanager_routes
+          receivers = local.alertmanager_receivers
+        }
+        templateFiles = local.alertmanager_template_files
         } : null, {
         enabled = local.alertmanager.enabled
       })
@@ -128,15 +229,8 @@ locals {
           }
         )]
         ingress = {
-          enabled = true
-          annotations = {
-            "cert-manager.io/cluster-issuer"                   = "${var.cluster_issuer}"
-            "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
-            "traefik.ingress.kubernetes.io/router.middlewares" = "traefik-withclustername@kubernetescrd"
-            "traefik.ingress.kubernetes.io/router.tls"         = "true"
-            "ingress.kubernetes.io/ssl-redirect"               = "true"
-            "kubernetes.io/ingress.allow-http"                 = "false"
-          }
+          enabled     = true
+          annotations = local.ingress_annotations
           hosts = [
             "${local.grafana.domain}",
             "grafana.apps.${var.base_domain}",
@@ -185,15 +279,8 @@ locals {
       )
       prometheus = merge(local.prometheus.enabled ? {
         ingress = {
-          enabled = true
-          annotations = {
-            "cert-manager.io/cluster-issuer"                   = "${var.cluster_issuer}"
-            "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
-            "traefik.ingress.kubernetes.io/router.middlewares" = "traefik-withclustername@kubernetescrd"
-            "traefik.ingress.kubernetes.io/router.tls"         = "true"
-            "ingress.kubernetes.io/ssl-redirect"               = "true"
-            "kubernetes.io/ingress.allow-http"                 = "false"
-          }
+          enabled     = true
+          annotations = local.ingress_annotations
           servicePort = "9091"
           hosts = [
             "${local.prometheus.domain}",
@@ -285,39 +372,6 @@ locals {
       )
     }
   }]
-
-  grafana_defaults = {
-    enabled                  = true
-    additional_data_sources  = false
-    generic_oauth_extra_args = {}
-    domain                   = "grafana.apps.${var.cluster_name}.${var.base_domain}"
-    admin_password           = random_password.grafana_admin_password.result
-  }
-
-  grafana = merge(
-    local.grafana_defaults,
-    var.grafana,
-  )
-
-  prometheus_defaults = {
-    enabled = true
-    domain  = "prometheus.apps.${var.cluster_name}.${var.base_domain}"
-  }
-
-  prometheus = merge(
-    local.prometheus_defaults,
-    var.prometheus,
-  )
-
-  alertmanager_defaults = {
-    enabled = true
-    domain  = "alertmanager.apps.${var.cluster_name}.${var.base_domain}"
-  }
-
-  alertmanager = merge(
-    local.alertmanager_defaults,
-    var.alertmanager,
-  )
 }
 
 resource "random_password" "grafana_admin_password" {
