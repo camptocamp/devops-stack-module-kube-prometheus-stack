@@ -1,5 +1,21 @@
 # Changelog
 
+## [4.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v3.3.0...v4.0.0) (2023-07-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* standardize and improve metrics variable
+
+### Features
+
+* add first version of the SKS variant ([f75f06c](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/f75f06c4bea25705956f444c7ea084809689341c))
+
+
+### Bug Fixes
+
+* standardize and improve metrics variable ([52392f6](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/52392f6c132ed2df3d6a941593170dd4d4b55f8d))
+
 ## [3.3.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v3.2.0...v3.3.0) (2023-06-30)
 
 
