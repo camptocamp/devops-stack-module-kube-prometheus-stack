@@ -1,16 +1,20 @@
 locals {
   use_managed_identity = try(var.metrics_storage.managed_identity_node_rg_name != null, false)
 
-  metrics_storage = var.metrics_storage != null ? {
+  metrics_storage = var.metrics_storage == null ? null : {
     storage_config = {
       type = "AZURE"
-      config = merge({
-        container       = var.metrics_storage.container
-        storage_account = var.metrics_storage.storage_account
+      config = merge(
+        {
+          container       = var.metrics_storage.container
+          storage_account = var.metrics_storage.storage_account
         },
-      local.use_managed_identity ? null : { storage_account_key = var.metrics_storage.storage_account_key })
+        local.use_managed_identity ? null : {
+          storage_account_key = var.metrics_storage.storage_account_key
+        }
+      )
     }
-  } : null
+  }
 
   helm_values = [{
     kube-prometheus-stack = {
