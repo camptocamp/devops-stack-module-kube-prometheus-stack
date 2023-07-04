@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v4.0.0...v4.0.1) (2023-07-04)
+
+
+### Documentation
+
+* add missing SKS symbolic link and sidebar link ([#72](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/72)) ([828d8cd](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/828d8cdc5c59d451f9a085ac24b9c614b6a5110d))
+
 ## [4.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v3.3.0...v4.0.0) (2023-07-03)
 
 
