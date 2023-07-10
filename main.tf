@@ -20,7 +20,7 @@ resource "argocd_project" "this" {
       namespace = var.namespace
     }
 
-    # This extra destination block is needed by the v1/Service 
+    # This extra destination block is needed by the v1/Service
     # kube-prometheus-stack-coredns and kube-prometheus-stack-kubelet
     # that have to be inside kube-system.
     destination {
@@ -119,18 +119,23 @@ resource "argocd_application" "this" {
     }
 
     sync_policy {
-      automated = var.app_autosync
+      automated {
+        prune       = var.app_autosync.prune
+        self_heal   = var.app_autosync.self_heal
+        allow_empty = var.app_autosync.allow_empty
+      }
 
       retry {
-        backoff = {
+        backoff {
           duration     = "20s"
-          max_duration = "5m"
+          max_duration = "2m"
+          factor       = "2"
         }
-        limit = "3"
+        limit = "5"
       }
 
       sync_options = [
-        "CreateNamespace=false"
+        "CreateNamespace=true"
       ]
     }
   }
