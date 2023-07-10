@@ -135,7 +135,8 @@ resource "argocd_application" "this" {
       }
 
       sync_options = [
-        "CreateNamespace=true"
+        # Set to false because namespace is created by resource.kubernetes_namespace.kube_prometheus_stack_namespace
+        "CreateNamespace=false"
       ]
     }
   }
