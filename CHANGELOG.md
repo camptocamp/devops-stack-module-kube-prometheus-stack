@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v4.0.1...v5.0.0) (2023-07-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* add support to oboukili/argocd v5 ([#74](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/74))
+
+### Features
+
+* add support to oboukili/argocd v5 ([#74](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/74)) ([1c0660f](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/1c0660f17b29f82158e077d1fe206278325cabde))
+
 ## [4.0.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v4.0.0...v4.0.1) (2023-07-04)
 
 
