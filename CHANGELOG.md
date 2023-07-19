@@ -5,7 +5,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* upgrade kube-prometheus-chart to v48.1.1
+* upgrade kube-prometheus-chart to v48.1.1 - _as usual, the chart developers [recommend upgrading the CRDs manually](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#from-47x-to-48x) although on our case Argo CD should take care of the task_.
 
 ### Features
 
