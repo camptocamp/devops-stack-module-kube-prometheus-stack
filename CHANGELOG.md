@@ -1,5 +1,21 @@
 # Changelog
 
+## [6.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v5.0.0...v6.0.0) (2023-07-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade kube-prometheus-chart to v48.1.1 - _as usual, the chart developers [recommend upgrading the CRDs manually](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#from-47x-to-48x) although on our case Argo CD should take care of the task_.
+
+### Features
+
+* upgrade kube-prometheus-chart to v48.1.1 ([8495fc7](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/8495fc7a2751917330e5079d094d32a59d6d7aea))
+
+
+### Bug Fixes
+
+* add replace annotation to force the upgrade of all CRDs on sync ([fe0a6bc](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/fe0a6bc823d7e0c8a9a729a07e955e0635aa6fe0))
+
 ## [5.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v4.0.1...v5.0.0) (2023-07-11)
 
 
