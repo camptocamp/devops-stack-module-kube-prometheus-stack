@@ -1,0 +1,46 @@
+---
+name: "chart-update"
+
+on:
+  schedule:
+  - cron: "0 7 * * 1-5"
+  
+  workflow_dispatch:
+    inputs:
+      update-strategy:
+        description: "Update strategy to use. Valid values are 'patch', 'minor' or 'major'"
+        type: choice
+        options:
+        - "patch"
+        - "minor"
+        - "major"
+        required: true
+      excluded-dependencies:
+        description: "Comma-separated list of dependencies to exclude from the update (i.e. 'dependency1,dependency2,dependency3')"
+        type: string
+        required: false
+        default: ""
+      dry-run:
+        description: "Activate dry-run mode"
+        type: boolean
+        required: false
+        default: true
+
+jobs:
+
+  chart-update-schedule:
+    if: ${{ github.event_name == 'schedule' }}
+    strategy:
+      matrix:
+        update-strategy: ["major", "minor"]
+    uses: camptocamp/devops-stack/.github/workflows/modules-chart-update.yaml@main
+    with:
+      update-strategy: ${{ matrix.update-strategy }}
+  
+  chart-update-manual:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    uses: camptocamp/devops-stack/.github/workflows/modules-chart-update.yaml@main
+    with:
+      update-strategy: ${{ inputs.update-strategy }}
+      excluded-dependencies: ${{ inputs.excluded-dependencies }}
+      dry-run: ${{ inputs.dry-run }}
