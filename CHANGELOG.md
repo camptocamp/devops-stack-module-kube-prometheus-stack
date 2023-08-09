@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.0.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v6.0.0...v6.0.1) (2023-08-09)
+
+
+### Bug Fixes
+
+* readd support to deactivate auto-sync which was broken by [#74](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/74) ([6fd4f48](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/6fd4f483e46f47ff39a24ea592bfc4c79bc36730))
+
 ## [6.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v5.0.0...v6.0.0) (2023-07-19)
 
 
