@@ -38,17 +38,17 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
+- [[provider_random]] <<provider_random,random>> (>= 3)
+
+- [[provider_null]] <<provider_null,null>> (>= 3)
 
 - [[provider_kubernetes]] <<provider_kubernetes,kubernetes>> (>= 2)
-
-- [[provider_random]] <<provider_random,random>> (>= 3)
 
 - [[provider_utils]] <<provider_utils,utils>> (>= 1)
 
 - [[provider_helm]] <<provider_helm,helm>>
 
-- [[provider_null]] <<provider_null,null>> (>= 3)
+- [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
 
 === Resources
 
@@ -134,10 +134,10 @@ Type: `bool`
 
 Default: `false`
 
-==== [[input_verbose_helm_templates]] <<input_verbose_helm_templates,verbose_helm_templates>>
+==== [[input_show_manifest_diff]] <<input_show_manifest_diff,show_manifest_diff>>
 
 Description: A boolean to enable/disable outputting Helm templates on the Terraform plan.  
-This is useful for debugging purposes only. **Do not enable this flag in production as this will output secrets (namely the Kubernetes secrets in base64 format) in the Terraform state.**
+This is useful for debugging purposes only. *Make sure no secrets appear in the Kubernetes manifests before setting this flag, otherwise they will be exposed in your Terraform plan.*
 
 Type: `bool`
 
@@ -253,11 +253,11 @@ Description: The admin password for Grafana.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[provider_random]] <<provider_random,random>> |>= 3
+|[[provider_null]] <<provider_null,null>> |>= 3
 |[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |>= 2
+|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_utils]] <<provider_utils,utils>> |>= 1
 |[[provider_helm]] <<provider_helm,helm>> |n/a
-|[[provider_null]] <<provider_null,null>> |>= 3
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 5
 |===
 
@@ -332,9 +332,9 @@ Description: The admin password for Grafana.
 |`false`
 |no
 
-|[[input_verbose_helm_templates]] <<input_verbose_helm_templates,verbose_helm_templates>>
+|[[input_show_manifest_diff]] <<input_show_manifest_diff,show_manifest_diff>>
 |A boolean to enable/disable outputting Helm templates on the Terraform plan.
-This is useful for debugging purposes only. **Do not enable this flag in production as this will output secrets (namely the Kubernetes secrets in base64 format) in the Terraform state.**
+This is useful for debugging purposes only. *Make sure no secrets appear in the Kubernetes manifests before setting this flag, otherwise they will be exposed in your Terraform plan.*
 
 |`bool`
 |`false`
