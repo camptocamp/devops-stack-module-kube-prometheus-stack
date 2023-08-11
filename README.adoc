@@ -10,7 +10,7 @@ The kube-prometheus-stack chart used by this module is shipped in this repositor
 [cols="1,1,1",options="autowidth,header"]
 |===
 |Current Chart Version |Original Repository |Default Values
-|*{chart-version}* |{chart-url}[Chart] |https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack/{chart-version}?modal=values[`values.yaml`]
+|*{kube-prometheus-stack-chart-version}* |{chart-url}[Chart] |https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack/{chart-version}?modal=values[`values.yaml`]
 |===
 
 *Since this module is meant to be instantiated using its variants, the usage documentation is available in each variant* ( xref:./aks/README.adoc[AKS] | xref:./eks/README.adoc[EKS] | xref:./kind/README.adoc[KinD] | xref:./sks/README.adoc[SKS] ).
