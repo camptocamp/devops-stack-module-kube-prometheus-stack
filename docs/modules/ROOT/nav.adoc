@@ -4,4 +4,5 @@
 ** xref:ROOT:eks/README.adoc[EKS]
 ** xref:ROOT:kind/README.adoc[KinD]
 ** xref:ROOT:sks/README.adoc[SKS]
+* https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack[Repository,window=_blank]
 * xref:ROOT:ROOT:index.adoc[_Return to DevOps Stack docs_]
