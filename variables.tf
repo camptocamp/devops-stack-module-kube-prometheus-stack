@@ -48,6 +48,15 @@ variable "deep_merge_append_list" {
   default     = false
 }
 
+variable "verbose_helm_templates" {
+  description = <<-EOT
+    A boolean to enable/disable outputting Helm templates on the Terraform plan.
+    This is useful for debugging purposes ONLY. **Do not enable this flag in production as this will output secrets (namely the Kubernetes secrets in base64 format) in the Terraform state.**
+  EOT
+  type        = bool
+  default     = false
+}
+
 variable "app_autosync" {
   description = "Automated sync options for the Argo CD Application resource."
   type = object({

@@ -74,6 +74,8 @@ data "utils_deep_merge_yaml" "values" {
 }
 
 data "helm_template" "this" {
+  count = var.verbose_helm_templates ? 1 : 0
+
   name      = "kube-prometheus-stack"
   namespace = var.namespace
   chart     = "${path.module}/charts/kube-prometheus-stack"
@@ -81,7 +83,9 @@ data "helm_template" "this" {
 }
 
 resource "null_resource" "k8s_resources" {
-  triggers = data.helm_template.this.manifests
+  count = var.verbose_helm_templates ? 1 : 0
+
+  triggers = data.helm_template.this[0].manifests
 }
 
 resource "argocd_application" "this" {
