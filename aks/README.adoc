@@ -89,7 +89,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v6.0.0"`
+Default: `"v6.1.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -118,6 +118,15 @@ Default: `[]`
 ==== [[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
 
 Description: A boolean flag to enable/disable appending lists instead of overwriting them.
+
+Type: `bool`
+
+Default: `false`
+
+==== [[input_verbose_helm_templates]] <<input_verbose_helm_templates,verbose_helm_templates>>
+
+Description: A boolean to enable/disable outputting Helm templates on the Terraform plan.  
+This is useful for debugging purposes ONLY. **Do not enable this flag in production as this will output secrets (namely the Kubernetes secrets in base64 format) in the Terraform state.**
 
 Type: `bool`
 
@@ -292,7 +301,7 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v6.0.0"`
+|`"v6.1.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -315,6 +324,14 @@ object({
 
 |[[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
 |A boolean flag to enable/disable appending lists instead of overwriting them.
+|`bool`
+|`false`
+|no
+
+|[[input_verbose_helm_templates]] <<input_verbose_helm_templates,verbose_helm_templates>>
+|A boolean to enable/disable outputting Helm templates on the Terraform plan.
+This is useful for debugging purposes ONLY. **Do not enable this flag in production as this will output secrets (namely the Kubernetes secrets in base64 format) in the Terraform state.**
+
 |`bool`
 |`false`
 |no
