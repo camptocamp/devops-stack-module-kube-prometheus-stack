@@ -48,10 +48,10 @@ variable "deep_merge_append_list" {
   default     = false
 }
 
-variable "verbose_helm_templates" {
+variable "show_manifest_diff" {
   description = <<-EOT
     A boolean to enable/disable outputting Helm templates on the Terraform plan.
-    This is useful for debugging purposes only. **Do not enable this flag in production as this will output secrets (namely the Kubernetes secrets in base64 format) in the Terraform state.**
+    This is useful for debugging purposes only. *Make sure no secrets appear in the Kubernetes manifests before setting this flag, otherwise they will be exposed in your Terraform plan.*
   EOT
   type        = bool
   default     = false
