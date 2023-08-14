@@ -75,7 +75,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v6.0.0"`
+Default: `"v6.1.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -104,6 +104,15 @@ Default: `[]`
 ==== [[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
 
 Description: A boolean flag to enable/disable appending lists instead of overwriting them.
+
+Type: `bool`
+
+Default: `false`
+
+==== [[input_show_manifest_diff]] <<input_show_manifest_diff,show_manifest_diff>>
+
+Description: A boolean to enable/disable outputting Helm templates on the Terraform plan.  
+This is useful for debugging purposes only. *Make sure no secrets appear in the Kubernetes manifests before setting this flag, otherwise they will be exposed in your Terraform plan.*
 
 Type: `bool`
 
@@ -161,15 +170,15 @@ Default: `{}`
 
 Description: Object containing Alertmanager settings. The following attributes are supported:
 
-* enabled: whether Alertmanager is deployed or not (default: `true`).
-* domain: domain name configured in the Ingress (default: `prometheus.apps.${var.cluster_name}.${var.base_domain}`).
-* oidc: OIDC configuration to be used by oauth2_proxy in front of Alertmanager (Mandatory).
-* deadmanssnitch_url: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
-* slack_routes: list of objects configuring routing of alerts to Slack channels, with the following attributes:
-  * name: name of the configured route.
-  * channel: channel where the alerts will be sent (with '#').
-  * api_url: slack URL you received when configuring a webhook integration.
-  * matchers: list of strings for filtering which alerts will be sent.
+* `enabled`: whether Alertmanager is deployed or not (default: `true`).
+* `domain`: domain name configured in the Ingress (default: `prometheus.apps.${var.cluster_name}.${var.base_domain}`).
+* `oidc`: OIDC configuration to be used by OAuth2 Proxy in front of Alertmanager (**required**).
+* `deadmanssnitch_url`: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
+* `slack_routes`: list of objects configuring routing of alerts to Slack channels, with the following attributes:
+  * `name`: name of the configured route.
+  * `channel`: channel where the alerts will be sent (with '#').
+  * `api_url`: slack URL you received when configuring a webhook integration.
+  * `matchers`: list of strings for filtering which alerts will be sent.
 
 Type: `any`
 
@@ -260,7 +269,7 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v6.0.0"`
+|`"v6.1.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -283,6 +292,14 @@ object({
 
 |[[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
 |A boolean flag to enable/disable appending lists instead of overwriting them.
+|`bool`
+|`false`
+|no
+
+|[[input_show_manifest_diff]] <<input_show_manifest_diff,show_manifest_diff>>
+|A boolean to enable/disable outputting Helm templates on the Terraform plan.
+This is useful for debugging purposes only. *Make sure no secrets appear in the Kubernetes manifests before setting this flag, otherwise they will be exposed in your Terraform plan.*
+
 |`bool`
 |`false`
 |no
@@ -334,15 +351,15 @@ object({
 |[[input_alertmanager]] <<input_alertmanager,alertmanager>>
 |Object containing Alertmanager settings. The following attributes are supported:
 
-* enabled: whether Alertmanager is deployed or not (default: `true`).
-* domain: domain name configured in the Ingress (default: `prometheus.apps.${var.cluster_name}.${var.base_domain}`).
-* oidc: OIDC configuration to be used by oauth2_proxy in front of Alertmanager (Mandatory).
-* deadmanssnitch_url: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
-* slack_routes: list of objects configuring routing of alerts to Slack channels, with the following attributes:
-  * name: name of the configured route.
-  * channel: channel where the alerts will be sent (with '#').
-  * api_url: slack URL you received when configuring a webhook integration.
-  * matchers: list of strings for filtering which alerts will be sent.
+* `enabled`: whether Alertmanager is deployed or not (default: `true`).
+* `domain`: domain name configured in the Ingress (default: `prometheus.apps.${var.cluster_name}.${var.base_domain}`).
+* `oidc`: OIDC configuration to be used by OAuth2 Proxy in front of Alertmanager (**required**).
+* `deadmanssnitch_url`: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
+* `slack_routes`: list of objects configuring routing of alerts to Slack channels, with the following attributes:
+  * `name`: name of the configured route.
+  * `channel`: channel where the alerts will be sent (with '#').
+  * `api_url`: slack URL you received when configuring a webhook integration.
+  * `matchers`: list of strings for filtering which alerts will be sent.
 
 |`any`
 |`{}`

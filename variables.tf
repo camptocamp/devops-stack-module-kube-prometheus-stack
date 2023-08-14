@@ -48,6 +48,15 @@ variable "deep_merge_append_list" {
   default     = false
 }
 
+variable "show_manifest_diff" {
+  description = <<-EOT
+    A boolean to enable/disable outputting Helm templates on the Terraform plan.
+    This is useful for debugging purposes only. *Make sure no secrets appear in the Kubernetes manifests before setting this flag, otherwise they will be exposed in your Terraform plan.*
+  EOT
+  type        = bool
+  default     = false
+}
+
 variable "app_autosync" {
   description = "Automated sync options for the Argo CD Application resource."
   type = object({
@@ -87,15 +96,15 @@ variable "alertmanager" {
   description = <<-EOT
     Object containing Alertmanager settings. The following attributes are supported:
 
-    * enabled: whether Alertmanager is deployed or not (default: `true`).
-    * domain: domain name configured in the Ingress (default: `prometheus.apps.$${var.cluster_name}.$${var.base_domain}`).
-    * oidc: OIDC configuration to be used by oauth2_proxy in front of Alertmanager (Mandatory).
-    * deadmanssnitch_url: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
-    * slack_routes: list of objects configuring routing of alerts to Slack channels, with the following attributes:
-      * name: name of the configured route.
-      * channel: channel where the alerts will be sent (with '#').
-      * api_url: slack URL you received when configuring a webhook integration.
-      * matchers: list of strings for filtering which alerts will be sent.
+    * `enabled`: whether Alertmanager is deployed or not (default: `true`).
+    * `domain`: domain name configured in the Ingress (default: `prometheus.apps.$${var.cluster_name}.$${var.base_domain}`).
+    * `oidc`: OIDC configuration to be used by OAuth2 Proxy in front of Alertmanager (**required**).
+    * `deadmanssnitch_url`: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
+    * `slack_routes`: list of objects configuring routing of alerts to Slack channels, with the following attributes:
+      * `name`: name of the configured route.
+      * `channel`: channel where the alerts will be sent (with '#').
+      * `api_url`: slack URL you received when configuring a webhook integration.
+      * `matchers`: list of strings for filtering which alerts will be sent.
   EOT
   type        = any
   default     = {}
