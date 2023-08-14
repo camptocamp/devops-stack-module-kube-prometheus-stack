@@ -75,7 +75,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v6.1.0"`
+Default: `"v6.1.1"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -269,7 +269,7 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v6.1.0"`
+|`"v6.1.1"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
