@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.1.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v6.1.0...v6.1.1) (2023-08-14)
+
+
+### Bug Fixes
+
+* add variable to deactivate the output of Helm templates on plan ([#82](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/82)) ([a31abf3](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/a31abf3379c3cfad70b12dd7b39214e7b057b5a4))
+
 ## [6.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v6.0.1...v6.1.0) (2023-08-11)
 
 
