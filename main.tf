@@ -109,7 +109,7 @@ resource "argocd_application" "this" {
       path            = "charts/kube-prometheus-stack"
       target_revision = var.target_revision
       plugin {
-        name = "kustomized-helm"
+        name = "avp-kustomized-helm"
         env {
           name  = "HELM_VALUES"
           value = data.utils_deep_merge_yaml.values.output
