@@ -8,6 +8,7 @@ resource "vault_generic_secret" "KPS_secrets" {
   data_json = jsonencode({
     kps-oidc-client-secret = local.grafana.oidc.client_secret
     kps-oidc-cookie-secret = random_password.oauth2_cookie_secret.result
+    grafana-admin-password = random_password.grafana_admin_password.result
   })
 }
 

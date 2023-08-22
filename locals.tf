@@ -288,7 +288,7 @@ locals {
     additional_data_sources  = false
     generic_oauth_extra_args = {}
     domain                   = "grafana.apps.${var.cluster_name}.${var.base_domain}"
-    admin_password           = random_password.grafana_admin_password.result
+    admin_password           = "<path:secret/data/devops-stack/submodules/kps#grafana-admin-password>"
   }
 
   grafana = merge(
