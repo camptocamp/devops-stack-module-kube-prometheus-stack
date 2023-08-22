@@ -2,6 +2,16 @@ resource "null_resource" "dependencies" {
   triggers = var.dependency_ids
 }
 
+# KPS stands for kube-prometheus-stack
+resource "vault_generic_secret" "KPS_secrets" {
+  path = "secret/devops-stack/submodules/kps"
+  data_json = jsonencode({
+    kps-oidc-client-secret = local.grafana.oidc.client_secret
+    kps-oidc-cookie-secret = random_password.oauth2_cookie_secret.result
+  })
+}
+
+
 resource "argocd_project" "this" {
   metadata {
     name      = "kube-prometheus-stack"
@@ -94,7 +104,7 @@ resource "argocd_application" "this" {
       path            = "charts/kube-prometheus-stack"
       target_revision = var.target_revision
       plugin {
-        name = "kustomized-helm"
+        name = "avp-kustomized-helm"
         env {
           name  = "HELM_VALUES"
           value = data.utils_deep_merge_yaml.values.output

@@ -34,9 +34,9 @@ locals {
                 "--provider=oidc",
                 "--oidc-issuer-url=${replace(local.alertmanager.oidc.issuer_url, "\"", "\\\"")}",
                 "--client-id=${replace(local.alertmanager.oidc.client_id, "\"", "\\\"")}",
-                "--client-secret=${replace(local.alertmanager.oidc.client_secret, "\"", "\\\"")}",
+                "--client-secret=<path:secret/data/devops-stack/submodules/kps#kps-oidc-client-secret>",
                 "--cookie-secure=false",
-                "--cookie-secret=${replace(random_password.oauth2_cookie_secret.result, "\"", "\\\"")}",
+                "--cookie-secret=<path:secret/data/devops-stack/submodules/kps#kps-oidc-cookie-secret>",
                 "--email-domain=*",
                 "--redirect-url=https://${local.alertmanager.domain}/oauth2/callback",
               ], local.alertmanager.oidc.oauth2_proxy_extra_args)
@@ -87,7 +87,7 @@ locals {
             enabled                  = true
             allow_sign_up            = true
             client_id                = "${replace(local.grafana.oidc.client_id, "\"", "\\\"")}"
-            client_secret            = "${replace(local.grafana.oidc.client_secret, "\"", "\\\"")}"
+            client_secret            = "<path:secret/data/devops-stack/submodules/kps#kps-oidc-client-secret>"
             scopes                   = "openid profile email"
             auth_url                 = "${replace(local.grafana.oidc.oauth_url, "\"", "\\\"")}"
             token_url                = "${replace(local.grafana.oidc.token_url, "\"", "\\\"")}"
@@ -230,9 +230,9 @@ locals {
                 "--provider=oidc",
                 "--oidc-issuer-url=${replace(local.prometheus.oidc.issuer_url, "\"", "\\\"")}",
                 "--client-id=${replace(local.prometheus.oidc.client_id, "\"", "\\\"")}",
-                "--client-secret=${replace(local.prometheus.oidc.client_secret, "\"", "\\\"")}",
+                "--client-secret=<path:secret/data/devops-stack/submodules/kps#kps-oidc-client-secret>",
                 "--cookie-secure=false",
-                "--cookie-secret=${replace(random_password.oauth2_cookie_secret.result, "\"", "\\\"")}",
+                "--cookie-secret=<path:secret/data/devops-stack/submodules/kps#kps-oidc-cookie-secret>",
                 "--email-domain=*",
                 "--redirect-url=https://${local.prometheus.domain}/oauth2/callback",
               ], local.prometheus.oidc.oauth2_proxy_extra_args)

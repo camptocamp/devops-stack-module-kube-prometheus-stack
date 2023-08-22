@@ -9,5 +9,9 @@ terraform {
     kubernetes = {
       source = "hashicorp/kubernetes" # Needed for the creation of a Kubernetes secret
     }
+    vault = {
+      source  = "hashicorp/vault"
+      version = ">= 3"
+    }
   }
 }
