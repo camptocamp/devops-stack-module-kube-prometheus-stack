@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.2.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v6.1.1...v6.2.0) (2023-08-24)
+
+
+### Features
+
+* **chart:** patch update of dependencies on kube-prometheus-stack chart ([#85](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/85)) ([2b9cdab](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/2b9cdabc3715b36e4c0d580c4a77a5e92e408bf1))
+
 ## [6.1.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v6.1.0...v6.1.1) (2023-08-14)
 
 
