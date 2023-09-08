@@ -5,7 +5,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **chart:** major update of dependencies on kube-prometheus-stack chart ([#89](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/89))
+* **chart:** major update of dependencies on kube-prometheus-stack chart ([#89](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/89)) - an update in-place should work without any issues; this is a breaking change only because the underlying chart had a major bump because the minimum kubeVersion was bumped to ">=1.19.0-0".
 
 ### Features
 
