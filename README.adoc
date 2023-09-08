@@ -10,7 +10,7 @@ The kube-prometheus-stack chart used by this module is shipped in this repositor
 [cols="1,1,1",options="autowidth,header"]
 |===
 |Current Chart Version |Original Repository |Default Values
-|*{kube-prometheus-stack-chart-version}* |{chart-url}[Chart] |https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack/{chart-version}?modal=values[`values.yaml`]
+|*{kube-prometheus-stack-chart-version}* |{chart-url}[Chart] |https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack/{kube-prometheus-stack-chart-version}?modal=values[`values.yaml`]
 |===
 
 *Since this module is meant to be instantiated using its variants, the usage documentation is available in each variant* ( xref:./aks/README.adoc[AKS] | xref:./eks/README.adoc[EKS] | xref:./kind/README.adoc[KinD] | xref:./sks/README.adoc[SKS] ).
@@ -38,17 +38,17 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- [[provider_null]] <<provider_null,null>> (>= 3)
-
-- [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
+- [[provider_random]] <<provider_random,random>> (>= 3)
 
 - [[provider_kubernetes]] <<provider_kubernetes,kubernetes>> (>= 2)
-
-- [[provider_random]] <<provider_random,random>> (>= 3)
 
 - [[provider_utils]] <<provider_utils,utils>> (>= 1)
 
 - [[provider_helm]] <<provider_helm,helm>>
+
+- [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
+
+- [[provider_null]] <<provider_null,null>> (>= 3)
 
 === Resources
 
@@ -253,12 +253,12 @@ Description: The admin password for Grafana.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[provider_random]] <<provider_random,random>> |>= 3
+|[[provider_null]] <<provider_null,null>> |>= 3
+|[[provider_argocd]] <<provider_argocd,argocd>> |>= 5
 |[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |>= 2
+|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_utils]] <<provider_utils,utils>> |>= 1
 |[[provider_helm]] <<provider_helm,helm>> |n/a
-|[[provider_argocd]] <<provider_argocd,argocd>> |>= 5
-|[[provider_null]] <<provider_null,null>> |>= 3
 |===
 
 = Resources
