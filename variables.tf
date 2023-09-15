@@ -24,6 +24,12 @@ variable "argocd_project" {
   default     = null
 }
 
+variable "argocd_labels" {
+  description = "Labels to attach to the Argo CD Application resource."
+  type        = map(string)
+  default     = {}
+}
+
 variable "destination_cluster" {
   description = "Destination cluster where the application should be deployed."
   type        = string
