@@ -4,6 +4,8 @@ module "kube-prometheus-stack" {
   cluster_name           = var.cluster_name
   base_domain            = var.base_domain
   argocd_namespace       = var.argocd_namespace
+  argocd_project         = var.argocd_project
+  destination_cluster    = var.destination_cluster
   target_revision        = var.target_revision
   cluster_issuer         = var.cluster_issuer
   namespace              = var.namespace
