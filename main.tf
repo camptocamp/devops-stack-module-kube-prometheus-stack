@@ -3,8 +3,10 @@ resource "null_resource" "dependencies" {
 }
 
 resource "argocd_project" "this" {
+  count = var.argocd_project == null ? 1 : 0
+
   metadata {
-    name      = "kube-prometheus-stack"
+    name      = var.destination_cluster != "in-cluster" ? "kube-prometheus-stack-${var.destination_cluster}" : "kube-prometheus-stack"
     namespace = var.argocd_namespace
     annotations = {
       "devops-stack.io/argocd_namespace" = var.argocd_namespace
@@ -12,11 +14,11 @@ resource "argocd_project" "this" {
   }
 
   spec {
-    description  = "kube-prometheus-stack application project"
+    description  = "kube-prometheus-stack application project for cluster ${var.destination_cluster}"
     source_repos = ["https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"]
 
     destination {
-      name      = "in-cluster"
+      name      = var.destination_cluster
       namespace = var.namespace
     }
 
@@ -24,7 +26,7 @@ resource "argocd_project" "this" {
     # kube-prometheus-stack-coredns and kube-prometheus-stack-kubelet
     # that have to be inside kube-system.
     destination {
-      name      = "in-cluster"
+      name      = var.destination_cluster
       namespace = "kube-system"
     }
 
@@ -90,7 +92,7 @@ resource "null_resource" "k8s_resources" {
 
 resource "argocd_application" "this" {
   metadata {
-    name      = "kube-prometheus-stack"
+    name      = var.destination_cluster != "in-cluster" ? "kube-prometheus-stack-${var.destination_cluster}" : "kube-prometheus-stack"
     namespace = var.argocd_namespace
   }
 
@@ -102,7 +104,7 @@ resource "argocd_application" "this" {
   wait = var.app_autosync == { "allow_empty" = tobool(null), "prune" = tobool(null), "self_heal" = tobool(null) } ? false : true
 
   spec {
-    project = argocd_project.this.metadata.0.name
+    project = var.argocd_project == null ? argocd_project.this[0].metadata.0.name : var.argocd_project
 
     source {
       repo_url        = "https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack.git"
@@ -118,7 +120,7 @@ resource "argocd_application" "this" {
     }
 
     destination {
-      name      = "in-cluster"
+      name      = var.destination_cluster
       namespace = var.namespace
     }
 
