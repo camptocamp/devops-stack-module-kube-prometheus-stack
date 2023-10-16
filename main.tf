@@ -75,21 +75,6 @@ data "utils_deep_merge_yaml" "values" {
   append_list = var.deep_merge_append_list
 }
 
-data "helm_template" "this" {
-  count = var.show_manifest_diff ? 1 : 0
-
-  name      = "kube-prometheus-stack"
-  namespace = var.namespace
-  chart     = "${path.module}/charts/kube-prometheus-stack"
-  values    = [sensitive(data.utils_deep_merge_yaml.values.output)]
-}
-
-resource "null_resource" "k8s_resources" {
-  count = var.show_manifest_diff ? 1 : 0
-
-  triggers = data.helm_template.this[0].manifests
-}
-
 resource "argocd_application" "this" {
   metadata {
     name      = var.destination_cluster != "in-cluster" ? "kube-prometheus-stack-${var.destination_cluster}" : "kube-prometheus-stack"
@@ -166,4 +151,3 @@ resource "null_resource" "this" {
     resource.argocd_application.this,
   ]
 }
-
