@@ -1,5 +1,14 @@
 # Changelog
 
+## [7.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v7.0.0...v7.1.0) (2023-10-19)
+
+
+### Features
+
+* add standard variables and variable to add labels to Argo CD app ([291051d](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/291051d0cde76d91ba6404541ded0cb4ca071100))
+* add variables to set AppProject and destination cluster ([5a9370b](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/5a9370b1d98dfae521d1203577d140ebcd4fe0aa))
+* update OAuth2-Proxy and curl images ([5a16bc5](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/5a16bc590b779f37ba2bfbff8d1b9a5be2f6e2e1))
+
 ## [7.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v6.3.0...v7.0.0) (2023-09-08)
 
 
