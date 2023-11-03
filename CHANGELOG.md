@@ -12,10 +12,10 @@
     
     > This [upgrade] includes the ability to select between using existing secrets or create new secret objects for various thanos config. The defaults have not changed but if you were setting:
     >
-    >     `thanosRuler.thanosRulerSpec.alertmanagersConfig` or
-    >     `thanosRuler.thanosRulerSpec.objectStorageConfig` or
-    >     `thanosRuler.thanosRulerSpec.queryConfig` or
-    >     `prometheus.prometheusSpec.thanos.objectStorageConfig`
+    > `thanosRuler.thanosRulerSpec.alertmanagersConfig` or
+    > `thanosRuler.thanosRulerSpec.objectStorageConfig` or
+    > `thanosRuler.thanosRulerSpec.queryConfig` or
+    > `prometheus.prometheusSpec.thanos.objectStorageConfig`
     > 
     > you will have to need to set existingSecret or secret based on your requirement
     >
