@@ -1,5 +1,22 @@
 # Changelog
 
+## [8.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v7.1.0...v8.0.0) (2023-11-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove the Helm diff ([#94](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/94))
+* **chart:** major update of dependencies on kube-prometheus-stack chart ([#92](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/92))
+
+### Features
+
+* **chart:** major update of dependencies on kube-prometheus-stack chart ([#92](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/92)) ([79ad8de](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/79ad8de9df8e29868f71ebfc323eb2736d1c7992))
+
+
+### Bug Fixes
+
+* remove the Helm diff ([#94](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/94)) ([65fb62b](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/65fb62bd3e9ea63ed6ce37964135312d8e04e75c))
+
 ## [7.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v7.0.0...v7.1.0) (2023-10-19)
 
 
