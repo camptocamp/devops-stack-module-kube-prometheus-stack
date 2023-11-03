@@ -349,8 +349,10 @@ locals {
           }, var.metrics_storage_main != null ? {
           thanos = {
             objectStorageConfig = {
-              key  = "thanos.yaml"
-              name = "thanos-objectstorage"
+              existingSecret = {
+                name = "thanos-objectstorage"
+                key  = "thanos.yaml"
+              }
             }
           }
         } : null)
