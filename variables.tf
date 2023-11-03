@@ -66,15 +66,6 @@ variable "deep_merge_append_list" {
   default     = false
 }
 
-variable "show_manifest_diff" {
-  description = <<-EOT
-    A boolean to enable/disable outputting Helm templates on the Terraform plan.
-    This is useful for debugging purposes only. *Make sure no secrets appear in the Kubernetes manifests before setting this flag, otherwise they will be exposed in your Terraform plan.*
-  EOT
-  type        = bool
-  default     = false
-}
-
 variable "app_autosync" {
   description = "Automated sync options for the Argo CD Application resource."
   type = object({

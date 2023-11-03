@@ -38,17 +38,15 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
+- [[provider_random]] <<provider_random,random>> (>= 3)
+
+- [[provider_null]] <<provider_null,null>> (>= 3)
+
 - [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
 
 - [[provider_kubernetes]] <<provider_kubernetes,kubernetes>> (>= 2)
 
-- [[provider_random]] <<provider_random,random>> (>= 3)
-
 - [[provider_utils]] <<provider_utils,utils>> (>= 1)
-
-- [[provider_helm]] <<provider_helm,helm>>
-
-- [[provider_null]] <<provider_null,null>> (>= 3)
 
 === Resources
 
@@ -59,11 +57,9 @@ The following resources are used by this module:
 - https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace[kubernetes_namespace.kube_prometheus_stack_namespace] (resource)
 - https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret[kubernetes_secret.thanos_object_storage_secret] (resource)
 - https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] (resource)
-- https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.k8s_resources] (resource)
 - https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] (resource)
 - https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.grafana_admin_password] (resource)
 - https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.oauth2_cookie_secret] (resource)
-- https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template[helm_template.this] (data source)
 - https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml[utils_deep_merge_yaml.values] (data source)
 
 === Required Inputs
@@ -153,15 +149,6 @@ Default: `[]`
 ==== [[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
 
 Description: A boolean flag to enable/disable appending lists instead of overwriting them.
-
-Type: `bool`
-
-Default: `false`
-
-==== [[input_show_manifest_diff]] <<input_show_manifest_diff,show_manifest_diff>>
-
-Description: A boolean to enable/disable outputting Helm templates on the Terraform plan.  
-This is useful for debugging purposes only. *Make sure no secrets appear in the Kubernetes manifests before setting this flag, otherwise they will be exposed in your Terraform plan.*
 
 Type: `bool`
 
@@ -277,11 +264,10 @@ Description: The admin password for Grafana.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_null]] <<provider_null,null>> |>= 3
 |[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |>= 2
+|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_utils]] <<provider_utils,utils>> |>= 1
-|[[provider_helm]] <<provider_helm,helm>> |n/a
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 5
 |===
 
@@ -295,11 +281,9 @@ Description: The admin password for Grafana.
 |https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace[kubernetes_namespace.kube_prometheus_stack_namespace] |resource
 |https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret[kubernetes_secret.thanos_object_storage_secret] |resource
 |https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] |resource
-|https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.k8s_resources] |resource
 |https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] |resource
 |https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.grafana_admin_password] |resource
 |https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.oauth2_cookie_secret] |resource
-|https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template[helm_template.this] |data source
 |https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml[utils_deep_merge_yaml.values] |data source
 |===
 
@@ -370,14 +354,6 @@ Description: The admin password for Grafana.
 
 |[[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
 |A boolean flag to enable/disable appending lists instead of overwriting them.
-|`bool`
-|`false`
-|no
-
-|[[input_show_manifest_diff]] <<input_show_manifest_diff,show_manifest_diff>>
-|A boolean to enable/disable outputting Helm templates on the Terraform plan.
-This is useful for debugging purposes only. *Make sure no secrets appear in the Kubernetes manifests before setting this flag, otherwise they will be exposed in your Terraform plan.*
-
 |`bool`
 |`false`
 |no
