@@ -6,7 +6,19 @@
 ### ⚠ BREAKING CHANGES
 
 * remove the Helm diff ([#94](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/94))
-* **chart:** major update of dependencies on kube-prometheus-stack chart ([#92](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/92))
+* **chart:** major update of dependencies on kube-prometheus-stack chart ([#92](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/92)):
+
+  - The v52.x of the chart changes multiple values on the Thanos settings of this chart. Note the following from their upgrade recommendations to see if you are affected:
+    
+    > This [upgrade] includes the ability to select between using existing secrets or create new secret objects for various thanos config. The defaults have not changed but if you were setting:
+    >
+    >     `thanosRuler.thanosRulerSpec.alertmanagersConfig` or
+    >     `thanosRuler.thanosRulerSpec.objectStorageConfig` or
+    >     `thanosRuler.thanosRulerSpec.queryConfig` or
+    >     `prometheus.prometheusSpec.thanos.objectStorageConfig`
+    > 
+    > you will have to need to set existingSecret or secret based on your requirement
+    >
 
 ### Features
 
