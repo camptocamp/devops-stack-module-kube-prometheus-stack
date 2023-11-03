@@ -131,15 +131,6 @@ Type: `bool`
 
 Default: `false`
 
-==== [[input_show_manifest_diff]] <<input_show_manifest_diff,show_manifest_diff>>
-
-Description: A boolean to enable/disable outputting Helm templates on the Terraform plan.  
-This is useful for debugging purposes only. *Make sure no secrets appear in the Kubernetes manifests before setting this flag, otherwise they will be exposed in your Terraform plan.*
-
-Type: `bool`
-
-Default: `false`
-
 ==== [[input_app_autosync]] <<input_app_autosync,app_autosync>>
 
 Description: Automated sync options for the Argo CD Application resource.
@@ -330,14 +321,6 @@ object({
 
 |[[input_deep_merge_append_list]] <<input_deep_merge_append_list,deep_merge_append_list>>
 |A boolean flag to enable/disable appending lists instead of overwriting them.
-|`bool`
-|`false`
-|no
-
-|[[input_show_manifest_diff]] <<input_show_manifest_diff,show_manifest_diff>>
-|A boolean to enable/disable outputting Helm templates on the Terraform plan.
-This is useful for debugging purposes only. *Make sure no secrets appear in the Kubernetes manifests before setting this flag, otherwise they will be exposed in your Terraform plan.*
-
 |`bool`
 |`false`
 |no
