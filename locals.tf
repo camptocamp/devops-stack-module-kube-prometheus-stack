@@ -15,7 +15,7 @@ locals {
     enabled                  = true
     additional_data_sources  = false
     generic_oauth_extra_args = {}
-    domain                   = "grafana.apps.${var.cluster_name}.${var.base_domain}"
+    domain                   = "grafana.${trimprefix("${var.subdomain}.${var.cluster_name}", ".")}.${var.base_domain}"
     admin_password           = random_password.grafana_admin_password.result
   }
 
@@ -26,7 +26,7 @@ locals {
 
   prometheus_defaults = {
     enabled = true
-    domain  = "prometheus.apps.${var.cluster_name}.${var.base_domain}"
+    domain  = "prometheus.${trimprefix("${var.subdomain}.${var.cluster_name}", ".")}.${var.base_domain}"
   }
 
   prometheus = merge(
@@ -36,7 +36,7 @@ locals {
 
   alertmanager_defaults = {
     enabled            = true
-    domain             = "alertmanager.apps.${var.cluster_name}.${var.base_domain}"
+    domain             = "alertmanager.${trimprefix("${var.subdomain}.${var.cluster_name}", ".")}.${var.base_domain}"
     deadmanssnitch_url = null
     slack_routes       = []
   }
@@ -156,14 +156,14 @@ locals {
           servicePort = "9095"
           hosts = [
             "${local.alertmanager.domain}",
-            "alertmanager.apps.${var.base_domain}"
+            "alertmanager.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}"
           ]
           tls = [
             {
               secretName = "alertmanager-tls"
               hosts = [
                 "${local.alertmanager.domain}",
-                "alertmanager.apps.${var.base_domain}",
+                "alertmanager.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}",
               ]
             },
           ]
@@ -237,14 +237,14 @@ locals {
           annotations = local.ingress_annotations
           hosts = [
             "${local.grafana.domain}",
-            "grafana.apps.${var.base_domain}",
+            "grafana.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}",
           ]
           tls = [
             {
               secretName = "grafana-tls"
               hosts = [
                 "${local.grafana.domain}",
-                "grafana.apps.${var.base_domain}",
+                "grafana.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}",
               ]
             },
           ]
@@ -288,14 +288,14 @@ locals {
           servicePort = "9091"
           hosts = [
             "${local.prometheus.domain}",
-            "prometheus.apps.${var.base_domain}",
+            "prometheus.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}",
           ]
           tls = [
             {
               secretName = "prometheus-tls"
               hosts = [
                 "${local.prometheus.domain}",
-                "prometheus.apps.${var.base_domain}",
+                "prometheus.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}",
               ]
             },
           ]
