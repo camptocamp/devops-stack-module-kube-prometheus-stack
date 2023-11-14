@@ -32,6 +32,7 @@ module "kube-prometheus-stack" {
 
   cluster_name           = var.cluster_name
   base_domain            = var.base_domain
+  subdomain              = var.subdomain
   argocd_namespace       = var.argocd_namespace
   argocd_project         = var.argocd_project
   argocd_labels          = var.argocd_labels
@@ -51,4 +52,3 @@ module "kube-prometheus-stack" {
 
   helm_values = concat(local.helm_values, var.helm_values)
 }
-
