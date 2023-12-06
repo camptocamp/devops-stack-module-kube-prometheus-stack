@@ -216,7 +216,7 @@ locals {
         }
         additionalDataSources = [merge(var.metrics_storage_main != null ? {
           name = "Thanos"
-          url  = "http://thanos-query.thanos:9090"
+          url  = "http://thanos-query-frontend.thanos:9090"
           } : {
           name = "Prometheus"
           url  = "http://kube-prometheus-stack-prometheus:9090"

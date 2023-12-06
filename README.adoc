@@ -264,10 +264,10 @@ Description: The admin password for Grafana.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_null]] <<provider_null,null>> |>= 3
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 5
 |[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |>= 2
+|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_utils]] <<provider_utils,utils>> |>= 1
 |===
 
