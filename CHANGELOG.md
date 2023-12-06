@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.2](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v8.0.1...v8.0.2) (2023-12-06)
+
+
+### Bug Fixes
+
+* **Grafana:** Thanos datasource url ([#99](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/99)) ([2a2c3af](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/2a2c3af4c196000c004366d7c9bbf04be75efcd1))
+
 ## [8.0.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v8.0.0...v8.0.1) (2023-12-06)
 
 
