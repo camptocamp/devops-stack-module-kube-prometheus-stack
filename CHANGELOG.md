@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v8.0.0...v8.0.1) (2023-12-06)
+
+
+### Bug Fixes
+
+* **Grafana:** increase timeout for long queries ([#100](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/100)) ([3cdd3a8](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/3cdd3a871c133149f4961a371c86913d9a4841b5))
+
 ## [8.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v7.1.0...v8.0.0) (2023-11-03)
 
 
