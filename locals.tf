@@ -205,6 +205,9 @@ locals {
             domain   = "${local.grafana.domain}"
             root_url = "https://%(domain)s" # TODO check this
           }
+          dataproxy = {
+            timeout = 900
+          }
         }
         sidecar = {
           datasources = {
