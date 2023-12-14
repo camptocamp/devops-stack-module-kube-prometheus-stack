@@ -42,11 +42,11 @@ The following providers are used by this module:
 
 - [[provider_null]] <<provider_null,null>> (>= 3)
 
-- [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
-
 - [[provider_kubernetes]] <<provider_kubernetes,kubernetes>> (>= 2)
 
 - [[provider_utils]] <<provider_utils,utils>> (>= 1)
+
+- [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
 
 === Resources
 
@@ -120,7 +120,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v8.0.0"`
+Default: `"v8.0.2"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -215,6 +215,7 @@ Description: Object containing Alertmanager settings. The following attributes a
   * `channel`: channel where the alerts will be sent (with '#').
   * `api_url`: slack URL you received when configuring a webhook integration.
   * `matchers`: list of strings for filtering which alerts will be sent.
+  * `continue`: whether an alert should continue matching subsequent sibling nodes.
 
 Type: `any`
 
@@ -264,10 +265,10 @@ Description: The admin password for Grafana.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
+|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_null]] <<provider_null,null>> |>= 3
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 5
 |[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |>= 2
-|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_utils]] <<provider_utils,utils>> |>= 1
 |===
 
@@ -331,7 +332,7 @@ Description: The admin password for Grafana.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v8.0.0"`
+|`"v8.0.2"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -414,6 +415,7 @@ object({
   * `channel`: channel where the alerts will be sent (with '#').
   * `api_url`: slack URL you received when configuring a webhook integration.
   * `matchers`: list of strings for filtering which alerts will be sent.
+  * `continue`: whether an alert should continue matching subsequent sibling nodes.
 
 |`any`
 |`{}`
