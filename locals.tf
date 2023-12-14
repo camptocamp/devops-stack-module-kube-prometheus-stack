@@ -78,6 +78,7 @@ locals {
       [for item in local.alertmanager.slack_routes : {
         matchers = item["matchers"]
         receiver = item["name"]
+        continue = lookup(item, "continue", false)
       }]
     ])
   }
