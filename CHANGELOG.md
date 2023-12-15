@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v8.0.2...v8.1.0) (2023-12-15)
+
+
+### Features
+
+* **alertmanager:** continue matching ([#103](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/103)) ([5615736](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/561573696295de3f78eb7f398e968122e168f466))
+
 ## [8.0.2](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v8.0.1...v8.0.2) (2023-12-06)
 
 
