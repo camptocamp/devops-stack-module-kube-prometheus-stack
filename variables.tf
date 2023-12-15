@@ -114,6 +114,7 @@ variable "alertmanager" {
       * `channel`: channel where the alerts will be sent (with '#').
       * `api_url`: slack URL you received when configuring a webhook integration.
       * `matchers`: list of strings for filtering which alerts will be sent.
+      * `continue`: whether an alert should continue matching subsequent sibling nodes.
   EOT
   type        = any
   default     = {}
