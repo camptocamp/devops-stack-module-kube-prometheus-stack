@@ -113,7 +113,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v8.0.2"`
+Default: `"v8.1.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -221,6 +221,14 @@ Description: Storage settings for the Thanos sidecar. Needs to be of type `any` 
 Type: `any`
 
 Default: `{}`
+
+==== [[input_dataproxy_timeout]] <<input_dataproxy_timeout,dataproxy_timeout>>
+
+Description: This variable is used to setup dataproxy timeout.
+
+Type: `number`
+
+Default: `30`
 
 === Outputs
 
@@ -335,7 +343,7 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v8.0.2"`
+|`"v8.1.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -428,6 +436,12 @@ object({
 |Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
 |`any`
 |`{}`
+|no
+
+|[[input_dataproxy_timeout]] <<input_dataproxy_timeout,dataproxy_timeout>>
+|This variable is used to setup dataproxy timeout.
+|`number`
+|`30`
 |no
 
 |===
