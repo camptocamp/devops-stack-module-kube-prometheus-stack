@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.2.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v8.1.0...v8.2.0) (2023-12-18)
+
+
+### Features
+
+* **grafana:** create a variable to set a dataproxy time ([#105](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/105)) ([ee366c7](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/ee366c7faefe132563d5cc98c7274ec6bd14225d))
+
 ## [8.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v8.0.2...v8.1.0) (2023-12-15)
 
 
