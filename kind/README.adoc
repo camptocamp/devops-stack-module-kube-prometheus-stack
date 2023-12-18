@@ -210,7 +210,7 @@ Default: `{}`
 
 ==== [[input_dataproxy_timeout]] <<input_dataproxy_timeout,dataproxy_timeout>>
 
-Description: This variable is used to setup dataproxy timeout.
+Description: Variable to set the time when a query times out. This applies to all the Grafana's data sources and can be manually configured per data source if desired.
 
 Type: `number`
 
@@ -407,7 +407,7 @@ object({
 |no
 
 |[[input_dataproxy_timeout]] <<input_dataproxy_timeout,dataproxy_timeout>>
-|This variable is used to setup dataproxy timeout.
+|Variable to set the time when a query times out. This applies to all the Grafana's data sources and can be manually configured per data source if desired.
 |`number`
 |`30`
 |no
