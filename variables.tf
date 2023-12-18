@@ -125,3 +125,9 @@ variable "metrics_storage_main" {
   type        = any
   default     = {}
 }
+
+variable "dataproxy_timeout" {
+  description = "This variable is used to setup dataproxy timeout."
+  type        = number
+  default     = 30
+}

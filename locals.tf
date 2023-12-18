@@ -207,7 +207,7 @@ locals {
             root_url = "https://%(domain)s" # TODO check this
           }
           dataproxy = {
-            timeout = 900
+            timeout = var.dataproxy_timeout
           }
         }
         sidecar = {
