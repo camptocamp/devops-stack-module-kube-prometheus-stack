@@ -125,3 +125,9 @@ variable "metrics_storage_main" {
   type        = any
   default     = {}
 }
+
+variable "dataproxy_timeout" {
+  description = "Variable to set the time when a query times out. This applies to all the Grafana's data sources and can be manually configured per data source if desired."
+  type        = number
+  default     = 30
+}

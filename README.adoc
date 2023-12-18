@@ -40,13 +40,13 @@ The following providers are used by this module:
 
 - [[provider_random]] <<provider_random,random>> (>= 3)
 
-- [[provider_null]] <<provider_null,null>> (>= 3)
-
 - [[provider_kubernetes]] <<provider_kubernetes,kubernetes>> (>= 2)
 
 - [[provider_utils]] <<provider_utils,utils>> (>= 1)
 
 - [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
+
+- [[provider_null]] <<provider_null,null>> (>= 3)
 
 === Resources
 
@@ -120,7 +120,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v8.0.2"`
+Default: `"v8.1.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -229,6 +229,14 @@ Type: `any`
 
 Default: `{}`
 
+==== [[input_dataproxy_timeout]] <<input_dataproxy_timeout,dataproxy_timeout>>
+
+Description: Variable to set the time when a query times out. This applies to all the Grafana's data sources and can be manually configured per data source if desired.
+
+Type: `number`
+
+Default: `30`
+
 === Outputs
 
 The following outputs are exported:
@@ -332,7 +340,7 @@ Description: The admin password for Grafana.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v8.0.2"`
+|`"v8.1.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -425,6 +433,12 @@ object({
 |Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used.
 |`any`
 |`{}`
+|no
+
+|[[input_dataproxy_timeout]] <<input_dataproxy_timeout,dataproxy_timeout>>
+|Variable to set the time when a query times out. This applies to all the Grafana's data sources and can be manually configured per data source if desired.
+|`number`
+|`30`
 |no
 
 |===
