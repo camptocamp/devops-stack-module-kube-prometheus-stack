@@ -45,6 +45,10 @@ resource "kubernetes_namespace" "kube_prometheus_stack_namespace" {
   metadata {
     name = var.namespace
   }
+
+  depends_on = [
+    resource.null_resource.dependencies,
+  ]
 }
 
 
@@ -61,6 +65,7 @@ resource "kubernetes_secret" "thanos_object_storage_secret" {
   }
 
   depends_on = [
+    resource.null_resource.dependencies,
     resource.kubernetes_namespace.kube_prometheus_stack_namespace
   ]
 }
