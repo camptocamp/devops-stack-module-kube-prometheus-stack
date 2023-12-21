@@ -45,7 +45,7 @@ variable "target_revision" {
 variable "cluster_issuer" {
   description = "SSL certificate issuer to use. Usually you would configure this value as `letsencrypt-staging` or `letsencrypt-prod` on your root `*.tf` files."
   type        = string
-  default     = "ca-issuer"
+  default     = "selfsigned-issuer"
 }
 
 variable "namespace" {
