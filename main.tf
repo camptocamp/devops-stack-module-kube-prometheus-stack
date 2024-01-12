@@ -19,7 +19,7 @@ resource "argocd_project" "this" {
 
     destination {
       name      = var.destination_cluster
-      namespace = var.namespace
+      namespace = "kube-prometheus-stack"
     }
 
     # This extra destination block is needed by the v1/Service
@@ -43,7 +43,7 @@ resource "argocd_project" "this" {
 
 resource "kubernetes_namespace" "kube_prometheus_stack_namespace" {
   metadata {
-    name = var.namespace
+    name = "kube-prometheus-stack"
   }
 
   depends_on = [
@@ -57,7 +57,7 @@ resource "kubernetes_secret" "thanos_object_storage_secret" {
 
   metadata {
     name      = "thanos-objectstorage"
-    namespace = var.namespace
+    namespace = "kube-prometheus-stack"
   }
 
   data = {
@@ -115,7 +115,7 @@ resource "argocd_application" "this" {
 
     destination {
       name      = var.destination_cluster
-      namespace = var.namespace
+      namespace = "kube-prometheus-stack"
     }
 
     sync_policy {

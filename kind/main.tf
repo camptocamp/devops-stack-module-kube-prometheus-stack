@@ -9,7 +9,6 @@ module "kube-prometheus-stack" {
   destination_cluster    = var.destination_cluster
   target_revision        = var.target_revision
   cluster_issuer         = var.cluster_issuer
-  namespace              = var.namespace
   deep_merge_append_list = var.deep_merge_append_list
   app_autosync           = var.app_autosync
   dependency_ids         = var.dependency_ids
