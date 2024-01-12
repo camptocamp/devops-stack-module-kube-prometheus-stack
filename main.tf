@@ -104,6 +104,10 @@ resource "argocd_application" "this" {
       plugin {
         name = "kustomized-helm"
         env {
+          name  = "HELM_ARGS"
+          value = "--name-template kube-prometheus-stack"
+        }
+        env {
           name  = "HELM_VALUES"
           value = data.utils_deep_merge_yaml.values.output
         }
