@@ -1,5 +1,22 @@
 # Changelog
 
+## [9.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v8.2.0...v9.0.0) (2024-01-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* hardcode the release name to remove the destination cluster
+* remove the ArgoCD namespace variable
+* remove the namespace variable
+
+### Bug Fixes
+
+* add dependency on the namespace so it not created before Argo CD ([9e9648c](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/9e9648cdf58c16fd9e2209ea1b125efb81126534))
+* disable SSL verification unless for prod issuer and change default issuer ([bd66f82](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/bd66f822198ba4273415427dcefbb61aafffd87f))
+* hardcode the release name to remove the destination cluster ([a113f9c](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/a113f9c98bb6e37938d2ef13ce612e5bc6e46e53))
+* remove the ArgoCD namespace variable ([d22e46b](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/d22e46b66c4f7d176b5168b23911c338b78aac98))
+* remove the namespace variable ([0e7d1f7](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/0e7d1f711efbb8999e523b8b9845f1b880bd8f0a))
+
 ## [8.2.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v8.1.0...v8.2.0) (2023-12-18)
 
 
