@@ -231,7 +231,18 @@ locals {
             oauthPassThru     = true
           }
           }
-        )]
+          ), {
+          name      = "alertmanager"
+          type      = "camptocamp-prometheus-alertmanager-datasource"
+          access    = "server"
+          url       = "http://kube-prometheus-stack-alertmanager:9093"
+          isDefault = false
+          jsonData = {
+            tlsAuth           = false
+            tlsAuthWithCACert = false
+          }
+          }
+        ]
         ingress = {
           enabled     = true
           annotations = local.ingress_annotations
