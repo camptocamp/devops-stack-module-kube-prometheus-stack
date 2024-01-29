@@ -261,36 +261,9 @@ locals {
           ]
         }
         } : null,
-        merge((!local.grafana.enabled && local.grafana.additional_data_sources) ? {
-          forceDeployDashboards  = true
-          forceDeployDatasources = true
-          sidecar = {
-            datasources = {
-              defaultDatasourceEnabled = false
-            }
-          }
-          additionalDataSources = [merge(var.metrics_storage_main != null ? {
-            name = "Thanos"
-            url  = "http://thanos-query.thanos:9090"
-            } : {
-            # Note that since this is for the the Grafana module deployed inside it's
-            # own namespace, we need to have the reference to the namespace in the URL.
-            name = "Prometheus"
-            url  = "http://kube-prometheus-stack-prometheus.kube-prometheus-stack:9090"
-            }, {
-            type      = "prometheus"
-            access    = "proxy"
-            isDefault = true
-            jsonData = {
-              tlsAuth           = false
-              tlsAuthWithCACert = false
-              oauthPassThru     = true
-            }
-            }
-          )]
-          } : null, {
+        {
           enabled = local.grafana.enabled
-        })
+        }
       )
       prometheus = merge(local.prometheus.enabled ? {
         ingress = {
