@@ -202,14 +202,6 @@ object({
 
 Default: `null`
 
-==== [[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
-
-Description: Namespace used by Argo CD where the Application and AppProject resources should be created.
-
-Type: `string`
-
-Default: `"argocd"`
-
 ==== [[input_argocd_project]] <<input_argocd_project,argocd_project>>
 
 Description: Name of the Argo CD AppProject where the Application should be created. If not set, the Application will be created in a new AppProject only for this Application.
@@ -240,7 +232,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v8.1.0"`
+Default: `"v9.0.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -248,15 +240,7 @@ Description: SSL certificate issuer to use. Usually you would configure this val
 
 Type: `string`
 
-Default: `"ca-issuer"`
-
-==== [[input_namespace]] <<input_namespace,namespace>>
-
-Description: Namespace where the applications's Kubernetes resources should be created. Namespace will be created in case it doesn't exist.
-
-Type: `string`
-
-Default: `"kube-prometheus-stack"`
+Default: `"selfsigned-issuer"`
 
 ==== [[input_helm_values]] <<input_helm_values,helm_values>>
 
@@ -430,12 +414,6 @@ object({
 |n/a
 |yes
 
-|[[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
-|Namespace used by Argo CD where the Application and AppProject resources should be created.
-|`string`
-|`"argocd"`
-|no
-
 |[[input_argocd_project]] <<input_argocd_project,argocd_project>>
 |Name of the Argo CD AppProject where the Application should be created. If not set, the Application will be created in a new AppProject only for this Application.
 |`string`
@@ -457,19 +435,13 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v8.1.0"`
+|`"v9.0.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 |SSL certificate issuer to use. Usually you would configure this value as `letsencrypt-staging` or `letsencrypt-prod` on your root `*.tf` files.
 |`string`
-|`"ca-issuer"`
-|no
-
-|[[input_namespace]] <<input_namespace,namespace>>
-|Namespace where the applications's Kubernetes resources should be created. Namespace will be created in case it doesn't exist.
-|`string`
-|`"kube-prometheus-stack"`
+|`"selfsigned-issuer"`
 |no
 
 |[[input_helm_values]] <<input_helm_values,helm_values>>

@@ -197,7 +197,7 @@ locals {
             auth_url                 = "${replace(local.grafana.oidc.oauth_url, "\"", "\\\"")}"
             token_url                = "${replace(local.grafana.oidc.token_url, "\"", "\\\"")}"
             api_url                  = "${replace(local.grafana.oidc.api_url, "\"", "\\\"")}"
-            tls_skip_verify_insecure = var.cluster_issuer == "ca-issuer" || var.cluster_issuer == "letsencrypt-staging"
+            tls_skip_verify_insecure = var.cluster_issuer != "letsencrypt-prod"
           }, local.grafana.generic_oauth_extra_args)
           users = {
             auto_assign_org_role = "Editor"
