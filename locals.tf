@@ -374,6 +374,9 @@ locals {
         thanosService = {
           enabled = var.metrics_storage_main != null ? true : false
         }
+        thanosServiceMonitor = {
+          enabled = var.metrics_storage_main != null ? true : false
+        }
         }
       )
     }
