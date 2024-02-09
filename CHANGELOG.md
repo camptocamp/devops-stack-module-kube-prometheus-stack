@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v9.0.0...v9.1.0) (2024-02-09)
+
+
+### Features
+
+* enable the export of Thanos sidecar metrics ([#111](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/111)) ([b31dd5c](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/b31dd5caa1bee6d5069fb1a05391a6ae8a68b10b))
+
 ## [9.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v8.2.0...v9.0.0) (2024-01-19)
 
 
