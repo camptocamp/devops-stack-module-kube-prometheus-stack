@@ -40,13 +40,13 @@ The following providers are used by this module:
 
 - [[provider_random]] <<provider_random,random>> (>= 3)
 
-- [[provider_kubernetes]] <<provider_kubernetes,kubernetes>> (>= 2)
-
-- [[provider_utils]] <<provider_utils,utils>> (>= 1)
+- [[provider_null]] <<provider_null,null>> (>= 3)
 
 - [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
 
-- [[provider_null]] <<provider_null,null>> (>= 3)
+- [[provider_kubernetes]] <<provider_kubernetes,kubernetes>> (>= 2)
+
+- [[provider_utils]] <<provider_utils,utils>> (>= 1)
 
 === Resources
 
@@ -82,6 +82,14 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
+==== [[input_subdomain]] <<input_subdomain,subdomain>>
+
+Description: Sub domain of the cluster. Value used for the ingress' URL of the application.
+
+Type: `string`
+
+Default: `"apps"`
+
 ==== [[input_argocd_project]] <<input_argocd_project,argocd_project>>
 
 Description: Name of the Argo CD AppProject where the Application should be created. If not set, the Application will be created in a new AppProject only for this Application.
@@ -112,7 +120,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v9.0.0"`
+Default: `"v9.1.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -257,11 +265,11 @@ Description: The admin password for Grafana.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[provider_random]] <<provider_random,random>> |>= 3
-|[[provider_null]] <<provider_null,null>> |>= 3
-|[[provider_argocd]] <<provider_argocd,argocd>> |>= 5
 |[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |>= 2
+|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_utils]] <<provider_utils,utils>> |>= 1
+|[[provider_argocd]] <<provider_argocd,argocd>> |>= 5
+|[[provider_null]] <<provider_null,null>> |>= 3
 |===
 
 = Resources
@@ -297,6 +305,12 @@ Description: The admin password for Grafana.
 |n/a
 |yes
 
+|[[input_subdomain]] <<input_subdomain,subdomain>>
+|Sub domain of the cluster. Value used for the ingress' URL of the application.
+|`string`
+|`"apps"`
+|no
+
 |[[input_argocd_project]] <<input_argocd_project,argocd_project>>
 |Name of the Argo CD AppProject where the Application should be created. If not set, the Application will be created in a new AppProject only for this Application.
 |`string`
@@ -318,7 +332,7 @@ Description: The admin password for Grafana.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v9.0.0"`
+|`"v9.1.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
