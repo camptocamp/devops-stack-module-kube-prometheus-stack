@@ -13,9 +13,10 @@ variable "base_domain" {
 }
 
 variable "subdomain" {
-  description = "Sub domain of the cluster. Value used for the ingress' URL of the application."
+  description = "Subdomain of the cluster. Value used for the ingress' URL of the application."
   type        = string
   default     = "apps"
+  nullable    = false
 }
 
 variable "argocd_project" {
