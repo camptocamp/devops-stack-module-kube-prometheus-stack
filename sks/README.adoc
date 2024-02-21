@@ -204,7 +204,7 @@ Default: `null`
 
 ==== [[input_subdomain]] <<input_subdomain,subdomain>>
 
-Description: Sub domain of the cluster. Value used for the ingress' URL of the application.
+Description: Subdomain of the cluster. Value used for the ingress' URL of the application.
 
 Type: `string`
 
@@ -423,7 +423,7 @@ object({
 |yes
 
 |[[input_subdomain]] <<input_subdomain,subdomain>>
-|Sub domain of the cluster. Value used for the ingress' URL of the application.
+|Subdomain of the cluster. Value used for the ingress' URL of the application.
 |`string`
 |`"apps"`
 |no
