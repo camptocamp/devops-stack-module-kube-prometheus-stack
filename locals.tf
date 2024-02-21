@@ -1,6 +1,8 @@
 locals {
   oauth2_proxy_image       = "quay.io/oauth2-proxy/oauth2-proxy:v7.5.0"
   curl_wait_for_oidc_image = "curlimages/curl:8.3.0"
+  domain                   = trimprefix("${var.subdomain}.${var.base_domain}", ".")
+  domain_full              = trimprefix("${var.subdomain}.${var.cluster_name}.${var.base_domain}", ".")
 
   ingress_annotations = {
     "cert-manager.io/cluster-issuer"                   = "${var.cluster_issuer}"
@@ -15,7 +17,7 @@ locals {
     enabled                  = true
     additional_data_sources  = false
     generic_oauth_extra_args = {}
-    domain                   = "grafana.${trimprefix("${var.subdomain}.${var.cluster_name}", ".")}.${var.base_domain}"
+    domain                   = "grafana.${local.domain_full}"
     admin_password           = random_password.grafana_admin_password.result
   }
 
@@ -26,7 +28,7 @@ locals {
 
   prometheus_defaults = {
     enabled = true
-    domain  = "prometheus.${trimprefix("${var.subdomain}.${var.cluster_name}", ".")}.${var.base_domain}"
+    domain  = "prometheus.${local.domain_full}"
   }
 
   prometheus = merge(
@@ -36,7 +38,7 @@ locals {
 
   alertmanager_defaults = {
     enabled            = true
-    domain             = "alertmanager.${trimprefix("${var.subdomain}.${var.cluster_name}", ".")}.${var.base_domain}"
+    domain             = "alertmanager.${local.domain_full}"
     deadmanssnitch_url = null
     slack_routes       = []
   }
@@ -156,14 +158,14 @@ locals {
           servicePort = "9095"
           hosts = [
             "${local.alertmanager.domain}",
-            "alertmanager.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}"
+            "alertmanager.${local.domain}"
           ]
           tls = [
             {
               secretName = "alertmanager-tls"
               hosts = [
                 "${local.alertmanager.domain}",
-                "alertmanager.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}",
+                "alertmanager.${local.domain}",
               ]
             },
           ]
@@ -237,14 +239,14 @@ locals {
           annotations = local.ingress_annotations
           hosts = [
             "${local.grafana.domain}",
-            "grafana.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}",
+            "grafana.${local.domain}",
           ]
           tls = [
             {
               secretName = "grafana-tls"
               hosts = [
                 "${local.grafana.domain}",
-                "grafana.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}",
+                "grafana.${local.domain}",
               ]
             },
           ]
@@ -288,14 +290,14 @@ locals {
           servicePort = "9091"
           hosts = [
             "${local.prometheus.domain}",
-            "prometheus.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}",
+            "prometheus.${local.domain}",
           ]
           tls = [
             {
               secretName = "prometheus-tls"
               hosts = [
                 "${local.prometheus.domain}",
-                "prometheus.${trimprefix("${var.subdomain}.${var.base_domain}", ".")}",
+                "prometheus.${local.domain}",
               ]
             },
           ]
