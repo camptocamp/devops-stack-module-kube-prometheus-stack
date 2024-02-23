@@ -1,5 +1,18 @@
 # Changelog
 
+## [9.2.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v9.1.0...v9.2.0) (2024-02-23)
+
+
+### Features
+
+* add a subdomain variable ([6cd9bfe](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/6cd9bfec71fcffc07e2bcf65cf1cd078981f248e))
+
+
+### Bug Fixes
+
+* make subdomain variable non-nullable ([4af82f4](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/4af82f403c2e26e2b638ea87a2d70e89e5151613))
+* remove annotation for the redirection middleware ([5f8d07f](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/5f8d07fc4ce5c9fa49598dfca78fb23e5079b812))
+
 ## [9.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v9.0.0...v9.1.0) (2024-02-09)
 
 
