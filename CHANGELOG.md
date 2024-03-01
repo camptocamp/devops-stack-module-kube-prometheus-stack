@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.2.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v9.2.0...v9.2.1) (2024-03-01)
+
+
+### Bug Fixes
+
+* remove legacy ingress annotations ([6ad2e83](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/6ad2e83d60fdb69b6acf732477a51da0007eb30e))
+
 ## [9.2.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v9.1.0...v9.2.0) (2024-02-23)
 
 
