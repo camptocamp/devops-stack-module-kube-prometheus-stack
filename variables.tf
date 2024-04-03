@@ -84,6 +84,95 @@ variable "dependency_ids" {
 ## Module variables
 #######################
 
+variable "resources" {
+  description = <<-EOT
+    Resource limits and requests for kube-prometheus-stack's components. Follow the style on https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/[official documentation] to understand the format of the values.
+
+    IMPORTANT: These are not production values. You should always adjust them to your needs.
+  EOT
+  type = object({
+
+    prometheus = optional(object({
+      requests = optional(object({
+        cpu    = optional(string, "250m")
+        memory = optional(string, "512Mi")
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string)
+        memory = optional(string, "1024Mi")
+      }), {})
+    }), {})
+
+    prometheus_operator = optional(object({
+      requests = optional(object({
+        cpu    = optional(string, "50m")
+        memory = optional(string, "128Mi")
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string)
+        memory = optional(string, "128Mi")
+      }), {})
+    }), {})
+
+    thanos_sidecar = optional(object({
+      requests = optional(object({
+        cpu    = optional(string, "100m")
+        memory = optional(string, "256Mi")
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string)
+        memory = optional(string, "512Mi")
+      }), {})
+    }), {})
+
+    alertmanager = optional(object({
+      requests = optional(object({
+        cpu    = optional(string, "50m")
+        memory = optional(string, "128Mi")
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string)
+        memory = optional(string, "256Mi")
+      }), {})
+    }), {})
+
+    kube_state_metrics = optional(object({
+      requests = optional(object({
+        cpu    = optional(string, "50m")
+        memory = optional(string, "128Mi")
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string)
+        memory = optional(string, "128Mi")
+      }), {})
+    }), {})
+
+    grafana = optional(object({
+      requests = optional(object({
+        cpu    = optional(string, "250m")
+        memory = optional(string, "512Mi")
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string)
+        memory = optional(string, "512Mi")
+      }), {})
+    }), {})
+
+    node_exporter = optional(object({
+      requests = optional(object({
+        cpu    = optional(string, "50m")
+        memory = optional(string, "128Mi")
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string)
+        memory = optional(string, "128Mi")
+      }), {})
+    }), {})
+
+  })
+  default = {}
+}
+
 variable "grafana" {
   description = "Grafana settings"
   type        = any
@@ -116,7 +205,7 @@ variable "alertmanager" {
 }
 
 variable "metrics_storage_main" {
-  description = "Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the provider used."
+  description = "Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the variant used."
   type        = any
   default     = {}
 }

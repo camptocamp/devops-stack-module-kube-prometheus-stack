@@ -1,6 +1,6 @@
 locals {
   oauth2_proxy_image       = "quay.io/oauth2-proxy/oauth2-proxy:v7.5.0"
-  curl_wait_for_oidc_image = "curlimages/curl:8.3.0"
+  curl_wait_for_oidc_image = "curlimages/curl:8.6.0"
   domain                   = trimprefix("${var.subdomain}.${var.base_domain}", ".")
   domain_full              = trimprefix("${var.subdomain}.${var.cluster_name}.${var.base_domain}", ".")
 
@@ -8,6 +8,16 @@ locals {
     "cert-manager.io/cluster-issuer"                   = "${var.cluster_issuer}"
     "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
     "traefik.ingress.kubernetes.io/router.tls"         = "true"
+  }
+
+  oidc_proxy_resources = {
+    requests = {
+      cpu    = "20m"
+      memory = "64M"
+    }
+    limits = {
+      memory = "128M"
+    }
   }
 
   grafana_defaults = {
@@ -126,8 +136,9 @@ locals {
           ]
           containers = [
             {
-              image = local.oauth2_proxy_image
-              name  = "alertmanager-proxy"
+              image     = local.oauth2_proxy_image
+              name      = "alertmanager-proxy"
+              resources = local.oidc_proxy_resources
               ports = [
                 {
                   name          = "proxy"
@@ -148,6 +159,10 @@ locals {
               ], local.alertmanager.oidc.oauth2_proxy_extra_args)
             },
           ]
+          resources = {
+            requests = { for k, v in var.resources.alertmanager.requests : k => v if v != null }
+            limits   = { for k, v in var.resources.alertmanager.limits : k => v if v != null }
+          }
         }
         ingress = {
           enabled     = true
@@ -207,7 +222,7 @@ locals {
           }
           server = {
             domain   = "${local.grafana.domain}"
-            root_url = "https://%(domain)s" # TODO check this
+            root_url = "https://%(domain)s"
           }
           dataproxy = {
             timeout = var.dataproxy_timeout
@@ -251,6 +266,10 @@ locals {
               ]
             },
           ]
+        }
+        resources = {
+          requests = { for k, v in var.resources.grafana.requests : k => v if v != null }
+          limits   = { for k, v in var.resources.grafana.limits : k => v if v != null }
         }
         } : null,
         merge((!local.grafana.enabled && local.grafana.additional_data_sources) ? {
@@ -333,8 +352,9 @@ locals {
                 "--email-domain=*",
                 "--redirect-url=https://${local.prometheus.domain}/oauth2/callback",
               ], local.prometheus.oidc.oauth2_proxy_extra_args)
-              image = local.oauth2_proxy_image
-              name  = "prometheus-proxy"
+              image     = local.oauth2_proxy_image
+              name      = "prometheus-proxy"
+              resources = local.oidc_proxy_resources
               ports = [
                 {
                   containerPort = 9091
@@ -353,6 +373,10 @@ locals {
           externalLabels = {
             prometheus = "prometheus-${var.cluster_name}"
           }
+          resources = {
+            requests = { for k, v in var.resources.prometheus.requests : k => v if v != null }
+            limits   = { for k, v in var.resources.prometheus.limits : k => v if v != null }
+          }
           }, var.metrics_storage_main != null ? {
           thanos = {
             objectStorageConfig = {
@@ -360,6 +384,10 @@ locals {
                 name = "thanos-objectstorage"
                 key  = "thanos.yaml"
               }
+            }
+            resources = {
+              requests = { for k, v in var.resources.thanos_sidecar.requests : k => v if v != null }
+              limits   = { for k, v in var.resources.thanos_sidecar.limits : k => v if v != null }
             }
           }
         } : null)
@@ -382,6 +410,24 @@ locals {
         }
         }
       )
+      prometheusOperator = {
+        resources = {
+          requests = { for k, v in var.resources.prometheus_operator.requests : k => v if v != null }
+          limits   = { for k, v in var.resources.prometheus_operator.limits : k => v if v != null }
+        }
+      }
+      kube-state-metrics = {
+        resources = {
+          requests = { for k, v in var.resources.kube_state_metrics.requests : k => v if v != null }
+          limits   = { for k, v in var.resources.kube_state_metrics.limits : k => v if v != null }
+        }
+      }
+      prometheus-node-exporter = {
+        resources = {
+          requests = { for k, v in var.resources.node_exporter.requests : k => v if v != null }
+          limits   = { for k, v in var.resources.node_exporter.limits : k => v if v != null }
+        }
+      }
     }
   }]
 }
