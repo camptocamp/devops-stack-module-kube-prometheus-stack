@@ -1,5 +1,24 @@
 # Changelog
 
+## [10.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v9.2.1...v10.0.0) (2024-04-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **chart:** major update of dependencies on kube-prometheus-stack chart
+  * an upgrade in-place should work;
+  * most of the changes are image upgrades and the major versions are only bumped because some CRDs have changed;
+  * Argo CD should take care of upgrading them for us, so we have no problems.
+
+### Features
+
+* **chart:** major update of dependencies on kube-prometheus-stack chart ([f4e52ec](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/f4e52ec098d23e523d9caa6c426272e3749c7f80))
+
+
+### Bug Fixes
+
+* disable leaked secrets assertion on grafana.ini ([8d2c1c2](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/8d2c1c2a56d0d94eff67474c0deded90669ca075))
+
 ## [9.2.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v9.2.0...v9.2.1) (2024-03-01)
 
 
