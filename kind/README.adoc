@@ -99,7 +99,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v9.2.1"`
+Default: `"v10.0.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -303,7 +303,7 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v9.2.1"`
+|`"v10.0.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
