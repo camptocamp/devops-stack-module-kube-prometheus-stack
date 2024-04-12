@@ -5,7 +5,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **chart:** major update of dependencies on kube-prometheus-stack chart
+* **chart:** major update of dependencies on kube-prometheus-stack chart : an upgrade in-place should work; most of the changes are image upgrades and the major versions are only bumped because some CRDs have changed; Argo CD should take care of upgrading them for us, so we have no problems.
 
 ### Features
 
