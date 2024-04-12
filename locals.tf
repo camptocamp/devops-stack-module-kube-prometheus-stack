@@ -185,7 +185,11 @@ locals {
         enabled = local.alertmanager.enabled
       })
       grafana = merge(local.grafana.enabled ? {
-        adminPassword = "${replace(local.grafana.admin_password, "\"", "\\\"")}"
+        # TODO Remove the `assertNoLeakedSecrets when we start properly managing them:
+        # - https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#override-configuration-with-environment-variables
+        # - https://github.com/grafana/helm-charts/issues/2896
+        assertNoLeakedSecrets = false
+        adminPassword         = "${replace(local.grafana.admin_password, "\"", "\\\"")}"
         "grafana.ini" = {
           "auth.generic_oauth" = merge({
             enabled                  = true
