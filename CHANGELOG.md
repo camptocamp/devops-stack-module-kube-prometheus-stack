@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.1.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v10.1.0...v10.1.1) (2024-04-17)
+
+
+### Bug Fixes
+
+* **aks:** update module to support workload identities ([3da046f](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/3da046f7222647cc84a0151b424e37fa50ae9f60))
+
 ## [10.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v10.0.0...v10.1.0) (2024-04-17)
 
 
