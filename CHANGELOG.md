@@ -1,5 +1,13 @@
 # Changelog
 
+## [10.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v10.0.0...v10.1.0) (2024-04-17)
+
+
+### Features
+
+* add variable to set resources with default values ([682aa85](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/682aa85f84c532920479319cd14d7930b3dbd7c4))
+* upgrade images of OAuth Proxy and curl ([63d0fd4](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/63d0fd43ee05f1626b30de1c8c5b8187fd697d99))
+
 ## [10.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v9.2.1...v10.0.0) (2024-04-12)
 
 
