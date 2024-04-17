@@ -17,6 +17,8 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
+- [[provider_null]] <<provider_null,null>> (>= 3)
+
 - [[provider_azurerm]] <<provider_azurerm,azurerm>>
 
 === Modules
@@ -33,9 +35,11 @@ Version:
 
 The following resources are used by this module:
 
-- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment[azurerm_role_assignment.contributor] (resource)
+- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential[azurerm_federated_identity_credential.prometheus] (resource)
+- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment[azurerm_role_assignment.storage_contributor] (resource)
 - https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity[azurerm_user_assigned_identity.prometheus] (resource)
-- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.node] (data source)
+- https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] (resource)
+- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.node_resource_group] (data source)
 - https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_container[azurerm_storage_container.container] (data source)
 
 === Required Inputs
@@ -66,10 +70,11 @@ Type:
 [source,hcl]
 ----
 object({
-    container                     = string
-    storage_account               = string
-    managed_identity_node_rg_name = optional(string, null)
-    storage_account_key           = optional(string, null)
+    container                        = string
+    storage_account                  = string
+    managed_identity_node_rg_name    = optional(string, null)
+    managed_identity_oidc_issuer_url = optional(string, null)
+    storage_account_key              = optional(string, null)
   })
 ----
 
@@ -113,7 +118,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v10.0.0"`
+Default: `"v10.1.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -345,6 +350,7 @@ Description: The admin password for Grafana.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
+|[[provider_null]] <<provider_null,null>> |>= 3
 |[[provider_azurerm]] <<provider_azurerm,azurerm>> |n/a
 |===
 
@@ -361,9 +367,11 @@ Description: The admin password for Grafana.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Type
-|https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment[azurerm_role_assignment.contributor] |resource
+|https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential[azurerm_federated_identity_credential.prometheus] |resource
+|https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment[azurerm_role_assignment.storage_contributor] |resource
 |https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity[azurerm_user_assigned_identity.prometheus] |resource
-|https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.node] |data source
+|https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] |resource
+|https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group[azurerm_resource_group.node_resource_group] |data source
 |https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_container[azurerm_storage_container.container] |data source
 |===
 
@@ -379,10 +387,11 @@ Description: The admin password for Grafana.
 [source]
 ----
 object({
-    container                     = string
-    storage_account               = string
-    managed_identity_node_rg_name = optional(string, null)
-    storage_account_key           = optional(string, null)
+    container                        = string
+    storage_account                  = string
+    managed_identity_node_rg_name    = optional(string, null)
+    managed_identity_oidc_issuer_url = optional(string, null)
+    storage_account_key              = optional(string, null)
   })
 ----
 
@@ -428,7 +437,7 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v10.0.0"`
+|`"v10.1.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
