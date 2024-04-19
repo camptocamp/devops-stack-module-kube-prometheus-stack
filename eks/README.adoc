@@ -13,15 +13,35 @@ The following requirements are needed by this module:
 
 - [[requirement_utils]] <<requirement_utils,utils>> (>= 1)
 
+=== Providers
+
+The following providers are used by this module:
+
+- [[provider_aws]] <<provider_aws,aws>>
+
 === Modules
 
 The following Modules are called:
+
+==== [[module_iam_assumable_role_kube_prometheus_stack]] <<module_iam_assumable_role_kube_prometheus_stack,iam_assumable_role_kube_prometheus_stack>>
+
+Source: terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc
+
+Version: ~> 5.0
 
 ==== [[module_kube-prometheus-stack]] <<module_kube-prometheus-stack,kube-prometheus-stack>>
 
 Source: ../
 
 Version:
+
+=== Resources
+
+The following resources are used by this module:
+
+- https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy[aws_iam_policy.kube_prometheus_stack] (resource)
+- https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document[aws_iam_policy_document.kube_prometheus_stack] (data source)
+- https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket[aws_s3_bucket.kube_prometheus_stack] (data source)
 
 === Required Inputs
 
@@ -51,9 +71,10 @@ Type:
 [source,hcl]
 ----
 object({
-    bucket_id    = string
-    region       = string
-    iam_role_arn = string
+    bucket_id               = string
+    create_role             = bool
+    iam_role_arn            = optional(string, null)
+    cluster_oidc_issuer_url = optional(string, null)
   })
 ----
 
@@ -97,7 +118,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v10.1.0"`
+Default: `"v10.1.1"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -324,12 +345,31 @@ Description: The admin password for Grafana.
 |[[requirement_utils]] <<requirement_utils,utils>> |>= 1
 |===
 
+= Providers
+
+[cols="a,a",options="header,autowidth"]
+|===
+|Name |Version
+|[[provider_aws]] <<provider_aws,aws>> |n/a
+|===
+
 = Modules
 
 [cols="a,a,a",options="header,autowidth"]
 |===
 |Name |Source |Version
+|[[module_iam_assumable_role_kube_prometheus_stack]] <<module_iam_assumable_role_kube_prometheus_stack,iam_assumable_role_kube_prometheus_stack>> |terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc |~> 5.0
 |[[module_kube-prometheus-stack]] <<module_kube-prometheus-stack,kube-prometheus-stack>> |../ |
+|===
+
+= Resources
+
+[cols="a,a",options="header,autowidth"]
+|===
+|Name |Type
+|https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy[aws_iam_policy.kube_prometheus_stack] |resource
+|https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document[aws_iam_policy_document.kube_prometheus_stack] |data source
+|https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket[aws_s3_bucket.kube_prometheus_stack] |data source
 |===
 
 = Inputs
@@ -344,9 +384,10 @@ Description: The admin password for Grafana.
 [source]
 ----
 object({
-    bucket_id    = string
-    region       = string
-    iam_role_arn = string
+    bucket_id               = string
+    create_role             = bool
+    iam_role_arn            = optional(string, null)
+    cluster_oidc_issuer_url = optional(string, null)
   })
 ----
 
@@ -392,7 +433,7 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v10.1.0"`
+|`"v10.1.1"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
