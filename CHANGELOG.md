@@ -1,5 +1,16 @@
 # Changelog
 
+## [11.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v10.1.1...v11.0.0) (2024-04-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **eks:** add option to create IAM role for the metrics storage
+
+### Features
+
+* **eks:** add option to create IAM role for the metrics storage ([f678c15](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/f678c158662d98649694793e286c5059538f9f6e))
+
 ## [10.1.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v10.1.0...v10.1.1) (2024-04-17)
 
 
