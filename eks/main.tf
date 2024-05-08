@@ -61,6 +61,8 @@ module "kube-prometheus-stack" {
   argocd_labels          = var.argocd_labels
   destination_cluster    = var.destination_cluster
   target_revision        = var.target_revision
+  secrets_backend        = var.secrets_backend
+  cluster_secret_stores  = var.cluster_secret_stores
   cluster_issuer         = var.cluster_issuer
   deep_merge_append_list = var.deep_merge_append_list
   app_autosync           = var.app_autosync

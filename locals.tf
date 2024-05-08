@@ -119,6 +119,11 @@ locals {
   } : {}
 
   helm_values = [{
+    secrets = {
+      secrets_store              = var.cluster_secret_stores[var.secrets_backend]
+      grafana_credentials_secret = "devops-stack-grafana-admin-credentials-${resource.random_string.grafana_admin_credentials_secret_suffix.result}"
+    }
+
     kube-prometheus-stack = {
       alertmanager = merge(local.alertmanager.enabled ? {
         alertmanagerSpec = {
@@ -207,7 +212,12 @@ locals {
         # - https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#override-configuration-with-environment-variables
         # - https://github.com/grafana/helm-charts/issues/2896
         assertNoLeakedSecrets = false
-        adminPassword         = "${replace(local.grafana.admin_password, "\"", "\\\"")}"
+        admin = {
+          existingSecret = "kube-prometheus-stack-grafana-admin-credentials"
+          userKey        = "username"
+          passwordKey    = "password"
+        }
+        adminPassword = "${replace(local.grafana.admin_password, "\"", "\\\"")}"
         "grafana.ini" = {
           "auth.generic_oauth" = merge({
             enabled                  = true
@@ -433,9 +443,4 @@ locals {
       }
     }
   }]
-}
-
-resource "random_password" "grafana_admin_password" {
-  length  = 16
-  special = false
 }
