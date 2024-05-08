@@ -94,24 +94,27 @@ locals {
 
   alertmanager_template_files = length(local.alertmanager.slack_routes) > 0 ? {
     "slack.tmpl" = <<-EOT
-      {{ define "slack.title" -}}
-        [{{ .Status | toUpper }}
-        {{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{- end -}}
-        ] {{ .CommonLabels.alertname }}
-      {{ end }}
-      {{ define "slack.text" -}}
-      {{ range .Alerts }}
-        *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
-        {{- if .Annotations.description }}
-        *Severity:* `{{ .Labels.severity }}`
-        *Description:* {{ .Annotations.description }}
-        {{- end }}
-        *Graph:* <{{ .GeneratorURL }}|:chart_with_upwards_trend:>
-        *Labels:*
-          {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
-          {{ end }}
-      {{ end }}
-      {{ end }}
+        {{ define "slack.title" -}}
+          [{{ .Status | toUpper }}
+          {{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{- end -}}
+          ] {{ .CommonLabels.alertname }}
+        {{ end }}
+        {{ define "slack.text" -}}
+        {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+          {{- if .Annotations.description }}
+          *Severity:* `{{ .Labels.severity }}`
+          *Description:* {{ .Annotations.description }}
+          {{- end }}
+          *Graph:* <{{ .GeneratorURL }}|:chart_with_upwards_trend:>
+          *Labels:*
+            {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
+            {{ end }}
+          {{- if .Annotations.runbook_url }}
+          *Runbook URL:* <{{ .Annotations.runbook_url }}|Click here>
+          {{- end }}
+        {{ end }}
+        {{ end }}
     EOT
   } : {}
 
