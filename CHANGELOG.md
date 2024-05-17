@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v11.0.0...v11.1.0) (2024-05-16)
+
+
+### Features
+
+* add Runbook URL on alertmanager template ([#124](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/124)) ([dbd2f36](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/dbd2f3628a978ba6b7b841f45fc3adb8c6f05a7d))
+
 ## [11.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v10.1.1...v11.0.0) (2024-04-23)
 
 
