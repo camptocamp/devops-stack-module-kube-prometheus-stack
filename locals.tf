@@ -25,7 +25,6 @@ locals {
     additional_data_sources  = false
     generic_oauth_extra_args = {}
     domain                   = "grafana.${local.domain_full}"
-    admin_password           = random_password.grafana_admin_password.result
   }
 
   grafana = merge(
@@ -119,9 +118,9 @@ locals {
   } : {}
 
   helm_values = [{
-    secrets = {
-      secrets_store              = var.cluster_secret_stores[var.secrets_backend]
-      grafana_credentials_secret = "devops-stack-grafana-admin-credentials-${resource.random_string.grafana_admin_credentials_secret_suffix.result}"
+    secrets_names = {
+      cluster_secret_store  = var.secrets_names.cluster_secret_store_name
+      kube_prometheus_stack = var.secrets_names.kube_prometheus_stack
     }
 
     kube-prometheus-stack = {
@@ -217,7 +216,6 @@ locals {
           userKey        = "username"
           passwordKey    = "password"
         }
-        adminPassword = "${replace(local.grafana.admin_password, "\"", "\\\"")}"
         "grafana.ini" = {
           "auth.generic_oauth" = merge({
             enabled                  = true

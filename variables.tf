@@ -43,20 +43,15 @@ variable "target_revision" {
   default     = "v11.1.1" # x-release-please-version
 }
 
-variable "secrets_backend" {
-  description = "Secrets backend where the to store and recover the secrets used by the components. Supported values are `aws-secrets-manager`, `azure-key-vault`, `hashicorp-vault`, and `scaleway-secrets-manager`."
-  type        = string
-  default     = "hashicorp-vault"
-
-  validation {
-    condition     = contains(["aws-secrets-manager", "azure-key-vault", "hashicorp-vault", "scaleway-secrets-manager"], var.secrets_backend)
-    error_message = "Invalid value for `secrets_backend`. Supported values are `aws-secrets-manager`, `azure-key-vault`, `hashicorp-vault`, and `scaleway-secrets-manager`."
-  }
-}
-
-variable "cluster_secret_stores" {
-  description = "The names of the cluster stores that were created by the module that deployed External Secrets. Should be a map containing the secrets backend as the key and the name of the store as the value."
-  type        = map(string)
+variable "secrets_names" {
+  description = "Name of the `ClusterSecretStore` used by the External Secrets Operator and the names of the secrets required for this module."
+  type = object({
+    cluster_secret_store_name = string
+    kube_prometheus_stack = object({
+      grafana_admin_credentials = string
+    })
+  })
+  nullable = false
 }
 
 variable "cluster_issuer" {
