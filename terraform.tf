@@ -22,5 +22,3 @@ terraform {
     }
   }
 }
-
-# TODO Add requirement for aws, azurerm, scaleway and vault providers
