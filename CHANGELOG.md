@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.1.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v11.1.0...v11.1.1) (2024-06-07)
+
+
+### Bug Fixes
+
+* **eks:** use name_prefix instead of name when creating a IAM policy ([#127](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/127)) ([5fc9c24](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/5fc9c24f93bc54b1bee41f4d57b19e0af9efba43))
+
 ## [11.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v11.0.0...v11.1.0) (2024-05-16)
 
 
