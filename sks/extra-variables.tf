@@ -3,8 +3,6 @@ variable "metrics_storage" {
   type = object({
     bucket_name = string
     region      = string
-    access_key  = string
-    secret_key  = string
   })
   default = null
 }

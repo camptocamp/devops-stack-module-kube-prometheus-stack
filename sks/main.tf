@@ -1,3 +1,14 @@
+resource "null_resource" "check_metrics_storage_secret" {
+  count = var.metrics_storage != null ? 1 : 0
+
+  lifecycle {
+    precondition {
+      condition     = var.metrics_storage != null && var.secrets_names.kube_prometheus_stack.metrics_storage != null
+      error_message = "The name of the secret where to recover the access and secret keys for the bucket must be defined in the `secret_names` variable."
+    }
+  }
+}
+
 module "kube-prometheus-stack" {
   source = "../"
 
@@ -20,7 +31,7 @@ module "kube-prometheus-stack" {
   alertmanager = var.alertmanager
   grafana      = var.grafana
 
-  metrics_storage_main = local.metrics_storage
+  metrics_storage_enabled = var.metrics_storage != null
 
   helm_values = concat(local.helm_values, var.helm_values)
 }

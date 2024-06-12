@@ -1,22 +1,16 @@
 locals {
-  use_managed_identity = try(var.metrics_storage.managed_identity_node_rg_name != null, false)
+  helm_values = [{
+    metrics_storage = var.metrics_storage != null ? {
 
-  metrics_storage = var.metrics_storage == null ? null : {
-    storage_config = {
       type = "AZURE"
-      config = merge({
+      config = {
         container       = var.metrics_storage.container
         storage_account = var.metrics_storage.storage_account
-        }, local.use_managed_identity ? null : {
-        storage_account_key = var.metrics_storage.storage_account_key
-        }
-      )
-    }
-  }
+      }
+    } : null
 
-  helm_values = [{
     kube-prometheus-stack = {
-      prometheus = local.use_managed_identity ? {
+      prometheus = var.metrics_storage != null ? {
         serviceAccount = {
           annotations = {
             "azure.workload.identity/client-id" = resource.azurerm_user_assigned_identity.prometheus[0].client_id

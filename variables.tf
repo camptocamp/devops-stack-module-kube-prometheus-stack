@@ -48,6 +48,7 @@ variable "secrets_names" {
   type = object({
     cluster_secret_store_name = string
     kube_prometheus_stack = object({
+      metrics_storage           = string
       grafana_admin_credentials = string
     })
   })
@@ -215,10 +216,10 @@ variable "alertmanager" {
   default     = {}
 }
 
-variable "metrics_storage_main" {
-  description = "Storage settings for the Thanos sidecar. Needs to be of type `any` because the structure is different depending on the variant used."
-  type        = any
-  default     = {}
+variable "metrics_storage_enabled" {
+  description = "Boolean to activate the Thanos sidecar and data source, depending if the variants receive said configuration and pass it to the main module."
+  type        = bool
+  default     = false
 }
 
 variable "dataproxy_timeout" {

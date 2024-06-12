@@ -38,35 +38,6 @@ resource "argocd_project" "this" {
   }
 }
 
-resource "kubernetes_namespace" "kube_prometheus_stack_namespace" {
-  metadata {
-    name = "kube-prometheus-stack"
-  }
-
-  depends_on = [
-    resource.null_resource.dependencies,
-  ]
-}
-
-
-resource "kubernetes_secret" "thanos_object_storage_secret" {
-  count = var.metrics_storage_main != null ? 1 : 0
-
-  metadata {
-    name      = "thanos-objectstorage"
-    namespace = "kube-prometheus-stack"
-  }
-
-  data = {
-    "thanos.yaml" = yamlencode(var.metrics_storage_main.storage_config)
-  }
-
-  depends_on = [
-    resource.null_resource.dependencies,
-    resource.kubernetes_namespace.kube_prometheus_stack_namespace
-  ]
-}
-
 resource "random_password" "oauth2_cookie_secret" {
   length  = 16
   special = false
@@ -139,16 +110,13 @@ resource "argocd_application" "this" {
       }
 
       sync_options = [
-        # Set to false because namespace is created by resource.kubernetes_namespace.kube_prometheus_stack_namespace
-        "CreateNamespace=false"
+        "CreateNamespace=true"
       ]
     }
   }
 
   depends_on = [
     resource.null_resource.dependencies,
-    resource.kubernetes_secret.thanos_object_storage_secret,
-    resource.kubernetes_namespace.kube_prometheus_stack_namespace
   ]
 }
 

@@ -5,7 +5,7 @@ resource "null_resource" "dependencies" {
 }
 
 data "azurerm_resource_group" "node_resource_group" {
-  count = local.use_managed_identity ? 1 : 0
+  count = var.metrics_storage != null ? 1 : 0
 
   name = var.metrics_storage.managed_identity_node_rg_name
 
@@ -15,7 +15,7 @@ data "azurerm_resource_group" "node_resource_group" {
 }
 
 data "azurerm_storage_container" "container" {
-  count = local.use_managed_identity ? 1 : 0
+  count = var.metrics_storage != null ? 1 : 0
 
   name                 = var.metrics_storage.container
   storage_account_name = var.metrics_storage.storage_account
@@ -26,7 +26,7 @@ data "azurerm_storage_container" "container" {
 }
 
 resource "azurerm_user_assigned_identity" "prometheus" {
-  count = local.use_managed_identity ? 1 : 0
+  count = var.metrics_storage != null ? 1 : 0
 
   name                = "prometheus"
   resource_group_name = data.azurerm_resource_group.node_resource_group[0].name
@@ -34,7 +34,7 @@ resource "azurerm_user_assigned_identity" "prometheus" {
 }
 
 resource "azurerm_role_assignment" "storage_contributor" {
-  count = local.use_managed_identity ? 1 : 0
+  count = var.metrics_storage != null ? 1 : 0
 
   scope                = data.azurerm_storage_container.container[0].resource_manager_id
   role_definition_name = "Storage Blob Data Contributor"
@@ -42,7 +42,7 @@ resource "azurerm_role_assignment" "storage_contributor" {
 }
 
 resource "azurerm_federated_identity_credential" "prometheus" {
-  count = local.use_managed_identity ? 1 : 0
+  count = var.metrics_storage != null ? 1 : 0
 
   name                = "prometheus"
   resource_group_name = data.azurerm_resource_group.node_resource_group[0].name
@@ -74,7 +74,7 @@ module "kube-prometheus-stack" {
   alertmanager = var.alertmanager
   grafana      = var.grafana
 
-  metrics_storage_main = local.metrics_storage
+  metrics_storage_enabled = var.metrics_storage != null
 
   helm_values = concat(local.helm_values, var.helm_values)
 }

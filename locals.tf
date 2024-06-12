@@ -244,7 +244,7 @@ locals {
             defaultDatasourceEnabled = false
           }
         }
-        additionalDataSources = [merge(var.metrics_storage_main != null ? {
+        additionalDataSources = [merge(var.metrics_storage_enabled ? {
           name = "Thanos"
           url  = "http://thanos-query-frontend.thanos:9090"
           } : {
@@ -291,7 +291,7 @@ locals {
               defaultDatasourceEnabled = false
             }
           }
-          additionalDataSources = [merge(var.metrics_storage_main != null ? {
+          additionalDataSources = [merge(var.metrics_storage_enabled ? {
             name = "Thanos"
             url  = "http://thanos-query.thanos:9090"
             } : {
@@ -388,11 +388,11 @@ locals {
             requests = { for k, v in var.resources.prometheus.requests : k => v if v != null }
             limits   = { for k, v in var.resources.prometheus.limits : k => v if v != null }
           }
-          }, var.metrics_storage_main != null ? {
+          }, var.metrics_storage_enabled ? {
           thanos = {
             objectStorageConfig = {
               existingSecret = {
-                name = "thanos-objectstorage"
+                name = "kube-prometheus-stack-metrics-storage-configuration"
                 key  = "thanos.yaml"
               }
             }
@@ -414,10 +414,10 @@ locals {
         } : null, {
         enabled = local.prometheus.enabled
         thanosService = {
-          enabled = var.metrics_storage_main != null ? true : false
+          enabled = var.metrics_storage_enabled ? true : false
         }
         thanosServiceMonitor = {
-          enabled = var.metrics_storage_main != null ? true : false
+          enabled = var.metrics_storage_enabled ? true : false
         }
         }
       )

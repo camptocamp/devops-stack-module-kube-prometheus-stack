@@ -29,7 +29,7 @@ resource "aws_iam_policy" "kube_prometheus_stack" {
   count = var.metrics_storage != null ? (var.metrics_storage.create_role ? 1 : 0) : 0
 
   name_prefix = "kube-prometheus-stack-s3-"
-  description = "IAM policy for the kube-prometheus-stack to access the S3 bucket named ${data.aws_s3_bucket.kube_prometheus_stack[0].id}"
+  description = "IAM policy to allow kube-prometheus-stack to access the S3 bucket named ${data.aws_s3_bucket.kube_prometheus_stack[0].id}"
   policy      = data.aws_iam_policy_document.kube_prometheus_stack[0].json
 }
 
@@ -73,7 +73,7 @@ module "kube-prometheus-stack" {
   alertmanager = var.alertmanager
   grafana      = var.grafana
 
-  metrics_storage_main = local.metrics_storage
+  metrics_storage_enabled = var.metrics_storage != null
 
   helm_values = concat(local.helm_values, var.helm_values)
 }
