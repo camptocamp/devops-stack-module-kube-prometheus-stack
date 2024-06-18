@@ -70,6 +70,8 @@ module "kube-prometheus-stack" {
 
   resources = var.resources
 
+  oidc = var.oidc
+
   prometheus   = var.prometheus
   alertmanager = var.alertmanager
   grafana      = var.grafana

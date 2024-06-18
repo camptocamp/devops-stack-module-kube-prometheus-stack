@@ -216,6 +216,27 @@ variable "alertmanager" {
   default     = {}
 }
 
+variable "oidc" {
+  description = <<-EOT
+    OIDC settings to configure the access to the web interfaces of Prometheus, Alertmanager and Grafana.
+
+    Most of the parameters are self-explanatory, but the `oauth2_proxy_extra_args` and `generic_oauth_extra_args` need some explanation:
+    - `oauth2_proxy_extra_args`: list of strings to pass extra arguments to the OAuth2 Proxy used for the Prometheus and Alertmanager interfaces;
+    - `generic_oauth_extra_args`: map of strings to pass extra parameters to the OIDC configuration for Grafana; you can pass any of the parameters listed in https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/generic-oauth/#configuration-options[this table] on the Grafana documentation; note that you can only set the values that are not already configured by our module, otherwise our parameters will be overriden.
+  EOT
+  type = object({
+    issuer_url               = string
+    oauth_url                = string
+    token_url                = string
+    api_url                  = string
+    client_id                = string
+    client_secret            = string
+    oauth2_proxy_extra_args  = optional(list(string), [])
+    generic_oauth_extra_args = optional(map(string), {})
+  })
+  nullable = false
+}
+
 variable "metrics_storage_enabled" {
   description = "Boolean to activate the Thanos sidecar and data source, depending if the variants receive said configuration and pass it to the main module."
   type        = bool
