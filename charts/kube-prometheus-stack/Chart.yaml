@@ -2,7 +2,7 @@ apiVersion: v2
 dependencies:
 - name: kube-prometheus-stack
   repository: https://prometheus-community.github.io/helm-charts
-  version: 58.0.1
+  version: 58.7.2
 description: |
   This chart installs the kube-prometheus-stack and configures Grafana dashboards for monitoring Kubernetes cluster with Prometheus.
 name: kube-prometheus-stack
