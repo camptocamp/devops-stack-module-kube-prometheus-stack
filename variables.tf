@@ -48,9 +48,10 @@ variable "secrets_names" {
   type = object({
     cluster_secret_store_name = string
     kube_prometheus_stack = object({
-      metrics_storage            = string
       grafana_admin_credentials  = string
+      metrics_storage            = string
       oauth2_proxy_cookie_secret = string
+      oidc_client_secret         = string
     })
   })
   nullable = false
@@ -231,7 +232,6 @@ variable "oidc" {
     token_url                = string
     api_url                  = string
     client_id                = string
-    client_secret            = string
     oauth2_proxy_extra_args  = optional(list(string), [])
     generic_oauth_extra_args = optional(map(string), {})
   })

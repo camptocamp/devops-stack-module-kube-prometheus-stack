@@ -158,12 +158,20 @@ locals {
                 "--provider=oidc",
                 "--oidc-issuer-url=${replace(var.oidc.issuer_url, "\"", "\\\"")}",
                 "--client-id=${replace(var.oidc.client_id, "\"", "\\\"")}",
-                "--client-secret=${replace(var.oidc.client_secret, "\"", "\\\"")}",
                 "--cookie-secure=false",
                 "--email-domain=*",
                 "--redirect-url=https://${local.alertmanager.domain}/oauth2/callback",
               ], var.oidc.oauth2_proxy_extra_args)
               env = [
+                {
+                  name = "OAUTH2_PROXY_CLIENT_SECRET"
+                  valueFrom = {
+                    secretKeyRef = {
+                      name = "kube-prometheus-stack-oidc-client-secret"
+                      key  = "value"
+                    }
+                  }
+                },
                 {
                   name = "OAUTH2_PROXY_COOKIE_SECRET"
                   valueFrom = {
@@ -231,7 +239,7 @@ locals {
             enabled                  = true
             allow_sign_up            = true
             client_id                = "${replace(var.oidc.client_id, "\"", "\\\"")}"
-            client_secret            = "${replace(var.oidc.client_secret, "\"", "\\\"")}"
+            client_secret            = "placeholder" # This string here is required in order for this value to be overloaded by the `env` attribute below.
             scopes                   = "openid profile email"
             auth_url                 = "${replace(var.oidc.oauth_url, "\"", "\\\"")}"
             token_url                = "${replace(var.oidc.token_url, "\"", "\\\"")}"
@@ -250,6 +258,14 @@ locals {
           }
           dataproxy = {
             timeout = var.dataproxy_timeout
+          }
+        }
+        envValueFrom = {
+          "GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET" = {
+            secretKeyRef = {
+              name = "kube-prometheus-stack-oidc-client-secret"
+              key  = "value"
+            }
           }
         }
         sidecar = {
@@ -370,7 +386,6 @@ locals {
                 "--provider=oidc",
                 "--oidc-issuer-url=${replace(var.oidc.issuer_url, "\"", "\\\"")}",
                 "--client-id=${replace(var.oidc.client_id, "\"", "\\\"")}",
-                "--client-secret=${replace(var.oidc.client_secret, "\"", "\\\"")}",
                 "--cookie-secure=false",
                 "--email-domain=*",
                 "--redirect-url=https://${local.prometheus.domain}/oauth2/callback",
@@ -385,6 +400,15 @@ locals {
                 },
               ]
               env = [
+                {
+                  name = "OAUTH2_PROXY_CLIENT_SECRET"
+                  valueFrom = {
+                    secretKeyRef = {
+                      name = "kube-prometheus-stack-oidc-client-secret"
+                      key  = "value"
+                    }
+                  }
+                },
                 {
                   name = "OAUTH2_PROXY_COOKIE_SECRET"
                   valueFrom = {
