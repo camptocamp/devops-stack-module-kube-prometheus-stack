@@ -222,7 +222,7 @@ variable "oidc" {
 
     Most of the parameters are self-explanatory, but the `oauth2_proxy_extra_args` and `generic_oauth_extra_args` need some explanation:
     - `oauth2_proxy_extra_args`: list of strings to pass extra arguments to the OAuth2 Proxy used for the Prometheus and Alertmanager interfaces;
-    - `generic_oauth_extra_args`: map of strings to pass extra parameters to the OIDC configuration for Grafana; you can pass any of the parameters listed in https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/generic-oauth/#configuration-options[this table] on the Grafana documentation; note that you can only set the values that are not already configured by our module, otherwise our parameters will be overriden.
+    - `generic_oauth_extra_args`: map of strings to pass extra parameters to the OIDC configuration for Grafana; you can pass any of the parameters listed in https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/generic-oauth/#configuration-options[this table] on the Grafana documentation, except the ones already configured by our module in the `locals.tf`.
   EOT
   type = object({
     issuer_url               = string
@@ -238,7 +238,7 @@ variable "oidc" {
 }
 
 variable "metrics_storage_enabled" {
-  description = "Boolean to activate the Thanos sidecar and data source, depending if the variants receive said configuration and pass it to the main module."
+  description = "Boolean to activate the Thanos sidecar and data source, depending if the variants receive said configuration and pass it to the main module. *This variable is only meant to be used by the variants when calling the main module.*"
   type        = bool
   default     = false
 }

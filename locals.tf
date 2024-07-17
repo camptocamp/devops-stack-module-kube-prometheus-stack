@@ -227,7 +227,10 @@ locals {
             token_url                = "${replace(var.oidc.token_url, "\"", "\\\"")}"
             api_url                  = "${replace(var.oidc.api_url, "\"", "\\\"")}"
             tls_skip_verify_insecure = var.cluster_issuer != "letsencrypt-prod"
-          }, var.oidc.generic_oauth_extra_args)
+            }, {
+            # This loop here ensures that the user cannot override the parameters that we are setting by using the `generic_oauth_extra_args` attribute.
+            for k, v in var.oidc.generic_oauth_extra_args : k => v if !(contains(["enabled", "allow_sign_up", "client_id", "client_secret", "scopes", "auth_url", "token_url", "api_url"], k))
+          })
           users = {
             auto_assign_org_role = "Editor"
           }
