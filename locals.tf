@@ -160,10 +160,20 @@ locals {
                 "--client-id=${replace(var.oidc.client_id, "\"", "\\\"")}",
                 "--client-secret=${replace(var.oidc.client_secret, "\"", "\\\"")}",
                 "--cookie-secure=false",
-                "--cookie-secret=${replace(random_password.oauth2_cookie_secret.result, "\"", "\\\"")}",
                 "--email-domain=*",
                 "--redirect-url=https://${local.alertmanager.domain}/oauth2/callback",
               ], var.oidc.oauth2_proxy_extra_args)
+              env = [
+                {
+                  name = "OAUTH2_PROXY_COOKIE_SECRET"
+                  valueFrom = {
+                    secretKeyRef = {
+                      name = "kube-prometheus-stack-oauth2-proxy-cookie-secret"
+                      key  = "value"
+                    }
+                  }
+                }
+              ]
             },
           ]
           resources = {
@@ -362,7 +372,6 @@ locals {
                 "--client-id=${replace(var.oidc.client_id, "\"", "\\\"")}",
                 "--client-secret=${replace(var.oidc.client_secret, "\"", "\\\"")}",
                 "--cookie-secure=false",
-                "--cookie-secret=${replace(random_password.oauth2_cookie_secret.result, "\"", "\\\"")}",
                 "--email-domain=*",
                 "--redirect-url=https://${local.prometheus.domain}/oauth2/callback",
               ], var.oidc.oauth2_proxy_extra_args)
@@ -374,6 +383,17 @@ locals {
                   containerPort = 9091
                   name          = "proxy"
                 },
+              ]
+              env = [
+                {
+                  name = "OAUTH2_PROXY_COOKIE_SECRET"
+                  valueFrom = {
+                    secretKeyRef = {
+                      name = "kube-prometheus-stack-oauth2-proxy-cookie-secret"
+                      key  = "value"
+                    }
+                  }
+                }
               ]
             },
           ]

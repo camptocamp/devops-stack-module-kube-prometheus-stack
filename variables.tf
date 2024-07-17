@@ -48,8 +48,9 @@ variable "secrets_names" {
   type = object({
     cluster_secret_store_name = string
     kube_prometheus_stack = object({
-      metrics_storage           = string
-      grafana_admin_credentials = string
+      metrics_storage            = string
+      grafana_admin_credentials  = string
+      oauth2_proxy_cookie_secret = string
     })
   })
   nullable = false
