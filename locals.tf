@@ -225,10 +225,6 @@ locals {
         enabled = local.alertmanager.enabled
       })
       grafana = merge(local.grafana.enabled ? {
-        # TODO Remove the `assertNoLeakedSecrets when we start properly managing them:
-        # - https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#override-configuration-with-environment-variables
-        # - https://github.com/grafana/helm-charts/issues/2896
-        assertNoLeakedSecrets = false
         admin = {
           existingSecret = "kube-prometheus-stack-grafana-admin-credentials"
           userKey        = "username"
@@ -239,7 +235,6 @@ locals {
             enabled                  = true
             allow_sign_up            = true
             client_id                = "${replace(var.oidc.client_id, "\"", "\\\"")}"
-            client_secret            = "placeholder" # This string here is required in order for this value to be overloaded by the `env` attribute below.
             scopes                   = "openid profile email"
             auth_url                 = "${replace(var.oidc.oauth_url, "\"", "\\\"")}"
             token_url                = "${replace(var.oidc.token_url, "\"", "\\\"")}"
@@ -260,6 +255,9 @@ locals {
             timeout = var.dataproxy_timeout
           }
         }
+        # Secret values are passed as environment variables
+        # - https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#override-configuration-with-environment-variables
+        # - https://github.com/grafana/helm-charts/issues/2896
         envValueFrom = {
           "GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET" = {
             secretKeyRef = {
