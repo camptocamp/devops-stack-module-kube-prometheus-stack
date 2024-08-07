@@ -189,6 +189,9 @@ locals {
             limits   = { for k, v in var.resources.alertmanager.limits : k => v if v != null }
           }
         }
+        annotations = {
+          "reloader.stakater.com/auto" = "true"
+        }
         ingress = {
           enabled     = true
           annotations = local.ingress_annotations
@@ -229,6 +232,9 @@ locals {
           existingSecret = "kube-prometheus-stack-grafana-admin-credentials"
           userKey        = "username"
           passwordKey    = "password"
+        }
+        annotations = {
+          "reloader.stakater.com/auto" = "true"
         }
         "grafana.ini" = {
           "auth.generic_oauth" = merge({
@@ -342,6 +348,9 @@ locals {
         })
       )
       prometheus = merge(local.prometheus.enabled ? {
+        annotations = {
+          "reloader.stakater.com/auto" = "true"
+        }
         ingress = {
           enabled     = true
           annotations = local.ingress_annotations
