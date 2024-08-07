@@ -241,7 +241,7 @@ locals {
             api_url                  = "${replace(var.oidc.api_url, "\"", "\\\"")}"
             tls_skip_verify_insecure = var.cluster_issuer != "letsencrypt-prod"
             }, {
-            # This loop here ensures that the user cannot override the parameters that we are setting by using the `generic_oauth_extra_args` attribute.
+            # This loop here prevents overriding the parameters we already set if the user uses the `generic_oauth_extra_args` attribute.
             for k, v in var.oidc.generic_oauth_extra_args : k => v if !(contains(["enabled", "allow_sign_up", "client_id", "client_secret", "scopes", "auth_url", "token_url", "api_url"], k))
           })
           users = {
@@ -255,7 +255,7 @@ locals {
             timeout = var.dataproxy_timeout
           }
         }
-        # Secret values are passed as environment variables
+        # Secret values are passed as environment variables:
         # - https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#override-configuration-with-environment-variables
         # - https://github.com/grafana/helm-charts/issues/2896
         envValueFrom = {
