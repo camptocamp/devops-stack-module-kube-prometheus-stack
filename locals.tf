@@ -209,100 +209,97 @@ locals {
         } : null, {
         enabled = var.alertmanager_enabled
       })
-      grafana = merge(
-        {
-          enabled = var.grafana_enabled
-        },
-        var.grafana_enabled ? {
-          admin = {
-            existingSecret = "kube-prometheus-stack-grafana-admin-credentials"
-            userKey        = "username"
-            passwordKey    = "password"
-          }
-          annotations = {
-            "reloader.stakater.com/auto" = "true"
-          }
-          "grafana.ini" = {
-            "auth.generic_oauth" = merge({
-              enabled                  = true
-              allow_sign_up            = true
-              client_id                = "${replace(var.oidc.client_id, "\"", "\\\"")}"
-              scopes                   = "openid profile email"
-              auth_url                 = "${replace(var.oidc.oauth_url, "\"", "\\\"")}"
-              token_url                = "${replace(var.oidc.token_url, "\"", "\\\"")}"
-              api_url                  = "${replace(var.oidc.api_url, "\"", "\\\"")}"
-              tls_skip_verify_insecure = var.cluster_issuer != "letsencrypt-prod"
-              }, {
-              # This loop here prevents overriding the parameters we already set if the user uses the `generic_oauth_extra_args` attribute.
-              for k, v in var.oidc.generic_oauth_extra_args : k => v if !(contains(["enabled", "allow_sign_up", "client_id", "client_secret", "scopes", "auth_url", "token_url", "api_url"], k))
-            })
-            users = {
-              auto_assign_org_role = "Editor"
-            }
-            server = {
-              domain   = "grafana.${local.domain_full}"
-              root_url = "https://%(domain)s"
-            }
-            dataproxy = {
-              timeout = var.dataproxy_timeout
-            }
-          }
-          # Secret values are passed as environment variables:
-          # - https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#override-configuration-with-environment-variables
-          # - https://github.com/grafana/helm-charts/issues/2896
-          envValueFrom = {
-            "GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET" = {
-              secretKeyRef = {
-                name = "kube-prometheus-stack-oidc-client-secret"
-                key  = "value"
-              }
-            }
-          }
-          sidecar = {
-            datasources = {
-              defaultDatasourceEnabled = false
-            }
-          }
-          additionalDataSources = [merge(var.metrics_storage_enabled ? {
-            name = "Thanos"
-            url  = "http://thanos-query-frontend.thanos:9090"
-            } : {
-            name = "Prometheus"
-            url  = "http://kube-prometheus-stack-prometheus:9090"
+      grafana = merge(var.grafana_enabled ? {
+        admin = {
+          existingSecret = "kube-prometheus-stack-grafana-admin-credentials"
+          userKey        = "username"
+          passwordKey    = "password"
+        }
+        annotations = {
+          "reloader.stakater.com/auto" = "true"
+        }
+        "grafana.ini" = {
+          "auth.generic_oauth" = merge({
+            enabled                  = true
+            allow_sign_up            = true
+            client_id                = "${replace(var.oidc.client_id, "\"", "\\\"")}"
+            scopes                   = "openid profile email"
+            auth_url                 = "${replace(var.oidc.oauth_url, "\"", "\\\"")}"
+            token_url                = "${replace(var.oidc.token_url, "\"", "\\\"")}"
+            api_url                  = "${replace(var.oidc.api_url, "\"", "\\\"")}"
+            tls_skip_verify_insecure = var.cluster_issuer != "letsencrypt-prod"
             }, {
-            type      = "prometheus"
-            access    = "proxy"
-            isDefault = true
-            jsonData = {
-              tlsAuth           = false
-              tlsAuthWithCACert = false
-              oauthPassThru     = true
-            }
-            }
-          )]
-          ingress = {
-            enabled     = true
-            annotations = local.ingress_annotations
-            hosts = [
-              "grafana.${local.domain_full}",
-              "grafana.${local.domain}",
-            ]
-            tls = [
-              {
-                secretName = "grafana-tls"
-                hosts = [
-                  "grafana.${local.domain_full}",
-                  "grafana.${local.domain}",
-                ]
-              },
-            ]
+            # This loop here prevents overriding the parameters we already set if the user uses the `generic_oauth_extra_args` attribute.
+            for k, v in var.oidc.generic_oauth_extra_args : k => v if !(contains(["enabled", "allow_sign_up", "client_id", "client_secret", "scopes", "auth_url", "token_url", "api_url"], k))
+          })
+          users = {
+            auto_assign_org_role = "Editor"
           }
-          resources = {
-            requests = { for k, v in var.resources.grafana.requests : k => v if v != null }
-            limits   = { for k, v in var.resources.grafana.limits : k => v if v != null }
+          server = {
+            domain   = "grafana.${local.domain_full}"
+            root_url = "https://%(domain)s"
           }
-        } : null
-      )
+          dataproxy = {
+            timeout = var.dataproxy_timeout
+          }
+        }
+        # Secret values are passed as environment variables:
+        # - https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#override-configuration-with-environment-variables
+        # - https://github.com/grafana/helm-charts/issues/2896
+        envValueFrom = {
+          "GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET" = {
+            secretKeyRef = {
+              name = "kube-prometheus-stack-oidc-client-secret"
+              key  = "value"
+            }
+          }
+        }
+        sidecar = {
+          datasources = {
+            defaultDatasourceEnabled = false
+          }
+        }
+        additionalDataSources = [merge(var.metrics_storage_enabled ? {
+          name = "Thanos"
+          url  = "http://thanos-query-frontend.thanos:9090"
+          } : {
+          name = "Prometheus"
+          url  = "http://kube-prometheus-stack-prometheus:9090"
+          }, {
+          type      = "prometheus"
+          access    = "proxy"
+          isDefault = true
+          jsonData = {
+            tlsAuth           = false
+            tlsAuthWithCACert = false
+            oauthPassThru     = true
+          }
+          }
+        )]
+        ingress = {
+          enabled     = true
+          annotations = local.ingress_annotations
+          hosts = [
+            "grafana.${local.domain_full}",
+            "grafana.${local.domain}",
+          ]
+          tls = [
+            {
+              secretName = "grafana-tls"
+              hosts = [
+                "grafana.${local.domain_full}",
+                "grafana.${local.domain}",
+              ]
+            },
+          ]
+        }
+        resources = {
+          requests = { for k, v in var.resources.grafana.requests : k => v if v != null }
+          limits   = { for k, v in var.resources.grafana.limits : k => v if v != null }
+        }
+        } : null, {
+        enabled = var.grafana_enabled
+      })
       prometheus = merge(var.prometheus_enabled ? {
         annotations = {
           "reloader.stakater.com/auto" = "true"
