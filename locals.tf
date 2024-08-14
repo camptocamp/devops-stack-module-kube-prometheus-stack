@@ -139,6 +139,9 @@ locals {
                 until curl -skL -w "%%{http_code}\\n" "${replace(var.oidc.api_url, "\"", "\\\"")}" -o /dev/null | grep -vq "^\(000\|404\)$"; do echo "waiting for oidc at ${replace(var.oidc.api_url, "\"", "\\\"")}"; sleep 2; done
               EOT
               ]
+              securityContext = {
+                readOnlyRootFilesystem = true
+              }
             },
           ]
           containers = [
@@ -182,6 +185,9 @@ locals {
                   }
                 }
               ]
+              securityContext = {
+                readOnlyRootFilesystem = true
+              }
             },
           ]
           resources = {
@@ -383,6 +389,9 @@ locals {
                 until curl -skL -w "%%{http_code}\\n" "${replace(var.oidc.api_url, "\"", "\\\"")}" -o /dev/null | grep -vq "^\(000\|404\)$"; do echo "waiting for oidc at ${replace(var.oidc.api_url, "\"", "\\\"")}"; sleep 2; done
               EOT
               ]
+              securityContext = {
+                readOnlyRootFilesystem = true
+              }
             },
           ]
           containers = [
@@ -426,6 +435,9 @@ locals {
                   }
                 }
               ]
+              securityContext = {
+                readOnlyRootFilesystem = true
+              }
             },
           ]
           alertingEndpoints = [
