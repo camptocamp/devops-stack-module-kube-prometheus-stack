@@ -98,6 +98,27 @@ variable "dependency_ids" {
 ## Module variables
 #######################
 
+variable "alertmanager_enabled" {
+  description = "Boolean to activate Alertmanager."
+  type        = bool
+  default     = true
+  nullable    = false
+}
+
+variable "grafana_enabled" {
+  description = "Boolean to activate Grafana."
+  type        = bool
+  default     = true
+  nullable    = false
+}
+
+variable "prometheus_enabled" {
+  description = "Boolean to activate Prometheus."
+  type        = bool
+  default     = true
+  nullable    = false
+}
+
 variable "resources" {
   description = <<-EOT
     Resource limits and requests for kube-prometheus-stack's components. Follow the style on https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/[official documentation] to understand the format of the values.
@@ -185,18 +206,6 @@ variable "resources" {
 
   })
   default = {}
-}
-
-variable "grafana" {
-  description = "Grafana settings"
-  type        = any
-  default     = {}
-}
-
-variable "prometheus" {
-  description = "Prometheus settings"
-  type        = any
-  default     = {}
 }
 
 variable "alertmanager" {

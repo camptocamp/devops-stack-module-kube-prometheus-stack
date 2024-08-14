@@ -20,30 +20,7 @@ locals {
     }
   }
 
-  grafana_defaults = {
-    enabled                  = true
-    generic_oauth_extra_args = {}
-    domain                   = "grafana.${local.domain_full}"
-  }
-
-  grafana = merge(
-    local.grafana_defaults,
-    var.grafana,
-  )
-
-  prometheus_defaults = {
-    enabled = true
-    domain  = "prometheus.${local.domain_full}"
-  }
-
-  prometheus = merge(
-    local.prometheus_defaults,
-    var.prometheus,
-  )
-
   alertmanager_defaults = {
-    enabled            = true
-    domain             = "alertmanager.${local.domain_full}"
     deadmanssnitch_url = null
     slack_routes       = []
   }
@@ -123,7 +100,7 @@ locals {
     }
 
     kube-prometheus-stack = {
-      alertmanager = merge(local.alertmanager.enabled ? {
+      alertmanager = merge(var.alertmanager_enabled ? {
         alertmanagerSpec = {
           initContainers = [
             {
@@ -162,7 +139,7 @@ locals {
                 "--client-id=${replace(var.oidc.client_id, "\"", "\\\"")}",
                 "--cookie-secure=false",
                 "--email-domain=*",
-                "--redirect-url=https://${local.alertmanager.domain}/oauth2/callback",
+                "--redirect-url=https://alertmanager.${local.domain_full}/oauth2/callback",
               ], var.oidc.oauth2_proxy_extra_args)
               env = [
                 {
@@ -202,14 +179,14 @@ locals {
           annotations = local.ingress_annotations
           servicePort = "9095"
           hosts = [
-            "${local.alertmanager.domain}",
+            "alertmanager.${local.domain_full}",
             "alertmanager.${local.domain}"
           ]
           tls = [
             {
               secretName = "alertmanager-tls"
               hosts = [
-                "${local.alertmanager.domain}",
+                "alertmanager.${local.domain_full}",
                 "alertmanager.${local.domain}",
               ]
             },
@@ -230,13 +207,13 @@ locals {
         }
         templateFiles = local.alertmanager_template_files
         } : null, {
-        enabled = local.alertmanager.enabled
+        enabled = var.alertmanager_enabled
       })
       grafana = merge(
         {
-          enabled = local.grafana.enabled
+          enabled = var.grafana_enabled
         },
-        local.grafana.enabled ? {
+        var.grafana_enabled ? {
           admin = {
             existingSecret = "kube-prometheus-stack-grafana-admin-credentials"
             userKey        = "username"
@@ -263,7 +240,7 @@ locals {
               auto_assign_org_role = "Editor"
             }
             server = {
-              domain   = "${local.grafana.domain}"
+              domain   = "grafana.${local.domain_full}"
               root_url = "https://%(domain)s"
             }
             dataproxy = {
@@ -307,14 +284,14 @@ locals {
             enabled     = true
             annotations = local.ingress_annotations
             hosts = [
-              "${local.grafana.domain}",
+              "grafana.${local.domain_full}",
               "grafana.${local.domain}",
             ]
             tls = [
               {
                 secretName = "grafana-tls"
                 hosts = [
-                  "${local.grafana.domain}",
+                  "grafana.${local.domain_full}",
                   "grafana.${local.domain}",
                 ]
               },
@@ -326,7 +303,7 @@ locals {
           }
         } : null
       )
-      prometheus = merge(local.prometheus.enabled ? {
+      prometheus = merge(var.prometheus_enabled ? {
         annotations = {
           "reloader.stakater.com/auto" = "true"
         }
@@ -335,14 +312,14 @@ locals {
           annotations = local.ingress_annotations
           servicePort = "9091"
           hosts = [
-            "${local.prometheus.domain}",
+            "prometheus.${local.domain_full}",
             "prometheus.${local.domain}",
           ]
           tls = [
             {
               secretName = "prometheus-tls"
               hosts = [
-                "${local.prometheus.domain}",
+                "prometheus.${local.domain_full}",
                 "prometheus.${local.domain}",
               ]
             },
@@ -377,7 +354,7 @@ locals {
                 "--client-id=${replace(var.oidc.client_id, "\"", "\\\"")}",
                 "--cookie-secure=false",
                 "--email-domain=*",
-                "--redirect-url=https://${local.prometheus.domain}/oauth2/callback",
+                "--redirect-url=https://prometheus.${local.domain_full}/oauth2/callback",
               ], var.oidc.oauth2_proxy_extra_args)
               image     = local.oauth2_proxy_image
               name      = "prometheus-proxy"
@@ -451,7 +428,7 @@ locals {
           ]
         }
         } : null, {
-        enabled = local.prometheus.enabled
+        enabled = var.prometheus_enabled
         thanosService = {
           enabled = var.metrics_storage_enabled ? true : false
         }

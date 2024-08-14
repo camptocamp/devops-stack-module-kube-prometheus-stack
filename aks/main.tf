@@ -68,13 +68,14 @@ module "kube-prometheus-stack" {
   app_autosync           = var.app_autosync
   dependency_ids         = var.dependency_ids
 
-  resources = var.resources
+  alertmanager_enabled = var.alertmanager_enabled
+  grafana_enabled      = var.grafana_enabled
+  prometheus_enabled   = var.prometheus_enabled
+  resources            = var.resources
 
   oidc = var.oidc
 
-  prometheus   = var.prometheus
   alertmanager = var.alertmanager
-  grafana      = var.grafana
 
   metrics_storage_enabled = var.metrics_storage != null
 
