@@ -20,28 +20,18 @@ locals {
     }
   }
 
-  alertmanager_defaults = {
-    deadmanssnitch_url = null
-    slack_routes       = []
-  }
-
-  alertmanager = merge(
-    local.alertmanager_defaults,
-    var.alertmanager,
-  )
-
   alertmanager_receivers = flatten([
     [{
       name = "devnull"
     }],
-    local.alertmanager.deadmanssnitch_url != null ? [{
+    var.alertmanager_deadmanssnitch_url != null ? [{
       name = "deadmanssnitch"
       webhook_configs = [{
-        url           = local.alertmanager.deadmanssnitch_url
+        url           = var.alertmanager_deadmanssnitch_url
         send_resolved = false
       }]
     }] : [],
-    [for item in local.alertmanager.slack_routes : {
+    [for item in var.alertmanager_slack_routes : {
       name = item["name"]
       slack_configs = [{
         channel       = item["channel"]
@@ -58,8 +48,8 @@ locals {
     group_by = ["alertname"]
     receiver = "devnull"
     routes = flatten([
-      local.alertmanager.deadmanssnitch_url != null ? [{ matchers = ["alertname=\"Watchdog\""], receiver = "deadmanssnitch", repeat_interval = "2m" }] : [],
-      [for item in local.alertmanager.slack_routes : {
+      var.alertmanager_deadmanssnitch_url != null ? [{ matchers = ["alertname=\"Watchdog\""], receiver = "deadmanssnitch", repeat_interval = "2m" }] : [],
+      [for item in var.alertmanager_slack_routes : {
         matchers = item["matchers"]
         receiver = item["name"]
         continue = lookup(item, "continue", false)
@@ -67,7 +57,7 @@ locals {
     ])
   }
 
-  alertmanager_template_files = length(local.alertmanager.slack_routes) > 0 ? {
+  alertmanager_template_files = length(var.alertmanager_slack_routes) > 0 ? {
     "slack.tmpl" = <<-EOT
         {{ define "slack.title" -}}
           [{{ .Status | toUpper }}

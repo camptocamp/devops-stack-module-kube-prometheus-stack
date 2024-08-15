@@ -208,25 +208,6 @@ variable "resources" {
   default = {}
 }
 
-variable "alertmanager" {
-  description = <<-EOT
-    Object containing Alertmanager settings. The following attributes are supported:
-
-    * `enabled`: whether Alertmanager is deployed or not (default: `true`).
-    * `domain`: domain name configured in the Ingress (default: `prometheus.apps.$${var.cluster_name}.$${var.base_domain}`).
-    * `oidc`: OIDC configuration to be used by OAuth2 Proxy in front of Alertmanager (**required**).
-    * `deadmanssnitch_url`: url of a Dead Man's Snitch service Alertmanager should report to (by default this reporing is disabled).
-    * `slack_routes`: list of objects configuring routing of alerts to Slack channels, with the following attributes:
-      * `name`: name of the configured route.
-      * `channel`: channel where the alerts will be sent (with '#').
-      * `api_url`: slack URL you received when configuring a webhook integration.
-      * `matchers`: list of strings for filtering which alerts will be sent.
-      * `continue`: whether an alert should continue matching subsequent sibling nodes.
-  EOT
-  type        = any
-  default     = {}
-}
-
 variable "oidc" {
   description = <<-EOT
     OIDC settings to configure the access to the web interfaces of Prometheus, Alertmanager and Grafana.
@@ -257,4 +238,31 @@ variable "dataproxy_timeout" {
   description = "Variable to set the time when a query times out. This applies to all the Grafana's data sources and can be manually configured per data source if desired."
   type        = number
   default     = 30
+}
+
+variable "alertmanager_deadmanssnitch_url" {
+  description = "URL of a Dead Man's Snitch service Alertmanager should report to (by default this reporting is disabled)."
+  type        = string
+  default     = null
+}
+
+variable "alertmanager_slack_routes" {
+  description = <<-EOT
+    List of objects configuring routing of alerts to Slack channels.
+
+    Each object should have the following attributes:
+    * `name`: name of the configured route.
+    * `channel`: channel where the alerts will be sent (with '#').
+    * `api_url`: Slack URL you received when configuring a webhook integration.
+    * `matchers`: list of strings for filtering which alerts will be sent.
+    * `continue`: whether an alert should continue matching subsequent sibling nodes.
+  EOT
+  type = list(object({
+    name     = string
+    channel  = string
+    api_url  = string
+    matchers = list(string)
+    continue = bool
+  }))
+  default = []
 }
