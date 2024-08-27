@@ -1,6 +1,6 @@
 = devops-stack-module-kube-prometheus-stack
 // Document attributes to replace along the document
-:kube-prometheus-stack-chart-version: 62.2.1
+:kube-prometheus-stack-chart-version: 62.3.0
 :chart-url: https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack
 
 A https://devops-stack.io[DevOps Stack] module to deploy and configure https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack[kube-prometheus-chart].
