@@ -19,6 +19,13 @@ variable "subdomain" {
   nullable    = false
 }
 
+variable "enable_short_domain" {
+  description = "Boolean to enable the usage of the base domain without the cluster name. Disable this when you cannot have a wildcard domain for your domain in the style `*.[subdomain].base_domain.tld`. This way, cert-manager will be able to generate valid certificates for the ingress."
+  type        = bool
+  default     = true
+  nullable    = false
+}
+
 variable "argocd_project" {
   description = "Name of the Argo CD AppProject where the Application should be created. If not set, the Application will be created in a new AppProject only for this Application."
   type        = string

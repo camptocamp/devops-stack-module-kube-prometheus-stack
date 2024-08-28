@@ -168,17 +168,17 @@ locals {
           enabled     = true
           annotations = local.ingress_annotations
           servicePort = "9095"
-          hosts = [
+          hosts = compact([
             "alertmanager.${local.domain_full}",
-            "alertmanager.${local.domain}"
-          ]
+            var.enable_short_domain ? "alertmanager.${local.domain}" : null,
+          ])
           tls = [
             {
               secretName = "alertmanager-tls"
-              hosts = [
+              hosts = compact([
                 "alertmanager.${local.domain_full}",
-                "alertmanager.${local.domain}",
-              ]
+                var.enable_short_domain ? "alertmanager.${local.domain}" : null,
+              ])
             },
           ]
         }
@@ -269,17 +269,17 @@ locals {
         ingress = {
           enabled     = true
           annotations = local.ingress_annotations
-          hosts = [
+          hosts = compact([
             "grafana.${local.domain_full}",
-            "grafana.${local.domain}",
-          ]
+            var.enable_short_domain ? "grafana.${local.domain}" : null,
+          ])
           tls = [
             {
               secretName = "grafana-tls"
-              hosts = [
+              hosts = compact([
                 "grafana.${local.domain_full}",
-                "grafana.${local.domain}",
-              ]
+                var.enable_short_domain ? "grafana.${local.domain}" : null,
+              ])
             },
           ]
         }
@@ -298,17 +298,17 @@ locals {
           enabled     = true
           annotations = local.ingress_annotations
           servicePort = "9091"
-          hosts = [
+          hosts = compact([
             "prometheus.${local.domain_full}",
-            "prometheus.${local.domain}",
-          ]
+            var.enable_short_domain ? "prometheus.${local.domain}" : null,
+          ])
           tls = [
             {
               secretName = "prometheus-tls"
-              hosts = [
+              hosts = compact([
                 "prometheus.${local.domain_full}",
-                "prometheus.${local.domain}",
-              ]
+                var.enable_short_domain ? "prometheus.${local.domain}" : null,
+              ])
             },
           ]
         }
