@@ -24,10 +24,10 @@ locals {
     [{
       name = "devnull"
     }],
-    var.alertmanager_deadmanssnitch_url != null ? [{
+    var.alertmanager_enable_deadmanssnitch_url ? [{
       name = "deadmanssnitch"
       webhook_configs = [{
-        url           = var.alertmanager_deadmanssnitch_url
+        url_file      = "/etc/alertmanager/secrets/kube-prometheus-stack-alertmanager-secrets/deadmanssnitch-url"
         send_resolved = false
       }]
     }] : [],
@@ -35,7 +35,7 @@ locals {
       name = item["name"]
       slack_configs = [{
         channel       = item["channel"]
-        api_url       = item["api_url"]
+        api_url_file  = format("/etc/alertmanager/secrets/kube-prometheus-stack-alertmanager-secrets/slack-route-%s", item["name"])
         send_resolved = true
         icon_url      = "https://avatars3.githubusercontent.com/u/3380462"
         title         = "{{ template \"slack.title\" . }}"
@@ -48,7 +48,7 @@ locals {
     group_by = ["alertname"]
     receiver = "devnull"
     routes = flatten([
-      var.alertmanager_deadmanssnitch_url != null ? [{ matchers = ["alertname=\"Watchdog\""], receiver = "deadmanssnitch", repeat_interval = "2m" }] : [],
+      var.alertmanager_enable_deadmanssnitch_url ? [{ matchers = ["alertname=\"Watchdog\""], receiver = "deadmanssnitch", repeat_interval = "2m" }] : [],
       [for item in var.alertmanager_slack_routes : {
         matchers = item["matchers"]
         receiver = item["name"]
@@ -160,6 +160,9 @@ locals {
             requests = { for k, v in var.resources.alertmanager.requests : k => v if v != null }
             limits   = { for k, v in var.resources.alertmanager.limits : k => v if v != null }
           }
+          secrets = compact([
+            var.secrets_names.kube_prometheus_stack.alertmanager_secrets != null ? "kube-prometheus-stack-alertmanager-secrets" : null,
+          ])
         }
         annotations = {
           "reloader.stakater.com/auto" = "true"

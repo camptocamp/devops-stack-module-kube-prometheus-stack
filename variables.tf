@@ -248,10 +248,14 @@ variable "dataproxy_timeout" {
   default     = 30
 }
 
-variable "alertmanager_deadmanssnitch_url" {
-  description = "URL of a Dead Man's Snitch service Alertmanager should report to (by default this reporting is disabled)."
-  type        = string
-  default     = null
+variable "alertmanager_enable_deadmanssnitch_url" {
+  description = <<-EOT
+    Enable reporting to the Dead Man's Snitch service from Alertmanager (by default this reporting is disabled).
+    
+    IMPORTANT: This requires that you passed the URL of the service in the `alertmanager_deadmanssnitch_url` variable of the secrets module or otherwise configure a secret and pass its name in the `secrets_names` variable.
+  EOT
+  type        = bool
+  default     = false
 }
 
 variable "alertmanager_slack_routes" {
@@ -261,14 +265,12 @@ variable "alertmanager_slack_routes" {
     Each object should have the following attributes:
     * `name`: name of the configured route.
     * `channel`: channel where the alerts will be sent (with '#').
-    * `api_url`: Slack URL you received when configuring a webhook integration.
     * `matchers`: list of strings for filtering which alerts will be sent.
     * `continue`: whether an alert should continue matching subsequent sibling nodes.
   EOT
   type = list(object({
     name     = string
     channel  = string
-    api_url  = string
     matchers = list(string)
     continue = bool
   }))

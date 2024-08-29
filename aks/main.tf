@@ -69,15 +69,15 @@ module "kube-prometheus-stack" {
   app_autosync           = var.app_autosync
   dependency_ids         = var.dependency_ids
 
-  alertmanager_enabled            = var.alertmanager_enabled
-  grafana_enabled                 = var.grafana_enabled
-  prometheus_enabled              = var.prometheus_enabled
-  resources                       = var.resources
-  oidc                            = var.oidc
-  metrics_storage_enabled         = var.metrics_storage != null
-  dataproxy_timeout               = var.dataproxy_timeout
-  alertmanager_deadmanssnitch_url = var.alertmanager_deadmanssnitch_url
-  alertmanager_slack_routes       = var.alertmanager_slack_routes
+  alertmanager_enabled                   = var.alertmanager_enabled
+  grafana_enabled                        = var.grafana_enabled
+  prometheus_enabled                     = var.prometheus_enabled
+  resources                              = var.resources
+  oidc                                   = var.oidc
+  metrics_storage_enabled                = var.metrics_storage != null
+  dataproxy_timeout                      = var.dataproxy_timeout
+  alertmanager_enable_deadmanssnitch_url = var.alertmanager_enable_deadmanssnitch_url
+  alertmanager_slack_routes              = var.alertmanager_slack_routes
 
   helm_values = concat(local.helm_values, var.helm_values)
 }
