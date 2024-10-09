@@ -1,5 +1,16 @@
 # Changelog
 
+## [13.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v12.0.0...v13.0.0) (2024-10-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* point the Argo CD provider to the new repository ([#133](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/133))
+
+### Features
+
+* point the Argo CD provider to the new repository ([#133](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/133)) ([f69deb2](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/f69deb2a68ff31972ce186970f28971e1d403179))
+
 ## [12.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v11.1.1...v12.0.0) (2024-08-22)
 
 
