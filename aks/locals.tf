@@ -16,7 +16,7 @@ locals {
 
   helm_values = [{
     kube-prometheus-stack = {
-      prometheus = local.use_managed_identity ? {
+      prometheus = merge(local.use_managed_identity ? {
         serviceAccount = {
           annotations = {
             "azure.workload.identity/client-id" = resource.azurerm_user_assigned_identity.prometheus[0].client_id
@@ -29,7 +29,7 @@ locals {
             }
           }
         }
-      } : null
+      } : null, {})
     }
   }]
 }
