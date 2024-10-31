@@ -1,6 +1,6 @@
 locals {
   oauth2_proxy_image       = "quay.io/oauth2-proxy/oauth2-proxy:v7.6.0"
-  curl_wait_for_oidc_image = "curlimages/curl:8.6.0"
+  curl_wait_for_oidc_image = "quay.io/curl/curl:8.10.1"
   domain                   = trimprefix("${var.subdomain}.${var.base_domain}", ".")
   domain_full              = trimprefix("${var.subdomain}.${var.cluster_name}.${var.base_domain}", ".")
 
