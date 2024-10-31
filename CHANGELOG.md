@@ -1,5 +1,13 @@
 # Changelog
 
+## [13.0.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v13.0.0...v13.0.1) (2024-10-31)
+
+
+### Bug Fixes
+
+* **aks:** add merge() to avoid null value that breaks values generation ([2aaf510](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/2aaf5108456e9540aac99b6fc70a398136c14818))
+* change registry of cURL image to avoid rate limits and update it ([6c7e60b](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/6c7e60b45a23eba370a33796421618c0143d5835))
+
 ## [13.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v12.0.0...v13.0.0) (2024-10-09)
 
 
