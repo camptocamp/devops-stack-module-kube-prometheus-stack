@@ -215,3 +215,9 @@ variable "dataproxy_timeout" {
   type        = number
   default     = 30
 }
+
+variable "alertmanager_storage_size" {
+  description = "PVC size for Alertmanager data."
+  type        = string
+  default     = "10Gi"
+}
