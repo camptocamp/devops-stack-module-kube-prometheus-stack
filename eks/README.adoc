@@ -118,7 +118,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v13.0.0"`
+Default: `"v13.0.1"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -320,6 +320,14 @@ Type: `number`
 
 Default: `30`
 
+==== [[input_alertmanager_storage_size]] <<input_alertmanager_storage_size,alertmanager_storage_size>>
+
+Description: PVC size for Alertmanager data.
+
+Type: `string`
+
+Default: `"10Gi"`
+
 === Outputs
 
 The following outputs are exported:
@@ -433,7 +441,7 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v13.0.0"`
+|`"v13.0.1"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -620,6 +628,12 @@ object({
 |Variable to set the time when a query times out. This applies to all the Grafana's data sources and can be manually configured per data source if desired.
 |`number`
 |`30`
+|no
+
+|[[input_alertmanager_storage_size]] <<input_alertmanager_storage_size,alertmanager_storage_size>>
+|PVC size for Alertmanager data.
+|`string`
+|`"10Gi"`
 |no
 
 |===
