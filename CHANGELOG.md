@@ -1,5 +1,16 @@
 # Changelog
 
+## [14.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v13.0.1...v14.0.0) (2025-02-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **chart:** major update of dependencies on kube-prometheus-stack chart
+
+### Features
+
+* **chart:** major update of dependencies on kube-prometheus-stack chart ([edaf38e](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/edaf38e2001101ac0360776c2bd0e5a968915b29))
+
 ## [13.0.1](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v13.0.0...v13.0.1) (2024-10-31)
 
 
