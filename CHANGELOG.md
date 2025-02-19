@@ -1,5 +1,12 @@
 # Changelog
 
+## [14.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v14.0.0...v14.1.0) (2025-02-19)
+
+
+### Features
+
+* add distinct to avoid duplicates in ingreses hosts lists ([19a88cd](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/19a88cdecbe01b10ac4899431b63b443dd7cc71e))
+
 ## [14.0.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v13.0.1...v14.0.0) (2025-02-19)
 
 
