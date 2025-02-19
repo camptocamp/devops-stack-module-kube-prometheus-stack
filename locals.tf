@@ -174,17 +174,17 @@ locals {
           enabled     = true
           annotations = local.ingress_annotations
           servicePort = "9095"
-          hosts = [
+          hosts = distinct([
             "${local.alertmanager.domain}",
             "alertmanager.${local.domain}"
-          ]
+          ])
           tls = [
             {
               secretName = "alertmanager-tls"
-              hosts = [
+              hosts = distinct([
                 "${local.alertmanager.domain}",
                 "alertmanager.${local.domain}",
-              ]
+              ])
             },
           ]
         }
@@ -259,17 +259,17 @@ locals {
         ingress = {
           enabled     = true
           annotations = local.ingress_annotations
-          hosts = [
+          hosts = distinct([
             "${local.grafana.domain}",
             "grafana.${local.domain}",
-          ]
+          ])
           tls = [
             {
               secretName = "grafana-tls"
-              hosts = [
+              hosts = distinct([
                 "${local.grafana.domain}",
                 "grafana.${local.domain}",
-              ]
+              ])
             },
           ]
         }
@@ -314,17 +314,17 @@ locals {
           enabled     = true
           annotations = local.ingress_annotations
           servicePort = "9091"
-          hosts = [
+          hosts = distinct([
             "${local.prometheus.domain}",
             "prometheus.${local.domain}",
-          ]
+          ])
           tls = [
             {
               secretName = "prometheus-tls"
-              hosts = [
+              hosts = distinct([
                 "${local.prometheus.domain}",
                 "prometheus.${local.domain}",
-              ]
+              ])
             },
           ]
         }
