@@ -169,6 +169,18 @@ locals {
             requests = { for k, v in var.resources.alertmanager.requests : k => v if v != null }
             limits   = { for k, v in var.resources.alertmanager.limits : k => v if v != null }
           }
+          storage = {
+            volumeClaimTemplate = {
+              spec = {
+                accessModes = ["ReadWriteOnce"]
+                resources = {
+                  requests = {
+                    storage = var.alertmanager_storage_size
+                  }
+                }
+              }
+            }
+          }
         }
         ingress = {
           enabled     = true
