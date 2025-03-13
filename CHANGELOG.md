@@ -1,5 +1,12 @@
 # Changelog
 
+## [14.2.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v14.1.0...v14.2.0) (2025-03-13)
+
+
+### Features
+
+* add pvc for alertmanager data ([#146](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/146)) ([705411f](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/705411f20cada5092cf4070b0e510c8066cb94cc))
+
 ## [14.1.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v14.0.0...v14.1.0) (2025-02-19)
 
 
