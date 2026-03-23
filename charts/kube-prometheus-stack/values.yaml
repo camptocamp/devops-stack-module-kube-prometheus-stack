@@ -2,6 +2,9 @@
 # -- Values passed to the kube-prometheus-stack chart 
 kube-prometheus-stack:
 
+  nodeExporter:
+    enabled: false
+
   kubeControllerManager:
     enabled: false
 
