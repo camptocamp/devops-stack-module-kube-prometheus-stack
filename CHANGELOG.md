@@ -1,5 +1,12 @@
 # Changelog
 
+## [14.3.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v14.2.0...v14.3.0) (2026-09-30)
+
+
+### Features
+
+* upgrade oauth-proxy2 image ([#150](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/issues/150)) ([2775c0c](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/commit/2775c0cd6c7137d7162acec95bdba91be14ca97b))
+
 ## [14.2.0](https://github.com/camptocamp/devops-stack-module-kube-prometheus-stack/compare/v14.1.0...v14.2.0) (2025-03-13)
 
 
